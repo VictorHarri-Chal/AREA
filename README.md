@@ -1,7 +1,7 @@
+[![Build](https://img.shields.io/github/workflow/status/JohanCDev/Bomberman/Build)](https://github.com/VictorHarri-Chal/AREA/actions/workflows/build.yml)
+
 # AREA
 A web project with some API interactions
-
-[![Build](https://img.shields.io/github/workflow/status/JohanCDev/Bomberman/Build)](https://github.com/VictorHarri-Chal/AREA/actions/workflows/build.yml)
 
 # :rocket:  What is AREA ?
 
