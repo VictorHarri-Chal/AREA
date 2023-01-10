@@ -1,0 +1,8 @@
+# IDEs
+.vscode
+
+# Doc
+/doc
+
+# Shame on you!
+vgcore.*
