@@ -17,7 +17,7 @@ jobs:
       USELESS_FILES_REGEX: (.*\.gc(no|da|ov))$|(.*\.(a|o))$|(.*~)$|^(#.*#)$|^tmp\/.*|.*\/tmp\/.*
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Find useless files recursively
@@ -42,7 +42,7 @@ jobs:
       - Clean-Repo
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - uses: pixta-dev/repository-mirroring-action@v1
