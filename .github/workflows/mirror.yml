@@ -40,7 +40,6 @@ jobs:
     name: Mirror repo
     needs:
       - Clean-Repo
-      - build-on-ubuntu
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
