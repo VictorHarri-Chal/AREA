@@ -1,0 +1,54 @@
+name : Mirror repo
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  Clean-Repo:
+    name: Clean repo
+    runs-on: ubuntu-latest
+    env:
+      USELESS_FILES_REGEX: (.*\.gc(no|da|ov))$|(.*\.(a|o))$|(.*~)$|^(#.*#)$|^tmp\/.*|.*\/tmp\/.*
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Find useless files recursively
+        run: |
+          USELESS_FILES=$(find . -type f -printf '%P\n' | { grep -P "${{ env.USELESS_FILES_REGEX }}" || true; })
+          if [ "$USELESS_FILES" != "" ]; then
+              IFS=$'\n'$'\r'
+              for LINE in $USELESS_FILES; do
+                  echo "::error file=${LINE},line=1,col=1,title=Useless file detected::${LINE}"
+              done
+              echo "FAIL_TASK=true" >> "$GITHUB_ENV"
+          else
+              echo "FAIL_TASK=false" >> "$GITHUB_ENV"
+          fi
+      - name: Check if task failed
+        if: env.FAIL_TASK == 'true'
+        run: exit 1
+
+  Mirror-Repo:
+    name: Mirror repo
+    needs:
+      - Clean-Repo
+      - build-on-ubuntu
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: pixta-dev/repository-mirroring-action@v1
+        with:
+          target_repo_url:
+            ${{ secrets.REPO_URL }}
+          ssh_private_key:
+            ${{ secrets.SSH_KEY }}
