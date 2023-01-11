@@ -1,19 +1,10 @@
 import React, { useState } from 'react';
 import './App.css';
+import Home from './pages'
 
 function App() {
-
-    const [count, setCount] = useState(8);
-
-    const handleCLick = () => {
-        setCount(count + 1);
-    }
-
     return (
-        <div>
-            <h1>{count}</h1>
-            <button onClick={handleCLick}>Add</button>
-        </div>
+        <Home />
     );
 }
 
