@@ -10,4 +10,4 @@ A web project with some API interactions
 # :page_with_curl:  Documentation
 
 # :dancers:  Authors
-[Titouan Deschannels](https://github.com/titouandeschanels) - [Keon Savic](https://github.com/KeonSavic) - [Ismael Brossaud](https://github.com/bbgobb) - [Baptiste Friboulet](https://github.com/Blynqs) - [Victor Harri-Chal](https://github.com/VictorHarri-Chal)
+[Titouan Deschanels](https://github.com/titouandeschanels) - [Keon Savic](https://github.com/KeonSavic) - [Ismael Brossaud](https://github.com/bbgobb) - [Baptiste Friboulet](https://github.com/Blynqs) - [Victor Harri-Chal](https://github.com/VictorHarri-Chal)
