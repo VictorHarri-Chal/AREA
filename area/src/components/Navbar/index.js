@@ -4,6 +4,8 @@ import { Nav, NavbarContainer, NavLogo, MobileIcon, NavMenu, NavItem, NavLinks, 
 
 const Navbar = ({toggleSideBar, isInDashboard}) => {
 
+    const [appName, setAppName] = React.useState("AREAction")
+
     if (isInDashboard === undefined) {
         isInDashboard = false
     }
@@ -13,7 +15,7 @@ const Navbar = ({toggleSideBar, isInDashboard}) => {
             <>
                 <Nav>
                     <NavbarContainer>
-                        <NavLogo to="/">AREAction</NavLogo>
+                        <NavLogo to="/">{appName}</NavLogo>
                     </NavbarContainer>
                 </Nav>
             </>
@@ -23,7 +25,7 @@ const Navbar = ({toggleSideBar, isInDashboard}) => {
             <>
                 <Nav>
                     <NavbarContainer>
-                        <NavLogo to="/">AREAction</NavLogo>
+                        <NavLogo to="/">{appName}</NavLogo>
 
                         <MobileIcon onClick={toggleSideBar}>
                             <FaBars />
