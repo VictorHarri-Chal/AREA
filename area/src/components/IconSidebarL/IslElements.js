@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 
 export const IslContainer = styled.div`
@@ -33,6 +32,7 @@ export const IslIcon = styled.li`
     border-radius: 20%;
     border: solid 0px #000;
     background-color: #fff;
+
     &:hover {
         background-color: #eee;
     }
