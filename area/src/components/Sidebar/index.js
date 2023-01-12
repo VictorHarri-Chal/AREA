@@ -4,17 +4,17 @@ import { SidebarContainer, Icon, CloseIcon, SidebarWrapper, SidebarMenu, Sidebar
 
 function Sidebar( {isOpen, toggle}) {
     return (
-        <SidebarContainer isOpen={isOpen} onCLick={toggle}>
+        <SidebarContainer isOpen={isOpen} onClick={toggle}>
             <Icon onClick={toggle}>
                 <CloseIcon />
             </Icon>
 
             <SidebarWrapper>
                 <SidebarMenu>
-                    <SidebarLink to="about" onCLick={toggle}>About</SidebarLink>
-                    <SidebarLink to="discover" onCLick={toggle}>Discover</SidebarLink>
-                    <SidebarLink to="services" onCLick={toggle}>Services</SidebarLink>
-                    <SidebarLink to="signup" onCLick={toggle}>Sign Up</SidebarLink>
+                    <SidebarLink to="about" onClick={toggle}>About</SidebarLink>
+                    <SidebarLink to="discover" onClick={toggle}>Discover</SidebarLink>
+                    <SidebarLink to="services" onClick={toggle}>Services</SidebarLink>
+                    <SidebarLink to="signup" onClick={toggle}>Sign Up</SidebarLink>
                 </SidebarMenu>
                 <SideBtnWrap>
                     <SidebarRoute to="/signin">Sign In</SidebarRoute>
