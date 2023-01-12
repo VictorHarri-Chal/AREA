@@ -6,3 +6,6 @@
 
 # Shame on you!
 vgcore.*
+
+package-lock.json
+node_modules
