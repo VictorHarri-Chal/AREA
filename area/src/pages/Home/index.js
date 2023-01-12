@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import Sidebar from '../../components/Sidebar'
+import PupSidebarR from '../../components/PupSidebarR'
 import Navbar from '../../components/Navbar'
 
 const Home = () => {
@@ -11,7 +11,7 @@ const Home = () => {
 
     return (
         <>
-            <Sidebar isOpen={isOpen} toggleSideBar={toggleSideBar}/>
+            <PupSidebarR isOpen={isOpen} toggleSideBar={toggleSideBar}/>
             <Navbar toggleSideBar={toggleSideBar}/>
         </>
     )

@@ -1,8 +1,8 @@
 import React from 'react'
 
-import { SidebarContainer, Icon, CloseIcon, SidebarWrapper, SidebarMenu, SidebarLink, SideBtnWrap, SidebarRoute } from './SidebarElements'
+import { SidebarContainer, Icon, CloseIcon, SidebarWrapper, SidebarMenu, SidebarLink, SideBtnWrap, SidebarRoute } from './PupSidebarRElements'
 
-function Sidebar( {isOpen, toggleSideBar}) {
+function PupSidebarR( {isOpen, toggleSideBar}) {
     return (
         <SidebarContainer isOpen={isOpen} onCLick={toggleSideBar}>
             <Icon onClick={toggleSideBar}>
@@ -24,4 +24,4 @@ function Sidebar( {isOpen, toggleSideBar}) {
     )
 }
 
-export default Sidebar
+export default PupSidebarR
