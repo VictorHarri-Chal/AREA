@@ -2,19 +2,19 @@ import React from 'react'
 
 import { SidebarContainer, Icon, CloseIcon, SidebarWrapper, SidebarMenu, SidebarLink, SideBtnWrap, SidebarRoute } from './SidebarElements'
 
-function Sidebar( {isOpen, toggle}) {
+function Sidebar( {isOpen, toggleSideBar}) {
     return (
-        <SidebarContainer isOpen={isOpen} onCLick={toggle}>
-            <Icon onClick={toggle}>
+        <SidebarContainer isOpen={isOpen} onCLick={toggleSideBar}>
+            <Icon onClick={toggleSideBar}>
                 <CloseIcon />
             </Icon>
 
             <SidebarWrapper>
                 <SidebarMenu>
-                    <SidebarLink to="about" onCLick={toggle}>About</SidebarLink>
-                    <SidebarLink to="discover" onCLick={toggle}>Discover</SidebarLink>
-                    <SidebarLink to="services" onCLick={toggle}>Services</SidebarLink>
-                    <SidebarLink to="signup" onCLick={toggle}>Sign Up</SidebarLink>
+                    <SidebarLink to="about" onCLick={toggleSideBar}>About</SidebarLink>
+                    <SidebarLink to="discover" onCLick={toggleSideBar}>Discover</SidebarLink>
+                    <SidebarLink to="services" onCLick={toggleSideBar}>Services</SidebarLink>
+                    <SidebarLink to="signup" onCLick={toggleSideBar}>Sign Up</SidebarLink>
                 </SidebarMenu>
                 <SideBtnWrap>
                     <SidebarRoute to="/signin">Sign In</SidebarRoute>
