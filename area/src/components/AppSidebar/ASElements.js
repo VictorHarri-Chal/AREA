@@ -6,7 +6,6 @@ export const ASContainer = styled.div`
     width: 150px;
     position: fixed;
     display: flex;
-    z-index: 2;
     align-items: flex-start;
     padding : 30px;
     justify-content: center;
@@ -58,5 +57,4 @@ export const ASLogin = styled.div`
     top: 5px;
     right: 5px;
     ${props => props.login == true ? `background-color: #4CAF50;` : `background-color: #F44336;`}
-    z-index: 3;
 `;
