@@ -11,7 +11,7 @@ const slideIn = keyframes`
 `;
 
 export const BSContainer = styled.div`
-    background: rgba(211, 211, 211, 0.8); // #D3D3D3
+    background: #fefee2;
     height: 100%;
     width: 300px;
     position: fixed;
@@ -34,4 +34,15 @@ export const BSLogoApp = styled.div`
         height: 70px;
         color: ${props => props.color};
     }
+`;
+
+export const BSAppName = styled.div`
+    margin-top: 40px;
+    margin-left: 20px;
+    border-radius: 20%;
+    justify-content: center;
+    position: flex;
+    font-size : 30px;
+    font-weight: bold;
+    color: ${props => props.color};
 `;
