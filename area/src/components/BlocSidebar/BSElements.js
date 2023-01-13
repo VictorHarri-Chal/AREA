@@ -1,4 +1,14 @@
 import styled from "styled-components";
+import { keyframes } from "styled-components";
+
+const slideIn = keyframes`
+    from {
+    transform: translateX(-100%);
+    }
+    to {
+    transform: translateX(0);
+    }
+`;
 
 export const BSContainer = styled.div`
     background: #D3D3D3;
@@ -12,4 +22,4 @@ export const BSContainer = styled.div`
     justify-content: center;
     position: flex;
     left: 150px;
-`;
+    animation: ${slideIn} 0.5s ease-in-out forwards;`;
