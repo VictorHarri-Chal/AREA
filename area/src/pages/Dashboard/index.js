@@ -4,11 +4,16 @@ import DragableRectangle from '../../components/DragableRectangle'
 import IconSidebarL from '../../components/IconSidebarL'
 
 const Dashboard = () => {
+
+    const [appSelected, setAppSelected] = useState("")
+
+    console.log(appSelected)
+
     return (
         <>
             <DragableRectangle />
             <Navbar isOpen={false} isInDashboard={true}/>
-            <IconSidebarL />
+            <IconSidebarL setAppSelected={setAppSelected} />
         </>
     )
 }

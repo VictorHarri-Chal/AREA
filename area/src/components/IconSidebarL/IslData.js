@@ -3,34 +3,34 @@ import { Icon } from '@iconify/react';
 
 export const IslData = [
     {
+        key : 'discord',
         title: 'Discord',
-        icon : <Icon icon="mdi:discord" />,
-        link : 'discord'
+        icon : <Icon icon="mdi:discord" />
     },
     {
+        key : 'github',
         title: 'Github',
-        icon : <Icon icon="mdi:github" />,
-        link : 'github'
+        icon : <Icon icon="mdi:github" />
     },
     {
+        key : 'twitter',
         title: 'Twitter',
-        icon : <Icon icon="mdi:twitter" />,
-        link : 'twitter'
+        icon : <Icon icon="mdi:twitter" />
     },
     {
+        key : 'spotify',
         title: 'Spotify',
-        icon : <Icon icon="mdi:spotify" />,
-        link : 'spotify'
+        icon : <Icon icon="mdi:spotify" />
     },
     {
+        key : 'youtube',
         title: 'Youtube',
-        icon : <Icon icon="mdi:youtube" />,
-        link : 'youtube'
+        icon : <Icon icon="mdi:youtube" />
     },
     {
+        key : 'twitch',
         title: 'Twitch',
-        icon : <Icon icon="mdi:twitch" />,
-        link : 'twitch'
+        icon : <Icon icon="mdi:twitch" />
     }
 ]
 
