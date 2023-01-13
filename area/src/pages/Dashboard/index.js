@@ -1,8 +1,9 @@
 import React, {useState} from 'react'
 import Navbar from '../../components/Navbar'
-import DragableRectangle from '../../components/DragableRectangle'
+import Playground from '../../components/Playground'
 import AppSidebar from '../../components/AppSidebar'
 import BlocSidebar from '../../components/BlocSidebar'
+
 
 const Dashboard = () => {
 
@@ -10,10 +11,10 @@ const Dashboard = () => {
 
     return (
         <>
-            <DragableRectangle />
             <Navbar isOpen={false} isInDashboard={true}/>
             <AppSidebar setAppSelected={setAppSelected} />
             <BlocSidebar appSelected={appSelected}/>
+            <Playground />
         </>
     )
 }
