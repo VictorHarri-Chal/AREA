@@ -43,6 +43,12 @@ export const ASData = [
         icon : <Icon icon="mdi:twitch" />,
         login : true,
         color : "#6441a5"
+    },
+    {
+        key : 'blocs',
+        title: 'Blocs',
+        icon : <Icon icon="mdi:puzzle" />,
+        color : "#99aab5"
     }
 ]
 

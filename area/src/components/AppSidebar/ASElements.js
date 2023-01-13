@@ -7,7 +7,7 @@ export const ASContainer = styled.div`
     position: fixed;
     display: flex;
     align-items: flex-start;
-    padding : 30px;
+    padding : 20px;
     justify-content: center;
 `;
 
@@ -17,8 +17,6 @@ export const ASIconList = styled.ul`
     align-items: center;
     justify-content: center;
     list-style-type: none;
-    padding: 0;
-    margin: 0;
 `;
 
 export const ASIcon = styled.li`
@@ -27,7 +25,7 @@ export const ASIcon = styled.li`
     justify-content: center;
     width: 75px;
     height: 75px;
-    margin: 20px;
+    margin: 15px;
     border-radius: 20%;
     border: solid 0px #000;
     background-color: #fff;
@@ -57,4 +55,5 @@ export const ASLogin = styled.div`
     top: 5px;
     right: 5px;
     ${props => props.login == true ? `background-color: #4CAF50;` : `background-color: #F44336;`}
+    ${props => props.login == undefined ? `opacity : 0%;` : `opacity : 100%;`}
 `;
