@@ -28,14 +28,14 @@ export const ASData = [
         title: 'Spotify',
         icon : <Icon icon="mdi:spotify" />,
         login : true,
-        color : "#81b71a"
+        color : "#1ed760"
     },
     {
         key : 'youtube',
         title: 'Youtube',
         icon : <Icon icon="mdi:youtube" />,
         login : true,
-        color : "#c4302b"
+        color : "#fe0000"
     },
     {
         key : 'twitch',

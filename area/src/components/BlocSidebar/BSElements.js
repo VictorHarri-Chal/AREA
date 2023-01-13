@@ -11,7 +11,7 @@ const slideIn = keyframes`
 `;
 
 export const BSContainer = styled.div`
-    background: #fefee2;
+    background: #EEEEEE;
     height: 100%;
     width: 300px;
     position: fixed;

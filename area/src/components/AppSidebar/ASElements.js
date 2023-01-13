@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const ASContainer = styled.div`
-    background: #03A9F4;
+    background: #393E46;
     height: 100%;
     width: 150px;
     position: fixed;
@@ -31,6 +31,7 @@ export const ASIcon = styled.li`
     background-color: #fff;
     position: relative;
     box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
 
     &:hover {
         svg {
