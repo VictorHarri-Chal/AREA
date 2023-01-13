@@ -1,25 +1,26 @@
 import React from 'react'
-import { IslContainer, IslIconList, IslIcon } from './ASElements'
-import {IslData} from './ASData'
+import { ASContainer, ASIconList, ASIcon, ASLogin } from './ASElements'
+import {ASData} from './ASData'
 
 const AppSidebar = ({ setAppSelected }) => {
 
-    const handleIconClick = (key) => {
-        setAppSelected(key)
+    const handleIconClick = (item) => {
+        setAppSelected(item)
     }
 
     return (
-        <IslContainer>
-            <IslIconList>
-                {IslData.map((item, index) => {
+        <ASContainer>
+            <ASIconList>
+                {ASData.map((item, index) => {
                     return (
-                        <IslIcon key={item.key} onClick={() => handleIconClick(item.key)}>
+                        <ASIcon key={item.key} onClick={() => handleIconClick(item)} login={item.login} color={item.color}>
+                            <ASLogin login={item.login} />
                             {item.icon}
-                        </IslIcon>
+                        </ASIcon>
                     )
                 })}
-            </IslIconList>
-        </IslContainer>
+            </ASIconList>
+        </ASContainer>
     )
 }
 

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const IslContainer = styled.div`
+export const ASContainer = styled.div`
     background: #03A9F4;
     height: 100%;
     width: 150px;
@@ -12,7 +12,7 @@ export const IslContainer = styled.div`
     justify-content: center;
 `;
 
-export const IslIconList = styled.ul`
+export const ASIconList = styled.ul`
     display: grid;
     flex-direction: column;
     align-items: center;
@@ -22,7 +22,7 @@ export const IslIconList = styled.ul`
     margin: 0;
 `;
 
-export const IslIcon = styled.li`
+export const ASIcon = styled.li`
     display: grid;
     align-items: center;
     justify-content: center;
@@ -32,13 +32,31 @@ export const IslIcon = styled.li`
     border-radius: 20%;
     border: solid 0px #000;
     background-color: #fff;
+    position: relative;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
 
     &:hover {
-        background-color: #eee;
+        svg {
+            color: ${props => props.color};
+        }
     }
 
     svg {
-        width: 50px;
-        height: 50px;
+        width: 45px;
+        height: 45px;
+        color : #000;
     }
+
+`;
+
+export const ASLogin = styled.div`
+    content: "";
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    ${props => props.login == true ? `background-color: #4CAF50;` : `background-color: #F44336;`}
+    z-index: 3;
 `;
