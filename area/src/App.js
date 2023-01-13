@@ -4,9 +4,21 @@ import Home from './pages'
 import { BrowserRouter as Router } from 'react-router-dom';
 
 function fetchAPI() {
-    fetch("https://jsonplaceholder.typicode.com/users")
+    // Ajoutez l'en-tête d'authentification
+    const headers = new Headers({
+        'Authorization': `Token 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`
+    });
+
+    // Modifiez l'URL pour se connecter à l'API de Github
+    fetch("https://api.github.com/repos/VictorHarri-Chal/AREA/pulls", {headers})
         .then(res => res.json())
-        .then(data => console.log(data))
+        .then(data => {
+            // Affichez un message pour chaque pull request
+            data.forEach(pullRequest => {
+                console.log(`Nouvelle pull request : ${pullRequest.title}`);
+            });
+        })
+        .catch(error => console.log(error))
 }
 
 function App() {
