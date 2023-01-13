@@ -67,12 +67,12 @@ export const BSConnectBtn = styled.div`
     left : 150px;
 
     &:hover {
-        transition: all 0.8s ease-in-out;
+        transition: all 0.2s ease-in-out;
         background: #fff;
         color: #010606;
     }
 
-    opacity: ${props => props.login === undefined ? 0 : (props.login === true ? 0 : 100)}%;
+    display: ${props => props.login === undefined ? 'none' : (props.login === true ? 'none' : 'block')};
 `;
 
 export const BSConnected = styled.div`
@@ -83,7 +83,6 @@ export const BSConnected = styled.div`
     font-weight: bold;
     outline: none;
     border: none;
-    cursor: pointer;
     transition: all 0.2s ease-in-out;
     text-decoration: none;
     position: absolute;
@@ -91,12 +90,6 @@ export const BSConnected = styled.div`
     top : 130px;
     left : 150px;
 
-    &:hover {
-        transition: all 0.8s ease-in-out;
-        background: #fff;
-        color: #010606;
-    }
-
-    opacity: ${props => props.login === undefined ? 0 : (props.login === false ? 0 : 100)}%;
+    display: ${props => props.login === undefined ? 'none' : (props.login === false ? 'none' : 'block')};
 `;
 
