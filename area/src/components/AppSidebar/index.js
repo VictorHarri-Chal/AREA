@@ -1,8 +1,8 @@
 import React from 'react'
-import { IslContainer, IslIconList, IslIcon } from './IslElements'
-import {IslData} from './IslData'
+import { IslContainer, IslIconList, IslIcon } from './ASElements'
+import {IslData} from './ASData'
 
-const IconSidebarL = ({ setAppSelected }) => {
+const AppSidebar = ({ setAppSelected }) => {
 
     const handleIconClick = (key) => {
         setAppSelected(key)
@@ -23,4 +23,4 @@ const IconSidebarL = ({ setAppSelected }) => {
     )
 }
 
-export default IconSidebarL
+export default AppSidebar

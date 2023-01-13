@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import Navbar from '../../components/Navbar'
 import DragableRectangle from '../../components/DragableRectangle'
-import IconSidebarL from '../../components/IconSidebarL'
+import AppSidebar from '../../components/AppSidebar'
 
 const Dashboard = () => {
 
@@ -13,7 +13,7 @@ const Dashboard = () => {
         <>
             <DragableRectangle />
             <Navbar isOpen={false} isInDashboard={true}/>
-            <IconSidebarL setAppSelected={setAppSelected} />
+            <AppSidebar setAppSelected={setAppSelected} />
         </>
     )
 }
