@@ -1,11 +1,11 @@
 import React from 'react'
-import { BSContainer } from './BSElements'
+import { BSContainer, BSLogoApp } from './BSElements'
 
 const BlocSidebar = ({ appSelected }) => {
     if (appSelected.key === undefined) return (<></>)
     return (
         <BSContainer>
-            {appSelected.icon}
+            <BSLogoApp color={appSelected.color}>{appSelected.icon}</BSLogoApp>
         </BSContainer>
     )
 }
