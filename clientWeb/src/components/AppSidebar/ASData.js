@@ -7,7 +7,19 @@ export const ASData = [
         title: 'Discord',
         icon : <Icon icon="mdi:discord" />,
         login : false,
-        color : "#7289da"
+        color : "#7289da",
+        action_blocs : [
+            {
+                key : 'discord_receivePrivateMessage',
+                title: 'Get a private message',
+            }
+        ],
+        reaction_blocs : [
+            {
+                key : 'discord_sendPrivateMessage',
+                title: 'Send a private message',
+            }
+        ]
     },
     {
         key : 'github',
@@ -23,7 +35,7 @@ export const ASData = [
         login : false,
         color : "#00acee"
     },
-    {
+    {   
         key : 'spotify',
         title: 'Spotify',
         icon : <Icon icon="mdi:spotify" />,
