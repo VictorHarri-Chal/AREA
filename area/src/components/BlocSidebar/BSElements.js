@@ -109,13 +109,13 @@ export const BSActionRea = styled.div`
     position: absolute;
     transform: translate(-50%, -50%);
     top : 200px;
-    left :  ${props => props.which == false ? '70px' : '210px'};
+    left :  ${props => props.which === false ? '70px' : '210px'};
 
     &:hover {
         transition: all 0.2s ease-in-out;
         background: #fff;
         color: #010606;
-        ${props => props.actionRea == true && `
+        ${props => props.actionRea === true && `
             cursor: default;
             pointer-events: none;
         `}
