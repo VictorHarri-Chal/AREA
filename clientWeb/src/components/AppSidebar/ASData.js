@@ -26,7 +26,19 @@ export const ASData = [
         title: 'Github',
         icon : <Icon icon="mdi:github" />,
         login : true,
-        color : "#99aab5"
+        color : "#99aab5",
+        action_blocs : [
+            {
+                key : 'github_newCommit',
+                title: 'New commit',
+            }
+        ],
+        reaction_blocs : [
+            {
+                key : 'discord_createIssue',
+                title: 'Create an issue',
+            }
+        ]
     },
     {
         key : 'twitter',
@@ -35,7 +47,7 @@ export const ASData = [
         login : false,
         color : "#00acee"
     },
-    {   
+    {
         key : 'spotify',
         title: 'Spotify',
         icon : <Icon icon="mdi:spotify" />,
