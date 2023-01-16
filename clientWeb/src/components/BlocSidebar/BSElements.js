@@ -93,3 +93,33 @@ export const BSConnected = styled.div`
     display: ${props => props.login === undefined ? 'none' : (props.login === false ? 'none' : 'block')};
 `;
 
+export const BSActionRea = styled.div`
+    border-radius: 50px;
+    background: ${props => props.actionRea === true ? props.color : 'none'};
+    white-space: nowrap;
+    padding: 10px 22px;
+    color: #010606;
+    font-size: 22px;
+    font-weight: bold;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-decoration: none;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top : 200px;
+    left :  ${props => props.which === false ? '70px' : '210px'};
+
+    &:hover {
+        transition: all 0.2s ease-in-out;
+        background: #fff;
+        color: #010606;
+        ${props => props.actionRea === true && `
+            cursor: default;
+            pointer-events: none;
+        `}
+    }
+
+    display: ${props => props.login === undefined ? 'none' : (props.login === false ? 'none' :  'block')};
+`;
