@@ -80,7 +80,7 @@ function Playground() {
   return (
     <div className="Playground">
       <canvas
-        style={{backgroundColor: 'yellow', top: '6%', left: '6%', position: 'absolute'}}
+        style={{backgroundColor: 'yellow', top: '6%', left: '6%', position: 'absolute', display: 'none'}}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
