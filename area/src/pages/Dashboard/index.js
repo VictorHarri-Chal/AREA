@@ -8,7 +8,7 @@ import DragableRectangle from '../../components/DragableRectangle'
 const Dashboard = () => {
 
     const [appSelected, setAppSelected] = useState({})
-    // const {newRectangle, setNewRectangle} = useState({})
+    const [newRectangle, setNewRectangle] = useState({})
 
     return (
         <>
