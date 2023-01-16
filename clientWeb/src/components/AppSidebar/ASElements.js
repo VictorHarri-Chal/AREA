@@ -55,6 +55,6 @@ export const ASLogin = styled.div`
     position: absolute;
     top: 5px;
     right: 5px;
-    ${props => props.login == true ? `background-color: #4CAF50;` : `background-color: #F44336;`}
-    ${props => props.login == undefined ? `opacity : 0%;` : `opacity : 100%;`}
+    ${props => props.login === true ? `background-color: #4CAF50;` : `background-color: #F44336;`}
+    ${props => props.login === undefined ? `opacity : 0%;` : `opacity : 100%;`}
 `;
