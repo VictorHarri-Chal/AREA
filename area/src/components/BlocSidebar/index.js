@@ -15,7 +15,7 @@ const BlocSidebar = ({ appSelected }) => {
         <BSContainer>
             <BSLogoApp color={appSelected.color}>{appSelected.icon}</BSLogoApp>
             <BSAppName color={appSelected.color}>{appSelected.title}</BSAppName>
-            <BSConnectBtn color={appSelected.color} login={appSelected.login}>Connect</BSConnectBtn>
+            <BSConnectBtn to="/destination-url" color="blue">Connect</BSConnectBtn>
             <BSConnected color={appSelected.color} login={appSelected.login}>Connected</BSConnected>
             <BSActionRea color={appSelected.color} actionRea={actionRea} onClick={() => toggleActionRea(true)} login={appSelected.login} which={false}>Action</BSActionRea>
             <BSActionRea color={appSelected.color} actionRea={!actionRea} onClick={() => toggleActionRea(false)} login={appSelected.login} which={true}>Reaction</BSActionRea>
