@@ -123,3 +123,28 @@ export const BSActionRea = styled.div`
 
     display: ${props => props.login === undefined ? 'none' : (props.login === false ? 'none' :  'block')};
 `;
+
+export const BSBloc = styled.div`
+    border-radius: 50px;
+    background: ${props => props.color};
+    white-space: nowrap;
+    padding: 10px 22px;
+    color: #010606;
+    font-size: 22px;
+    font-weight: bold;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-decoration: none;
+    position: absolute;
+
+
+    &:hover {
+        transition: all 0.2s ease-in-out;
+        background: #fff;
+        color: #010606;
+    }
+
+    /* display: ${props => props.login === undefined ? 'none' : (props.login === false ? 'none' :  'block')}; */
+`;

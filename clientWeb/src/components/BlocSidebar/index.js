@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { BSAppName, BSContainer, BSLogoApp, BSConnectBtn, BSConnected, BSActionRea} from './BSElements'
+import { BSAppName, BSContainer, BSLogoApp, BSConnectBtn, BSConnected, BSActionRea, BSBloc} from './BSElements'
 
 const BlocSidebar = ({ appSelected }) => {
 
@@ -15,10 +15,18 @@ const BlocSidebar = ({ appSelected }) => {
         <BSContainer>
             <BSLogoApp color={appSelected.color}>{appSelected.icon}</BSLogoApp>
             <BSAppName color={appSelected.color}>{appSelected.title}</BSAppName>
+
             <BSConnectBtn color={appSelected.color} login={appSelected.login}>Connect</BSConnectBtn>
             <BSConnected color={appSelected.color} login={appSelected.login}>Connected</BSConnected>
+
             <BSActionRea color={appSelected.color} actionRea={actionRea} onClick={() => toggleActionRea(true)} login={appSelected.login} which={false}>Action</BSActionRea>
             <BSActionRea color={appSelected.color} actionRea={!actionRea} onClick={() => toggleActionRea(false)} login={appSelected.login} which={true}>Reaction</BSActionRea>
+
+            {appSelected.action_blocs.map((item, index) => {
+                    return (
+                        <BSBloc login={appSelected.login} color={appSelected.color}>{item.title}</BSBloc>
+                    )
+            })}
         </BSContainer>
     )
 }

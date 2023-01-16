@@ -35,7 +35,7 @@ export const ASData = [
         login : false,
         color : "#00acee"
     },
-    {   
+    {
         key : 'spotify',
         title: 'Spotify',
         icon : <Icon icon="mdi:spotify" />,
