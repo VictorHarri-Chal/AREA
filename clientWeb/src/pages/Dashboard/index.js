@@ -14,15 +14,19 @@ const Dashboard = () => {
         setIsOpen(!isOpen)
     }
 
+    const [rectanglePositions, setRectanglePositions] = useState([{type : '1', x : 600, y : 400},
+    {type : '2', x : 900, y : 400}, {type : '3', x : 1300, y : 400}])
+
     return (
         <>
             <Navbar isOpen={false} isInDashboard={true}/>
 
-            <AppSidebar setAppSelected={setAppSelected} isOpen={isOpen} toggleSideBar={toggleSideBar}/>
-            <BlocSidebar appSelected={appSelected} isOpen={isOpen}/>
-
-            <DragableRectangle newRectangle={{ x: 1400, y: 800 }}/>
-            <DragableRectangle newRectangle={{ x: 800, y: 800 }}/>
+            <AppSidebar setAppSelected={setAppSelected} />
+            <BlocSidebar appSelected={appSelected}/>
+            {rectanglePositions.map((position, index) => (
+                <DragableRectangle key={index} index={index} rectanglePositions={rectanglePositions} 
+                setRectanglePositions={setRectanglePositions} />
+            ))}
         </>
     )
 }
