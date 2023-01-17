@@ -1,4 +1,3 @@
-import { Link as LinkR } from 'react-router-dom';
 import styled from "styled-components";
 import { keyframes } from "styled-components";
 
@@ -76,7 +75,7 @@ export const BSConnectBtn = styled.div`
     display: ${props => props.login === undefined ? 'none' : (props.login === true ? 'none' : 'block')};
 `;
 
-export const BSConnected = styled.div(LinkR)`
+export const BSConnected = styled.div`
     white-space: nowrap;
     padding: 10px 22px;
     color: #010606;
