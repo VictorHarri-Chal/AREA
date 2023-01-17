@@ -124,3 +124,47 @@ export const BSActionRea = styled.div`
 
     display: ${props => props.login === undefined ? 'none' : (props.login === false ? 'none' :  'block')};
 `;
+
+export const BSBlocContainer = styled.ul`
+    width: 250px;
+    position: fixed;
+    padding : 20px;
+    top : 250px;
+    left : 25px;
+    display: grid;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    list-style-type: none;
+`;
+
+export const BSBloc = styled.li`
+    background:  ${props => props.color};
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.3);
+    width: 200px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+
+    &:hover {
+        transform: scale(1.05);
+        cursor: pointer;
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+
+    transition: all 0.15s ease-in-out;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: break-word;
+`;
