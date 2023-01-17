@@ -24,7 +24,8 @@ export const BSContainer = styled.div`
     animation: ${slideIn} 0.5s ease-in-out forwards;
 
     @media screen and (max-width: 1000px) {
-        display: none;
+        z-index: 2;
+        display : ${props => props.isOpen === true ? `block;` : `none`}
     }
 `;
 
@@ -50,6 +51,12 @@ export const BSAppName = styled.div`
     font-weight: bold;
     color: ${props => props.color};
     transition: all 0.2s ease-in-out;
+
+    @media screen and (max-width: 1000px) {
+        justify-content: right;
+        margin-left: 130px;
+        margin-top: -70px;
+    }
 `;
 
 export const BSConnectBtn = styled.div`

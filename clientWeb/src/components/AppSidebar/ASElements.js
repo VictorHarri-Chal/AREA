@@ -8,7 +8,7 @@ export const ASContainer = styled.div`
     display: flex;
     align-items: flex-start;
     padding : 20px;
-    justify-content: center;
+    z-index: 1;
 
     @media screen and (max-width: 1000px) {
 
@@ -26,9 +26,11 @@ export const ASIconList = styled.ul`
     align-items: center;
     justify-content: center;
     list-style-type: none;
+    z-index: 3;
 
     @media screen and (max-width: 1000px) {
-        display: none;
+        align-items: left;
+        display : ${props => props.isOpen === true ? `block;` : `none`}
     }
 `;
 

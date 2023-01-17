@@ -19,7 +19,7 @@ const Dashboard = () => {
             <Navbar isOpen={false} isInDashboard={true}/>
 
             <AppSidebar setAppSelected={setAppSelected} isOpen={isOpen} toggleSideBar={toggleSideBar}/>
-            <BlocSidebar appSelected={appSelected}/>
+            <BlocSidebar appSelected={appSelected} isOpen={isOpen}/>
 
             <DragableRectangle newRectangle={{ x: 1400, y: 800 }}/>
             <DragableRectangle newRectangle={{ x: 800, y: 800 }}/>

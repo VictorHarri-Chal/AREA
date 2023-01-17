@@ -1,5 +1,5 @@
 import React from 'react'
-import { ASContainer, ASIconList, ASIcon, ASLogin, MobileIcon, PupContainer } from './ASElements'
+import { ASContainer, ASIconList, ASIcon, ASLogin, MobileIcon } from './ASElements'
 import {ASData} from './ASData'
 import { FiX, FiMenu } from 'react-icons/fi'
 
@@ -12,18 +12,18 @@ const AppSidebar = ({ setAppSelected, isOpen, toggleSideBar }) => {
     return (
         <ASContainer isOpen={isOpen}>
 
-            <MobileIcon onClick={toggleSideBar} isOpen={isOpen} close={false}>
+            <MobileIcon onClick={() => {toggleSideBar(); setAppSelected({})}} isOpen={isOpen} close={false}>
                 <FiMenu />
             </MobileIcon>
 
-            <MobileIcon onClick={toggleSideBar} isOpen={isOpen} close={true}>
+            <MobileIcon onClick={() => {toggleSideBar(); setAppSelected({})}} isOpen={isOpen} close={true}>
                 <FiX />
             </MobileIcon>
 
-            <ASIconList>
+            <ASIconList isOpen={isOpen}>
                 {ASData.map((item, index) => {
                     return (
-                        <ASIcon key={item.key} onClick={() => handleIconClick(item)} login={item.login} color={item.color}>
+                        <ASIcon  onClick={() => handleIconClick(item)} login={item.login} color={item.color}>
                             <ASLogin login={item.login} />
                             {item.icon}
                         </ASIcon>
