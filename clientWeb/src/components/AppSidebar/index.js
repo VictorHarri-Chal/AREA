@@ -1,21 +1,25 @@
 import React from 'react'
-import { ASContainer, ASIconList, ASIcon, ASLogin, MobileIcon,  } from './ASElements'
+import { ASContainer, ASIconList, ASIcon, ASLogin, MobileIcon, PupContainer } from './ASElements'
 import {ASData} from './ASData'
-import { FaBars } from 'react-icons/fa'
+import { FiX, FiMenu } from 'react-icons/fi'
 
-const AppSidebar = ({ setAppSelected }) => {
+const AppSidebar = ({ setAppSelected, isOpen, toggleSideBar }) => {
 
     const handleIconClick = (item) => {
         setAppSelected(item)
     }
 
     return (
+        <ASContainer isOpen={isOpen}>
 
-
-        <ASContainer>
-            <MobileIcon>
-                <FaBars />
+            <MobileIcon onClick={toggleSideBar} isOpen={isOpen} close={false}>
+                <FiMenu />
             </MobileIcon>
+
+            <MobileIcon onClick={toggleSideBar} isOpen={isOpen} close={true}>
+                <FiX />
+            </MobileIcon>
+
             <ASIconList>
                 {ASData.map((item, index) => {
                     return (

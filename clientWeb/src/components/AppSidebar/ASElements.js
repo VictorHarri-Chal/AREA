@@ -4,14 +4,18 @@ export const ASContainer = styled.div`
     background: #393E46;
     height: 100%;
     width: 150px;
-    position: fixed;
+    position: absolute;
     display: flex;
     align-items: flex-start;
     padding : 20px;
     justify-content: center;
 
     @media screen and (max-width: 1000px) {
-        background: #FFF;
+
+        transition: all 0.3s ease-in-out;
+
+        ${props => props.isOpen === true ? `width: 100%;` : `width: 0%;`}
+        ${props => props.isOpen === true ? `background: #393E46;` : `background: #FFF;`}
     }
 
 `;
@@ -75,11 +79,11 @@ export const MobileIcon = styled.div`
         display: block;
         position: absolute;
         top: 30px;
-        left: 30px;
+        ${props => props.close === false ? `left: 30px;` : `right : 30px;`}
         font-size: 45px;
         cursor: pointer;
         color: #FFF;
-        background: #393E46;
+        background: #00ADB5;
         border-radius: 20%;
         align-items: center;
         text-align: center;
@@ -96,5 +100,8 @@ export const MobileIcon = styled.div`
         &:active {
             transform: scale(0.95);
         }
+
+        display: ${props => props.isOpen === false ? (props.close === true ? 'none' :  'block') : (props.close === false ? 'none' :  'block')};
+
     }
 `;
