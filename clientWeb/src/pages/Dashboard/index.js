@@ -8,12 +8,17 @@ import DragableRectangle from '../../components/DragableRectangle'
 const Dashboard = () => {
 
     const [appSelected, setAppSelected] = useState({})
-    const [newRectangle, setNewRectangle] = useState({})
+
+    const [isOpen, setIsOpen] = useState(false)
+
+    const toggleSideBar = () => {
+        setIsOpen(!isOpen)
+    }
 
     return (
         <>
             <Navbar isOpen={false} isInDashboard={true}/>
-            <AppSidebar setAppSelected={setAppSelected} />
+            <AppSidebar setAppSelected={setAppSelected} isOpen={isOpen} toggleSideBar={toggleSideBar}/>
             <BlocSidebar appSelected={appSelected}/>
             <DragableRectangle newRectangle={{ x: 1400, y: 800 }}/>
             <DragableRectangle newRectangle={{ x: 800, y: 800 }}/>

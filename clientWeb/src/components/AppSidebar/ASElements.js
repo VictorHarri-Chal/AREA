@@ -9,6 +9,11 @@ export const ASContainer = styled.div`
     align-items: flex-start;
     padding : 20px;
     justify-content: center;
+
+    @media screen and (max-width: 1000px) {
+        background: #FFF;
+    }
+
 `;
 
 export const ASIconList = styled.ul`
@@ -17,6 +22,10 @@ export const ASIconList = styled.ul`
     align-items: center;
     justify-content: center;
     list-style-type: none;
+
+    @media screen and (max-width: 1000px) {
+        display: none;
+    }
 `;
 
 export const ASIcon = styled.li`
@@ -57,4 +66,35 @@ export const ASLogin = styled.div`
     right: 5px;
     ${props => props.login === true ? `background-color: #4CAF50;` : `background-color: #F44336;`}
     ${props => props.login === undefined ? `opacity : 0%;` : `opacity : 100%;`}
+`;
+
+export const MobileIcon = styled.div`
+    display: none;
+
+    @media screen and (max-width: 1000px) {
+        display: block;
+        position: absolute;
+        top: 30px;
+        left: 30px;
+        font-size: 45px;
+        cursor: pointer;
+        color: #FFF;
+        background: #393E46;
+        border-radius: 20%;
+        align-items: center;
+        text-align: center;
+        vertical-align: middle;
+        padding: 10px;
+        box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+        height : 70px;
+        width : 70px;
+
+        &:hover {
+            transform: scale(1.05);
+        }
+
+        &:active {
+            transform: scale(0.95);
+        }
+    }
 `;

@@ -1,6 +1,7 @@
 import React from 'react'
-import { ASContainer, ASIconList, ASIcon, ASLogin } from './ASElements'
+import { ASContainer, ASIconList, ASIcon, ASLogin, MobileIcon,  } from './ASElements'
 import {ASData} from './ASData'
+import { FaBars } from 'react-icons/fa'
 
 const AppSidebar = ({ setAppSelected }) => {
 
@@ -9,7 +10,12 @@ const AppSidebar = ({ setAppSelected }) => {
     }
 
     return (
+
+
         <ASContainer>
+            <MobileIcon>
+                <FaBars />
+            </MobileIcon>
             <ASIconList>
                 {ASData.map((item, index) => {
                     return (

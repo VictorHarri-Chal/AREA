@@ -22,6 +22,10 @@ export const BSContainer = styled.div`
     position: flex;
     left: 150px;
     animation: ${slideIn} 0.5s ease-in-out forwards;
+
+    @media screen and (max-width: 1000px) {
+        display: none;
+    }
 `;
 
 export const BSLogoApp = styled.div`
