@@ -4,5 +4,7 @@
 # Doc
 /doc
 
+/node_modules
+
 # Shame on you!
 vgcore.*
