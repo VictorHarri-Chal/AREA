@@ -51,9 +51,9 @@ checkRoleValidity = (req, res, next) => {
     next();
 };
 
-const signUpVerifications = {
+const verifySignup = {
     checkUserAlreadyExisting,
     checkRoleValidity
 }
 
-module.exports(signUpVerifications);
+module.exports= verifySignup;

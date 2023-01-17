@@ -5,7 +5,7 @@ const PORT = 6969;
 
 
 var corsOpt = {
-  origin: "http://localhost:8081"
+  origin: "http://localhost:6969"
 };
 
 app.use(cors(corsOpt));
