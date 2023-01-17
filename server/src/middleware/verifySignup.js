@@ -35,3 +35,25 @@ checkUserAlreadyExisting = (req, res, next) => {
         });
     });
 };
+
+//Vérifie si le role est valide
+checkRoleValidity = (req, res, next) => {
+    if (req.body.ROLES) {
+        for (var i = 0; i < req.body.ROLES.length[i]; i++) {
+            if (!ROLES.includes(req.body.roles[i])) {
+                res.status(400).send({
+                    message: 'Role does not exist!'
+                });
+                return;
+            }
+        }
+    }
+    next();
+};
+
+const signUpVerifications = {
+    checkUserAlreadyExisting,
+    checkRoleValidity
+}
+
+module.exports(signUpVerifications);
