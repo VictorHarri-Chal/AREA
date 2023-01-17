@@ -21,10 +21,10 @@ const Dashboard = () => {
         <>
             <Navbar isOpen={false} isInDashboard={true}/>
 
-            <AppSidebar setAppSelected={setAppSelected} />
-            <BlocSidebar appSelected={appSelected}/>
+            <AppSidebar setAppSelected={setAppSelected} isOpen={isOpen} toggleSideBar={toggleSideBar} />
+            <BlocSidebar appSelected={appSelected} isOpen={isOpen}/>
             {rectanglePositions.map((position, index) => (
-                <DragableRectangle key={index} index={index} rectanglePositions={rectanglePositions} 
+                <DragableRectangle key={index} index={index} rectanglePositions={rectanglePositions}
                 setRectanglePositions={setRectanglePositions} />
             ))}
         </>
