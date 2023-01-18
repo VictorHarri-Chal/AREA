@@ -25,7 +25,20 @@ db.once('open', function() {
 });
 
 
-const User = mongoose.model('./models/user.model.js', userSchema);
+const User = require('./models/user.model');
+
+const newUser = new User({
+  username: "example_username",
+  email: "example@email.com"
+});
+
+// newUser.save((err) => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log('User added successfully');
+//   }
+// });
 
 //display users
 User.find({}, (error, users) => {
