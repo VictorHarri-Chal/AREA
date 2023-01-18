@@ -25,7 +25,7 @@ db.once('open', function() {
 });
 
 
-const User = require('./models/user.model');
+const User = require('./src/models/user.model');
 
 const newUser = new User({
   username: "example_username",
