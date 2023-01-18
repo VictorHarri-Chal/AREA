@@ -52,7 +52,19 @@ export const ASData = [
         title: 'Spotify',
         icon : <Icon icon="mdi:spotify" />,
         login : true,
-        color : "#1ed760"
+        color : "#1ed760",
+        action_blocs : [
+            {
+                key : 'spotify_newStream',
+                title: 'New stream',
+            }
+        ],
+        reaction_blocs : [
+            {
+                key : 'spotify_newPlaylist',
+                title: 'Create a playlist',
+            }
+        ]
     },
     {
         key : 'youtube',

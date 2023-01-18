@@ -1,4 +1,3 @@
-import { Link as LinkR } from 'react-router-dom';
 import styled from "styled-components";
 import { keyframes } from "styled-components";
 
@@ -23,6 +22,11 @@ export const BSContainer = styled.div`
     position: flex;
     left: 150px;
     animation: ${slideIn} 0.5s ease-in-out forwards;
+
+    @media screen and (max-width: 1000px) {
+        z-index: 2;
+        display : ${props => props.isOpen === true ? `block;` : `none`}
+    }
 `;
 
 export const BSLogoApp = styled.div`
@@ -47,6 +51,12 @@ export const BSAppName = styled.div`
     font-weight: bold;
     color: ${props => props.color};
     transition: all 0.2s ease-in-out;
+
+    @media screen and (max-width: 1000px) {
+        justify-content: right;
+        margin-left: 130px;
+        margin-top: -70px;
+    }
 `;
 
 export const BSConnectBtn = styled.div`
@@ -76,7 +86,7 @@ export const BSConnectBtn = styled.div`
     display: ${props => props.login === undefined ? 'none' : (props.login === true ? 'none' : 'block')};
 `;
 
-export const BSConnected = styled.div(LinkR)`
+export const BSConnected = styled.div`
     white-space: nowrap;
     padding: 10px 22px;
     color: #010606;

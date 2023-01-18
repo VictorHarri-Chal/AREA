@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { BSAppName, BSContainer, BSLogoApp, BSConnectBtn, BSConnected, BSActionRea, BSBlocContainer, BSBloc} from './BSElements'
 
-const BlocSidebar = ({ appSelected }) => {
+const BlocSidebar = ({ appSelected, isOpen }) => {
 
     const [actionRea, setActionRea] = useState(true)
 
@@ -12,7 +12,7 @@ const BlocSidebar = ({ appSelected }) => {
 
     if (appSelected.key === undefined) return (<></>)
     return (
-        <BSContainer>
+        <BSContainer isOpen={isOpen}>
             <BSLogoApp color={appSelected.color}>{appSelected.icon}</BSLogoApp>
             <BSAppName color={appSelected.color}>{appSelected.title}</BSAppName>
 
