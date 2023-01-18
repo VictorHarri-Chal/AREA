@@ -1,8 +1,18 @@
 version: '3.8'
 
 services:
-  client:
-      stdin_open: true
+  server:
+      environment:
+        - CHOKIDAR_USEPOLLING=true
+      build:
+        dockerfile: Dockerfile
+        context: ./server
+      volumes:
+        - /app/node_modules
+        - ./server:/app
+      ports:
+        - '8080:4000'
+  web:
       environment:
         - CHOKIDAR_USEPOLLING=true
       build:
