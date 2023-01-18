@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DragableRectangleStyle, DragableRectangleStyle2, DragableRectangleStyle3 } from './DragableRectElements';
+import { DragableRectangleStyle } from './DragableRectElements';
 
 const DragableRectangle = ({ index, rectanglePositions, setRectanglePositions}) => {
     const [rectanglePosition, setRectanglePosition] = useState({ x: rectanglePositions[index].x, y: rectanglePositions[index].y });
@@ -53,25 +53,25 @@ const DragableRectangle = ({ index, rectanglePositions, setRectanglePositions}) 
 
     return (
         <div>
-            {rectanglePositions[index].type === '1' && 
-                <DragableRectangleStyle width={rectangleDimension.width} height={rectangleDimension.height} 
-                    left={rectanglePosition.x} top={rectanglePosition.y}
+            {rectanglePositions[index].type === '1' &&
+                <DragableRectangleStyle width={rectangleDimension.width} height={rectangleDimension.height}
+                    left={rectanglePosition.x} top={rectanglePosition.y} color={'blue'}
                     onMouseDown={handleMouseDown}
                     onMouseUp={handleMouseUp}
                     onMouseMove={handleMouseMove}
                 />
             }
             {rectanglePositions[index].type === '2' &&
-                <DragableRectangleStyle2 width={rectangleDimension.width} height={rectangleDimension.height} 
-                    left={rectanglePosition.x} top={rectanglePosition.y}
+                <DragableRectangleStyle width={rectangleDimension.width} height={rectangleDimension.height}
+                    left={rectanglePosition.x} top={rectanglePosition.y} color={'lightgrey'}
                     onMouseDown={handleMouseDown}
                     onMouseUp={handleMouseUp}
                     onMouseMove={handleMouseMove}
                 />
             }
             {rectanglePositions[index].type === '3' &&
-                <DragableRectangleStyle3 width={rectangleDimension.width} height={rectangleDimension.height} 
-                    left={rectanglePosition.x} top={rectanglePosition.y}
+                <DragableRectangleStyle width={rectangleDimension.width} height={rectangleDimension.height}
+                    left={rectanglePosition.x} top={rectanglePosition.y} color={'red'}
                     onMouseDown={handleMouseDown}
                     onMouseUp={handleMouseUp}
                     onMouseMove={handleMouseMove}
