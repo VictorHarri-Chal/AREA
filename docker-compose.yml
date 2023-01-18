@@ -1,16 +1,15 @@
-version: '3.7'
+version: '3.8'
 
 services:
-
-  client_web:
-    container_name: client_web
-    build:
-      context: ./clientWeb
-      dockerfile: Dockerfile
-    volumes:
-      - ./clientWeb:/app'
-      - /app/node_modules
-    ports:
-      - '8081:3000'
-    environment:
-      - CHOKIDAR_USEPOLLING=true
+  client:
+      stdin_open: true
+      environment:
+        - CHOKIDAR_USEPOLLING=true
+      build:
+        dockerfile: Dockerfile
+        context: ./web
+      volumes:
+        - /app/node_modules
+        - ./web:/app
+      ports:
+        - '8081:3000'
