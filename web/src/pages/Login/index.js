@@ -29,6 +29,26 @@ const Login = () => {
                     <Comp.Button> Sign In </Comp.Button>
                 </Comp.Form>
             </Comp.SignInContainer>
+
+            <Comp.OverlayContainer signinIn={signIn}>
+                <Comp.Overlay signinIn={signIn}>
+
+                    <Comp.LeftOverlayPanel signinIn={signIn}>
+                        <Comp.Title>Welcome Back!</Comp.Title>
+                        <Comp.Paragraph> To keep connected with us please login</Comp.Paragraph>
+                        <Comp.GhostButton onClick={() => setSignIn(true)}>Sign In</Comp.GhostButton>
+                    </Comp.LeftOverlayPanel>
+
+                    <Comp.RightOverlayPanel signinIn={signIn}>
+                        <Comp.Title>Hello !</Comp.Title>
+                        <Comp.Paragraph>Enter Your personal details and start the Scandelaventure</Comp.Paragraph>
+                        <Comp.GhostButton onClick={() => setSignIn(false)}>Sigin Up</Comp.GhostButton>
+                    </Comp.RightOverlayPanel>
+
+                </Comp.Overlay>
+            </Comp.OverlayContainer>
+
+
         </Comp.LoginContainer>
     )
 }

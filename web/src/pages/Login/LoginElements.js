@@ -87,8 +87,19 @@ export const Button = styled.button`
         transform: scale(0.95);
     }
 
-    &:focus {
-        outline: none;
+`;
+
+export const GhostButton = styled(Button)`
+    border-color: #ffffff;
+    margin-top: 10px;
+
+    &:hover {
+        cursor: pointer;
+        transform: scale(1.05);
+    }
+
+    &:active{
+        transform: scale(0.95);
     }
 `;
 
@@ -97,4 +108,62 @@ export const Anchor = styled.a`
     font-size: 14px;
     text-decoration: none;
     margin: 15px 0;
+`;
+
+export const OverlayContainer = styled.div`
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    transition: transform 0.6s ease-in-out;
+    z-index: 999;
+    ${props =>props.signinIn !== true ? `transform: translateX(-100%);` : null}
+`;
+
+export const Overlay = styled.div`
+    background: #00ADB5;
+    color: #ffffff;
+    position: relative;
+    left: -100%;
+    height: 100%;
+    width: 200%;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+    ${props => (props.signinIn !== true ? `transform: translateX(50%);` : null)}
+`;
+
+
+export const OverlayPanel = styled.div`
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    height: 100%;
+    width: 50%;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+`;
+
+// Move the text for the animation
+export const LeftOverlayPanel = styled(OverlayPanel)`
+    transform: translateX(-20%);
+    ${props => props.signinIn !== true ? `transform: translateX(0);` : null}
+`;
+
+export const RightOverlayPanel = styled(OverlayPanel)`
+    right: 0;
+    transform: translateX(0);
+    ${props => props.signinIn !== true ? `transform: translateX(20%);` : null}
+`;
+
+export const Paragraph = styled.p`
+    font-size: 14px;
+    font-weight: 100;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    margin: 20px 0 30px
 `;
