@@ -94,6 +94,7 @@ export const MobileIcon = styled.div`
         box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
         height : 70px;
         width : 70px;
+        z-index: 1000;
 
         &:hover {
             transform: scale(1.05);
