@@ -3,16 +3,18 @@ import styled from "styled-components";
 export const PlaygroundMain = styled.div`
     display: grid;
     place-items: center;
-    margin-top: 10px;
+    margin: 0 auto;
+    width: 90%;
+    max-width: 1000px;
     height: 800px;
-    width: 100vw;
+    margin-top: 20px;
 `;
 
 export const PlaygroundContainer = styled.div`
     position: relative;
     border: 1px solid black;
+    width: 1000px;
     height: 800px;
-    width: 800px;
     overflow: hidden;
 `;
 

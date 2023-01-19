@@ -14,9 +14,9 @@ export const BSContainer = styled.div`
     background: #EEEEEE;
     height: 100%;
     width: 300px;
-    position: fixed;
+    position: absolute;
     display: flex;
-    z-index: -1;
+    z-index: 0;
     align-items: flex-start;
     padding : 0px;
     position: flex;
