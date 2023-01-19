@@ -11,11 +11,6 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
     const [boxes, setBoxes] = useState(BlocsData);
 
     useEffect(() => {
-        if (newRectangle.isNewRect === true) {
-            console.log(newRectangle.x, newRectangle.y)
-            setBoxes(boxes => [...boxes, { id: boxes.length + 1, x: newRectangle.x - 35, y: newRectangle.y - 80}]);
-            setNewRectangle({ isNewRect: false, x: 0, y: 0 });
-        }
         const containerRect = containerRef.current.getBoundingClientRect();
         setContainerPosition({
             x: containerRect.x,
@@ -23,6 +18,12 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
             width: containerRect.width,
             height: containerRect.height,
         });
+        if (newRectangle.isNewRect === true) {
+            console.log(newRectangle.x, newRectangle.y)
+            console.log(containerRect.x, containerRect.y)
+            setBoxes(boxes => [...boxes, { id: boxes.length + 1, x: newRectangle.x , y: newRectangle.y}]);
+            setNewRectangle({ isNewRect: false, x: 0, y: 0 });
+        }
 
         window.addEventListener("resize", handleResize);
         return () => {
