@@ -30,7 +30,7 @@ const BlocSidebar = ({ appSelected, isOpen, newRectangle, setNewRectangle }) => 
 
     const handleMouseUp = (e) => {
         if (isDragging && rectanglePosition.x != 25 && rectanglePosition.y != 350) {
-            setNewRectangle({isNewRect : true, x : rectanglePosition.x + 180, y : rectanglePosition.y + 20})
+            setNewRectangle({isNewRect : true, x : rectanglePosition.x + 180, y : rectanglePosition.y + 20, key : 'discord_receivePrivateMessage'}) // change discord_receivePrivateMessage by the key of the good bloc
         }
         setIsDragging(false)
         setRectanglePosition({ x: 25, y: 350 });

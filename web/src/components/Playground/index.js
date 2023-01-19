@@ -19,10 +19,9 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
             height: containerRect.height,
         });
         if (newRectangle.isNewRect === true) {
-            console.log(newRectangle.x, newRectangle.y)
-            console.log(containerRect.x, containerRect.y)
-            setBoxes(boxes => [...boxes, { id: boxes.length + 1, x: newRectangle.x , y: newRectangle.y}]);
-            setNewRectangle({ isNewRect: false, x: 0, y: 0 });
+            console.log(newRectangle.key)
+            setBoxes(boxes => [...boxes, { id: boxes.length + 1, x: newRectangle.x , y: newRectangle.y, key: newRectangle.key}]);
+            setNewRectangle({ isNewRect: false, x: 0, y: 0, key: '' });
         }
 
         window.addEventListener("resize", handleResize);

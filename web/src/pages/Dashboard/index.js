@@ -10,7 +10,7 @@ const Dashboard = () => {
 
     const [isOpen, setIsOpen] = useState(false)
 
-    const [newRectangle, setNewRectangle] = useState({isNewRect : false, x : 0, y : 0})
+    const [newRectangle, setNewRectangle] = useState({isNewRect : false, x : 0, y : 0, key : ''})
 
     const toggleSideBar = () => {
         setIsOpen(!isOpen)
