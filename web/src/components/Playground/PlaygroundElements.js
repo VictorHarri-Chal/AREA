@@ -41,9 +41,34 @@ export const PlaygroundContainer = styled.div`
 
 export const PlaygroundBox = styled.div`
     position: absolute;
-    background-color: hotpink;
+    background:  ${props => props.color};
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.3);
+    width: 200px;
     height: 100px;
-    width: 100px;
-    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+
+    &:hover {
+        transform: scale(1.05);
+        cursor: pointer;
+        transition: transform  0.15s ease-in-out;
+    }
+
+    &:active {
+        transform: scale(0.95);
+        transition: transform  0.15s ease-in-out;
+    }
+
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: break-word;
 `;
 
