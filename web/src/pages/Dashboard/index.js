@@ -18,7 +18,7 @@ const Dashboard = () => {
 
     return (
         <>
-            {/* <Navbar isOpen={false} isInDashboard={true}/> */}
+            <Navbar isOpen={false} isInDashboard={true}/>
 
             <Playground newRectangle={newRectangle} setNewRectangle={setNewRectangle}/>
             <AppSidebar setAppSelected={setAppSelected} isOpen={isOpen} toggleSideBar={toggleSideBar} />
