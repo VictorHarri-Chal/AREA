@@ -57,10 +57,12 @@ export const PlaygroundBox = styled.div`
     &:hover {
         transform: scale(1.05);
         cursor: pointer;
+        transition: transform  0.15s ease-in-out;
     }
 
     &:active {
         transform: scale(0.95);
+        transition: transform  0.15s ease-in-out;
     }
 
 
