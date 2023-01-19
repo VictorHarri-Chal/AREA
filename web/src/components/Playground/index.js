@@ -59,20 +59,20 @@ const Playground = () => {
     };
 
     return (
-    <PlaygroundMain>
-        <PlaygroundContainer onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} ref={containerRef}>
-        {boxes.map(box => (
-            <PlaygroundBox
-                key={box.id}
-                style={{
-                    left: box.x,
-                    top: box.y,
-                }}
-            onMouseDown={handleMouseDown(box.id)}
-        />
-        ))}
-        </PlaygroundContainer>
-    </PlaygroundMain>
+        <PlaygroundMain>
+            <PlaygroundContainer onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} ref={containerRef}>
+            {boxes.map(box => (
+                <PlaygroundBox
+                    key={box.id}
+                    style={{
+                        left: box.x,
+                        top: box.y,
+                    }}
+                onMouseDown={handleMouseDown(box.id)}
+            />
+            ))}
+            </PlaygroundContainer>
+        </PlaygroundMain>
     );
 };
 
