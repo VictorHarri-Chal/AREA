@@ -12,7 +12,7 @@ export const Nav = styled.nav`
     font-size: 16px;
     position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: 1000;
 
     @media screen and (max-width: 960px) {
         transition: 0.8s all ease;
