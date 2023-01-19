@@ -33,7 +33,7 @@ const Playground = () => {
     };
 
     const handleResize = () => {
-        const containerRect = containerRef.current.getBoundingClientRect();
+        const containerRect = containerRef.current.getBoundingClientRect()
         setContainerPosition({
             x: containerRect.x,
             y: containerRect.y,

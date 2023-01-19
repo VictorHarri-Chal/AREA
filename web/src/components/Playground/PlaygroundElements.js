@@ -2,12 +2,10 @@ import styled from "styled-components";
 
 export const PlaygroundMain = styled.div`
     position: absolute;
-    margin-top: 40px;
-    margin-left : 225px;
-
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 110px;
+    left: 475px;
+    width: calc(100vw - 495px);
+    height: calc(100vh - 130px);
 
     transition: all 0.2s ease-in-out;
 
@@ -15,13 +13,24 @@ export const PlaygroundMain = styled.div`
     border-radius: 10px;
 
     user-select: none;
+    overflow: scroll;
+
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+
+    @media screen and (max-width: 1000px) {
+        top: 110px;
+        left: 15px;
+        width: calc(100vw - 30px);
+        height: calc(100vh - 130px);
+    }
+
 `;
 
 export const PlaygroundContainer = styled.div`
     position: relative;
-    width: 1450px;
-    height: 830px;
-    overflow: hidden;
+    width: calc(100vw - 495px);
+    height: calc(100vh - 130px);
 `;
 
 export const PlaygroundBox = styled.div`
