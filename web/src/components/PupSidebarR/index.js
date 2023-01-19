@@ -4,17 +4,17 @@ import { SidebarContainer, Icon, CloseIcon, SidebarWrapper, SidebarMenu, Sidebar
 
 function PupSidebarR( {isOpen, toggleSideBar}) {
     return (
-        <SidebarContainer isOpen={isOpen} onCLick={toggleSideBar}>
+        <SidebarContainer isOpen={isOpen} onClick={toggleSideBar}>
             <Icon onClick={toggleSideBar}>
                 <CloseIcon />
             </Icon>
 
             <SidebarWrapper>
                 <SidebarMenu>
-                    <SidebarLink to="about" onCLick={toggleSideBar}>About</SidebarLink>
-                    <SidebarLink to="discover" onCLick={toggleSideBar}>Discover</SidebarLink>
-                    <SidebarLink to="services" onCLick={toggleSideBar}>Services</SidebarLink>
-                    <SidebarLink to="signup" onCLick={toggleSideBar}>Sign Up</SidebarLink>
+                    <SidebarLink to="about" onClick={toggleSideBar}>About</SidebarLink>
+                    <SidebarLink to="discover" onClick={toggleSideBar}>Discover</SidebarLink>
+                    <SidebarLink to="services" onClick={toggleSideBar}>Services</SidebarLink>
+                    <SidebarLink to="signup" onClick={toggleSideBar}>Sign Up</SidebarLink>
                 </SidebarMenu>
                 <SideBtnWrap>
                     <SidebarRoute to="/signin">Sign In</SidebarRoute>
