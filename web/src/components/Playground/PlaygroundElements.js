@@ -5,15 +5,14 @@ export const PlaygroundMain = styled.div`
     place-items: center;
     margin: 0 auto;
     width: 90%;
-    max-width: 1000px;
+    max-width: 800px;
     height: 800px;
-    margin-top: 20px;
+    background-color: #aaaeee;
 `;
 
 export const PlaygroundContainer = styled.div`
     position: relative;
-    border: 1px solid black;
-    width: 1000px;
+    width: 800px;
     height: 800px;
     overflow: hidden;
 `;

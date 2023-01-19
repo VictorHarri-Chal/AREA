@@ -9,6 +9,8 @@ export const ASContainer = styled.div`
     align-items: flex-start;
     padding : 20px;
     z-index :1;
+    top : 0px;
+    padding-top: 100px;
 
     @media screen and (max-width: 1000px) {
 
