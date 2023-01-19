@@ -3,7 +3,7 @@ import { PlaygroundContainer, PlaygroundMain, PlaygroundBox } from './Playground
 import { BlocsData } from './BlocsData';
 import { ASData } from '../AppSidebar/ASData';
 
-const Playground = () => {
+const Playground = ({ newRectangle, setNewRectangle }) => {
     const [isDragging, setIsDragging] = useState(false);
     const [containerPosition, setContainerPosition] = useState({});
     const containerRef = useRef(null);
@@ -18,12 +18,18 @@ const Playground = () => {
             width: containerRect.width,
             height: containerRect.height,
         });
+        if (newRectangle.isNewRect === true) {
+            console.log(newRectangle.key)
+            setBoxes(boxes => [...boxes, { id: boxes.length + 1, x: newRectangle.x , y: newRectangle.y, key: newRectangle.key}]);
+            setNewRectangle({ isNewRect: false, x: 0, y: 0, key: '' });
+        }
 
         window.addEventListener("resize", handleResize);
         return () => {
             window.removeEventListener("resize", handleResize);
         };
-    }, []);
+    }, [newRectangle]);
+
 
     const handleMouseDown = (id) => (e) => {
         setDraggingId(id);
@@ -42,7 +48,7 @@ const Playground = () => {
 
     const handleMouseMove = (e) => {
         if (isDragging) {
-            let newX = e.pageX - containerPosition.x - 50;
+            let newX = e.pageX - containerPosition.x - 100;
             let newY = e.pageY - containerPosition.y - 50;
 
             if (newX < 0)
@@ -68,7 +74,7 @@ const Playground = () => {
     };
 
     const handleMouseUp = (e) => {
-    setIsDragging(false);
+        setIsDragging(false);
     };
 
     const getBlocData = (key) => {

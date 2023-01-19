@@ -141,8 +141,7 @@ export const BSBlocContainer = styled.ul`
     width: 250px;
     position: fixed;
     padding : 20px;
-    top : 350px;
-    left : 25px;
+
     display: grid;
     flex-direction: column;
     align-items: center;

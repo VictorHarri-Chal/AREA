@@ -71,4 +71,3 @@ export const PlaygroundBox = styled.div`
     white-space: nowrap;
     word-wrap: break-word;
 `;
-
