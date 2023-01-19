@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
 const config = require('../config/auth.config');
-const db = require('../models');
-const User = require(db.user);
-const Role = require(db.role);
+const models = require('../models');
+const User = models.user;
+const Role = models.role;
 
 //Vérifie la validité du token de connexion de l'utilisateur
 verifyTokenValidity = (req, res, next) => {

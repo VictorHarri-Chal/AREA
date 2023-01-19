@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-const db = {};
-db.mongoose = mongoose;
+const models = {};
+models.mongoose = mongoose;
 
-db.user = require('./user.model');
-db.role = require('./role.model');
+models.user = require('./user.model');
+models.role = require('./role.model');
 
-db.ROLES = ["user", "admin"];
+models.ROLES = ["user", "admin"];
 
-module.exports = db;
+module.exports = models;

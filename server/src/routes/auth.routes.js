@@ -2,7 +2,7 @@ const { verifySignup} = require('../middleware');
 const controller = require('../controllers/auth.controller');
 const { models } = require('mongoose');
 
-function handleAuthRoutes(app) {
+module.exports = function handleAuthRoutes(app) {
     app.use(function(req, res, next) {
         res.header(
             "Access-Control-Allow-Headers",
@@ -23,5 +23,3 @@ function handleAuthRoutes(app) {
         controller.signin
     )
 }
-
-module.exports(handleAuthRoutes);
