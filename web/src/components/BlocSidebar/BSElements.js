@@ -21,6 +21,8 @@ export const BSContainer = styled.div`
     padding : 0px;
     position: flex;
     left: 150px;
+    top: 0px;
+    padding-top: 100px;
     animation: ${slideIn} 0.5s ease-in-out forwards;
 
     @media screen and (max-width: 1000px) {
@@ -74,7 +76,7 @@ export const BSConnectBtn = styled.div`
     text-decoration: none;
     position: absolute;
     transform: translate(-50%, -50%);
-    top : 130px;
+    top : 230px;
     left : 150px;
 
     &:hover {
@@ -98,7 +100,7 @@ export const BSConnected = styled.div`
     text-decoration: none;
     position: absolute;
     transform: translate(-50%, -50%);
-    top : 130px;
+    top : 230px;
     left : 150px;
 
     display: ${props => props.login === undefined ? 'none' : (props.login === false ? 'none' : 'block')};
@@ -119,7 +121,7 @@ export const BSActionRea = styled.div`
     text-decoration: none;
     position: absolute;
     transform: translate(-50%, -50%);
-    top : 200px;
+    top : 300px;
     left :  ${props => props.which === false ? '70px' : '210px'};
 
     &:hover {
@@ -139,7 +141,7 @@ export const BSBlocContainer = styled.ul`
     width: 250px;
     position: fixed;
     padding : 20px;
-    top : 250px;
+    top : 350px;
     left : 25px;
     display: grid;
     flex-direction: column;
