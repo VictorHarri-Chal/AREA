@@ -1,4 +1,3 @@
-import React from 'react'
 import { Icon } from '@iconify/react';
 
 export const ASData = [
@@ -11,13 +10,13 @@ export const ASData = [
         action_blocs : [
             {
                 key : 'discord_receivePrivateMessage',
-                title: 'Get a private message',
+                title: 'Get a PM',
             }
         ],
         reaction_blocs : [
             {
                 key : 'discord_sendPrivateMessage',
-                title: 'Send a private message',
+                title: 'Send a PM',
             }
         ]
     },
@@ -35,7 +34,7 @@ export const ASData = [
         ],
         reaction_blocs : [
             {
-                key : 'discord_createIssue',
+                key : 'github_createIssue',
                 title: 'Create an issue',
             }
         ]

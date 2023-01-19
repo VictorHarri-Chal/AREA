@@ -1,16 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { PlaygroundContainer, PlaygroundMain, PlaygroundBox } from './PlaygroundElements'
+import { BlocsData } from './BlocsData';
+import { ASData } from '../AppSidebar/ASData';
 
 const Playground = ({ newRectangle, setNewRectangle }) => {
     const [isDragging, setIsDragging] = useState(false);
     const [containerPosition, setContainerPosition] = useState({});
     const containerRef = useRef(null);
     const [draggingId, setDraggingId] = useState(null);
-    const [boxes, setBoxes] = useState([
-        { id: 1, x: 0, y: 0 },
-        { id: 2, x: 150, y: 150 },
-        { id: 3, x: 300, y: 300 },
-    ]);
+    const [boxes, setBoxes] = useState(BlocsData);
 
     useEffect(() => {
         if (newRectangle.isNewRect === true) {
@@ -79,19 +77,45 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         setIsDragging(false);
     };
 
+    const getBlocData = (key) => {
+        let blocData = {
+            title: '',
+            color: ''
+        };
+        ASData.find(el => {
+            let actionBloc = undefined;
+            if (el.action_blocs !== undefined)
+                actionBloc = el.action_blocs.find(bloc => bloc.key === key);
+            let reactionBloc = undefined;
+            if (el.reaction_blocs !== undefined)
+                reactionBloc = el.reaction_blocs.find(bloc => bloc.key === key);
+            if (actionBloc !== undefined) {
+                blocData.title = actionBloc.title;
+                blocData.color = el.color;
+            } else if (reactionBloc !== undefined) {
+                blocData.title = reactionBloc.title;
+                blocData.color = el.color;
+            }
+        });
+        return blocData;
+    }
+
     return (
         <PlaygroundMain>
             <PlaygroundContainer onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} ref={containerRef}>
-            {boxes.map(box => (
-                <PlaygroundBox
-                    key={box.id}
-                    style={{
-                        left: box.x,
-                        top: box.y,
-                    }}
-                onMouseDown={handleMouseDown(box.id)}
-            />
-            ))}
+            {boxes.map(box => {
+                let data = getBlocData(box.key);
+                return (
+                    <PlaygroundBox key={box.id} color={data.color}
+                        style={{
+                            left: box.x,
+                            top: box.y,
+                        }}
+                        onMouseDown={handleMouseDown(box.id)}>
+                        {data.title}
+                    </PlaygroundBox>
+                )
+            })}
             </PlaygroundContainer>
         </PlaygroundMain>
     );
