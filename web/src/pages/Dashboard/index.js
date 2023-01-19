@@ -10,6 +10,8 @@ const Dashboard = () => {
 
     const [isOpen, setIsOpen] = useState(false)
 
+    const [newRectangle, setNewRectangle] = useState({isNewRect : false, x : 0, y : 0})
+
     const toggleSideBar = () => {
         setIsOpen(!isOpen)
     }
@@ -18,10 +20,10 @@ const Dashboard = () => {
         <>
             <Navbar isOpen={false} isInDashboard={true}/>
 
+            <Playground newRectangle={newRectangle} setNewRectangle={setNewRectangle}/>
             <AppSidebar setAppSelected={setAppSelected} isOpen={isOpen} toggleSideBar={toggleSideBar} />
-            <BlocSidebar appSelected={appSelected} isOpen={isOpen}/>
+            <BlocSidebar appSelected={appSelected} isOpen={isOpen} newRectangle={newRectangle} setNewRectangle={setNewRectangle}/>
 
-            <Playground />
         </>
     )
 }

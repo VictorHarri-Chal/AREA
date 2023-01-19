@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { PlaygroundContainer, PlaygroundMain, PlaygroundBox } from './PlaygroundElements'
 
-const Playground = () => {
+const Playground = ({ newRectangle, setNewRectangle }) => {
     const [isDragging, setIsDragging] = useState(false);
     const [containerPosition, setContainerPosition] = useState({});
     const containerRef = useRef(null);
@@ -13,6 +13,11 @@ const Playground = () => {
     ]);
 
     useEffect(() => {
+        if (newRectangle.isNewRect === true) {
+            console.log(newRectangle.x, newRectangle.y)
+            setBoxes(boxes => [...boxes, { id: boxes.length + 1, x: newRectangle.x - 35, y: newRectangle.y - 80}]);
+            setNewRectangle({ isNewRect: false, x: 0, y: 0 });
+        }
         const containerRect = containerRef.current.getBoundingClientRect();
         setContainerPosition({
             x: containerRect.x,
@@ -25,7 +30,8 @@ const Playground = () => {
         return () => {
             window.removeEventListener("resize", handleResize);
         };
-    }, []);
+    }, [newRectangle]);
+
 
     const handleMouseDown = (id) => (e) => {
         setDraggingId(id);
@@ -44,7 +50,7 @@ const Playground = () => {
 
     const handleMouseMove = (e) => {
         if (isDragging) {
-            let newX = e.pageX - containerPosition.x - 50;
+            let newX = e.pageX - containerPosition.x - 100;
             let newY = e.pageY - containerPosition.y - 50;
 
             if (newX < 0)
@@ -70,7 +76,7 @@ const Playground = () => {
     };
 
     const handleMouseUp = (e) => {
-    setIsDragging(false);
+        setIsDragging(false);
     };
 
     return (
