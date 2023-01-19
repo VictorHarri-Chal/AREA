@@ -6,7 +6,12 @@ const Playground = () => {
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [containerPosition, setContainerPosition] = useState({});
     const containerRef = useRef(null);
-
+    const [draggingId, setDraggingId] = useState(null);
+    const [boxes, setBoxes] = useState([
+        { id: 1, x: 0, y: 0 },
+        { id: 2, x: 150, y: 150 },
+        { id: 3, x: 300, y: 300 },
+    ]);
 
     useEffect(() => {
         const containerRect = containerRef.current.getBoundingClientRect();
@@ -18,8 +23,9 @@ const Playground = () => {
         });
     }, []);
 
-    const handleMouseDown = (e) => {
+    const handleMouseDown = (id) => (e) => {
         setIsDragging(true);
+        setDraggingId(id);
     };
 
     const handleMouseMove = (e) => {
@@ -36,7 +42,16 @@ const Playground = () => {
             if (newY + 100 > containerPosition.height)
                 newY = containerPosition.height - 100;
 
-            setPosition({ x: newX, y: newY });
+                setBoxes(boxes.map(box => {
+                    if (box.id === draggingId) {
+                        return {
+                            ...box,
+                            x: newX,
+                            y: newY
+                        }
+                    }
+                    return box;
+                }));
         }
     };
 
@@ -47,14 +62,16 @@ const Playground = () => {
     return (
     <PlaygroundMain>
         <PlaygroundContainer onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} ref={containerRef}>
-        <PlaygroundBox
-            style={{
-            position: 'absolute',
-            left: position.x,
-            top: position.y,
-            }}
-            onMouseDown={handleMouseDown}
+        {boxes.map(box => (
+            <PlaygroundBox
+                key={box.id}
+                style={{
+                    left: box.x,
+                    top: box.y,
+                }}
+            onMouseDown={handleMouseDown(box.id)}
         />
+))}
         </PlaygroundContainer>
     </PlaygroundMain>
     );
