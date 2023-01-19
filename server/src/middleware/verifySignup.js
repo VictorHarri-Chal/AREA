@@ -38,8 +38,8 @@ checkUserAlreadyExisting = (req, res, next) => {
 
 //Vérifie si le role est valide
 checkRoleValidity = (req, res, next) => {
-    if (req.body.ROLES) {
-        for (var i = 0; i < req.body.ROLES.length[i]; i++) {
+    if (req.body.roles) {
+        for (var i = 0; i < req.body.roles.length[i]; i++) {
             if (!ROLES.includes(req.body.roles[i])) {
                 res.status(400).send({
                     message: 'Role does not exist!'
@@ -56,4 +56,4 @@ const verifySignup = {
     checkRoleValidity
 }
 
-module.exports= verifySignup;
+module.exports = verifySignup;
