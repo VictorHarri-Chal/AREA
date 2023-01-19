@@ -6,6 +6,7 @@ const Role = require(db.role);
 
 //Vérifie la validité du token de connexion de l'utilisateur
 verifyTokenValidity = (req, res, next) => {
+
     let token = req.headers["x-access-token"];
 
     if (!token)
@@ -21,6 +22,7 @@ verifyTokenValidity = (req, res, next) => {
 
 //Vérifie si l'utilisateur (via id) est un admin
 isUserAdmin = (req, res, next) => {
+
     User.findById(req.userId).exec((err, user) => {
         if (err) {
             res.status(500).send({ message: err});
