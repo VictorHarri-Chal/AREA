@@ -3,7 +3,6 @@ import { PlaygroundContainer, PlaygroundMain, PlaygroundBox } from './Playground
 
 const Playground = () => {
     const [isDragging, setIsDragging] = useState(false);
-    const [position, setPosition] = useState({ x: 0, y: 0 });
     const [containerPosition, setContainerPosition] = useState({});
     const containerRef = useRef(null);
     const [draggingId, setDraggingId] = useState(null);
@@ -24,8 +23,8 @@ const Playground = () => {
     }, []);
 
     const handleMouseDown = (id) => (e) => {
-        setIsDragging(true);
         setDraggingId(id);
+        setIsDragging(true);
     };
 
     const handleMouseMove = (e) => {
@@ -42,16 +41,16 @@ const Playground = () => {
             if (newY + 100 > containerPosition.height)
                 newY = containerPosition.height - 100;
 
-                setBoxes(boxes.map(box => {
-                    if (box.id === draggingId) {
-                        return {
-                            ...box,
-                            x: newX,
-                            y: newY
-                        }
+            setBoxes(boxes.map(box => {
+                if (box.id === draggingId) {
+                    return {
+                        ...box,
+                        x: newX,
+                        y: newY
                     }
-                    return box;
-                }));
+                }
+                return box;
+            }));
         }
     };
 
@@ -71,7 +70,7 @@ const Playground = () => {
                 }}
             onMouseDown={handleMouseDown(box.id)}
         />
-))}
+        ))}
         </PlaygroundContainer>
     </PlaygroundMain>
     );
