@@ -1,19 +1,26 @@
 import styled from "styled-components";
 
 export const PlaygroundMain = styled.div`
-    display: grid;
-    place-items: center;
-    margin: 0 auto;
-    width: 90%;
-    max-width: 800px;
-    height: 800px;
-    background-color: #aaaeee;
+    position: absolute;
+    margin-top: 40px;
+    margin-left : 225px;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    transition: all 0.2s ease-in-out;
+
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+
+    user-select: none;
 `;
 
 export const PlaygroundContainer = styled.div`
     position: relative;
-    width: 800px;
-    height: 800px;
+    width: 1450px;
+    height: 830px;
     overflow: hidden;
 `;
 

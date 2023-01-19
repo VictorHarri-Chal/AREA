@@ -20,12 +20,27 @@ const Playground = () => {
             width: containerRect.width,
             height: containerRect.height,
         });
+
+        window.addEventListener("resize", handleResize);
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
     }, []);
 
     const handleMouseDown = (id) => (e) => {
         setDraggingId(id);
         setIsDragging(true);
     };
+
+    const handleResize = () => {
+        const containerRect = containerRef.current.getBoundingClientRect();
+        setContainerPosition({
+            x: containerRect.x,
+            y: containerRect.y,
+            width: containerRect.width,
+            height: containerRect.height,
+        });
+    }
 
     const handleMouseMove = (e) => {
         if (isDragging) {
