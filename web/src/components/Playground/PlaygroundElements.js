@@ -73,7 +73,8 @@ export const PlaygroundBox = styled.div`
 `;
 
 export const PlaygroundBin = styled.div`
-    position: absolute;
+    background: #fff;
+    position: fixed;
     border-radius: 20px;
     box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.3);
     width: 80px;
@@ -83,6 +84,6 @@ export const PlaygroundBin = styled.div`
     justify-content: center;
     font-size: 60px;
     color : lightgrey;
-    right: 15px;
-    bottom: 15px;
+    right: 50px;
+    bottom: 50px;
 `;
