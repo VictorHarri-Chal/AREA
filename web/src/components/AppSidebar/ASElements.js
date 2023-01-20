@@ -18,6 +18,7 @@ export const ASContainer = styled.div`
 
         ${props => props.isOpen === true ? `width: 100%;` : `width: 0%;`}
         ${props => props.isOpen === true ? `background: #393E46;` : `background: #FFF;`}
+        ${props => props.isOpen === true ? `padding: 20px;` : `padding: 0px;`}
     }
 
 `;
