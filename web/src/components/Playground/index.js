@@ -34,6 +34,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
     const handleMouseDown = (id) => (e) => {
         setDraggingId(id);
         setIsDragging(true);
+        handleBin(id);
     };
 
     const handleResize = () => {
@@ -99,6 +100,9 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         });
         return blocData;
     }
+
+    const handleBin = (id) => {
+    };
 
     return (
         <PlaygroundMain>
