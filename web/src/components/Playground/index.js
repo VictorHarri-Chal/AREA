@@ -19,7 +19,6 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
             height: containerRect.height,
         });
         if (newRectangle.isNewRect === true) {
-            console.log(newRectangle.key)
             setBoxes(boxes => [...boxes, { id: boxes.length + 1, x: newRectangle.x , y: newRectangle.y, key: newRectangle.key}]);
             setNewRectangle({ isNewRect: false, x: 0, y: 0, key: '' });
         }
