@@ -5,6 +5,8 @@ const utils = require('./src/utils/utils.js');
 
 const axios = require('axios');
 
+let lastCommitSHA = '';
+
 async function checkGithubTrigger(schema) {
     const repositoryName = schema.repositoryName;
     const action = schema.action;
@@ -25,13 +27,14 @@ async function checkGithubTrigger(schema) {
             }
         });
     if (action === "push") {
-        // console.log('data:', response.data);
-        // const revdata = response.data.reverse();
         const pushEvent = response.data.find(event => event.type === 'PushEvent');
         if(pushEvent) {
-            // console.log('commits: ', pushEvent.payload.commits);
             const commits = pushEvent.payload.commits.reverse();
-            console.log("Push detected on repository: " + repositoryName + " with commit: " + commits[0].message);
+            const currentCommitSHA = commits[0].sha;
+            if (currentCommitSHA !== lastCommitSHA) {
+                console.log("Push detected on repository: " + repositoryName + " with commit: " + commits[0].message);
+                lastCommitSHA = currentCommitSHA;
+            }
         }
     } else if (action === "issue") {
         console.log("New issue detected on repository: " + repositoryName);
@@ -41,10 +44,9 @@ async function checkGithubTrigger(schema) {
     }
 }
 
-
 function serverProcess() {
     setInterval(() => {
-        checkGithubTrigger({ repositoryName: "VictorHarri-Chal/AREA", action: "push", access_token: "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" });
+        checkGithubTrigger({ repositoryName: "VictorHarri-Chal/AREA", action: "push", access_token: "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" });
     }, 3000);
 }
 
