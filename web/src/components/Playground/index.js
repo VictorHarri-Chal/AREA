@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { PlaygroundContainer, PlaygroundMain, PlaygroundBox } from './PlaygroundElements'
 import { BlocsData } from './BlocsData';
 import { ASData } from '../AppSidebar/ASData';
+import Arrow from '../Arrow';
 
 const Playground = ({ newRectangle, setNewRectangle }) => {
     const [isDragging, setIsDragging] = useState(false);
@@ -9,6 +10,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
     const containerRef = useRef(null);
     const [draggingId, setDraggingId] = useState(null);
     const [boxes, setBoxes] = useState(BlocsData);
+    const [arrow, setArrow] = useState({ exists: false, from: null, to: null });
 
     useEffect(() => {
         const containerRect = containerRef.current.getBoundingClientRect();
@@ -19,8 +21,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
             height: containerRect.height,
         });
         if (newRectangle.isNewRect === true) {
-            console.log(newRectangle.key)
-            setBoxes(boxes => [...boxes, { id: boxes.length + 1, x: newRectangle.x , y: newRectangle.y, key: newRectangle.key}]);
+            setBoxes(boxes => [...boxes, { id: boxes.length + 1, x: newRectangle.x - 475, y: newRectangle.y - 110, key: newRectangle.key}]);
             setNewRectangle({ isNewRect: false, x: 0, y: 0, key: '' });
         }
 
@@ -50,7 +51,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         if (isDragging) {
             let newX = e.pageX - containerPosition.x - 100;
             let newY = e.pageY - containerPosition.y - 50;
-
+    
             if (newX < 0)
                 newX = 0;
             if (newX + 100 > containerPosition.width)
@@ -59,7 +60,20 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                 newY = 0;
             if (newY + 100 > containerPosition.height)
                 newY = containerPosition.height - 100;
-
+            
+            boxes.forEach(otherBox => {
+                if (otherBox.id !== draggingId) {
+                    if (newX <= otherBox.x + 200 && newX + 200 >= otherBox.x && newY <= otherBox.y + 100 && newY + 100 >= otherBox.y) {
+                        setBoxes(boxes.map(box => {
+                            if (box.id === draggingId) {
+                                    newX = box.x
+                                    newY = box.y
+                                }
+                            })
+                        )
+                    }
+                }
+            });
             setBoxes(boxes.map(box => {
                 if (box.id === draggingId) {
                     return {
@@ -72,6 +86,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
             }));
         }
     };
+    
 
     const handleMouseUp = (e) => {
         setIsDragging(false);
@@ -100,6 +115,16 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         return blocData;
     }
 
+    const handleArrowGeneration = (id) => {
+        setArrow({ exists: true, from: id, to: '2' });
+    };
+
+    const handleArrowMove = (id) => {
+        if (arrow.exists && arrow.from !== id) {
+            setArrow({ ...arrow, to: id });
+        }
+    };
+
     return (
         <PlaygroundMain>
             <PlaygroundContainer onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} ref={containerRef}>
@@ -112,10 +137,12 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                             top: box.y,
                         }}
                         onMouseDown={handleMouseDown(box.id)}>
-                        {data.title}
+                        <button onClick={() => handleArrowGeneration(box.id)}>Generate Arrow</button>
+                        {/* {data.title} */}
                     </PlaygroundBox>
                 )
             })}
+            {arrow.exists && <Arrow from={arrow.from} to={arrow.to} boxes={boxes} />}
             </PlaygroundContainer>
         </PlaygroundMain>
     );
