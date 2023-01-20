@@ -8,6 +8,9 @@ export const ASContainer = styled.div`
     display: flex;
     align-items: flex-start;
     padding : 20px;
+    z-index :1;
+    top : 0px;
+    padding-top: 100px;
 
     @media screen and (max-width: 1000px) {
 
@@ -80,7 +83,7 @@ export const MobileIcon = styled.div`
     @media screen and (max-width: 1000px) {
         display: block;
         position: absolute;
-        top: 30px;
+        top: 100px;
         ${props => props.close === false ? `left: 30px;` : `right : 30px;`}
         font-size: 45px;
         cursor: pointer;
