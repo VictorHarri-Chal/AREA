@@ -5,13 +5,19 @@ const User = db.user;
 const Role = db.role;
 var bcrypt = require("bcryptjs");
 var jwt = require("jsonwebtoken");
+var bodyParser = require('body-parser');
 
 exports.signup = (req, res) => {
+    if (!req.body.password) {
+        res.status(500).send({message: "No password provided"});
+    }
+
     const user = new User({
         username: req.body.username,
-        password: bcrypt.hashSync(req.body.password),
-        email: req.body.email
+        email: req.body.email,
+        password: bcrypt.hashSync(req.body.password)
     });
+
 
     //Créer un nouveau User
     user.save((err, user) => {

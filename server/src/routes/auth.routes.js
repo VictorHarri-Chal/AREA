@@ -13,8 +13,8 @@ module.exports = function handleAuthRoutes(app) {
 
     app.post("/api/auth/signup",
         [
-            verifySignup.checkRoleValidity,
-            verifySignup.checkUserAlreadyExisting
+            verifySignup.checkUserAlreadyExisting,
+            verifySignup.checkRoleValidity
         ],
         controller.signup
     );

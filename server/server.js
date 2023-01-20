@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const express = require('express');
+var bodyParser = require('body-parser');
 const utils = require('./src/utils/utils.js');
 const db = require('./src/models')
 const User = db.user;
@@ -12,6 +13,10 @@ const newUser = new User({
   username: "example_username",
   email: "example@email.com"
 });
+
+app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
