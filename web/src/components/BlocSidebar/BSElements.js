@@ -178,4 +178,6 @@ export const BSBloc = styled.li`
     text-overflow: ellipsis;
     white-space: nowrap;
     word-wrap: break-word;
+
+    user-select: none;
 `;

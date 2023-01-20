@@ -6,15 +6,17 @@ const BlocSidebar = ({ appSelected, isOpen, newRectangle, setNewRectangle }) => 
     const [isDragging, setIsDragging] = useState(false)
     const [rectanglePosition, setRectanglePosition] = useState({x : 25, y : 350})
     const [initialMousePosition, setInitialMousePosition] = useState({ x: 0, y: 0 });
+    const [blocSelected, setBlocSelected] = useState({})
 
     const toggleActionRea = (which) => {
         if (which === actionRea) return
         setActionRea(!actionRea)
     }
 
-    const handleMouseDown = (e) => {
+    const handleMouseDown = (e, item) => {
         setInitialMousePosition({ x: e.clientX, y: e.clientY });
         setIsDragging(true);
+        setBlocSelected(item)
     }
 
     const handleMouseMove = (e) => {
@@ -30,7 +32,7 @@ const BlocSidebar = ({ appSelected, isOpen, newRectangle, setNewRectangle }) => 
 
     const handleMouseUp = (e) => {
         if (isDragging && rectanglePosition.x != 25 && rectanglePosition.y != 350) {
-            setNewRectangle({isNewRect : true, x : rectanglePosition.x + 180, y : rectanglePosition.y + 20, key : 'discord_receivePrivateMessage'}) // change discord_receivePrivateMessage by the key of the good bloc
+            setNewRectangle({isNewRect : true, x : rectanglePosition.x + 180, y : rectanglePosition.y + 20, key : blocSelected.key})
         }
         setIsDragging(false)
         setRectanglePosition({ x: 25, y: 350 });
@@ -59,9 +61,9 @@ const BlocSidebar = ({ appSelected, isOpen, newRectangle, setNewRectangle }) => 
                             <BSBloc
                                 key={index}
                                 color={appSelected.color}
-                                onMouseDown={e => handleMouseDown(e, index)}
-                                onMouseMove={e => handleMouseMove(e, index)}
-                                onMouseUp={e => handleMouseUp(e, index)}
+                                onMouseDown={e => handleMouseDown(e, item)}
+                                onMouseMove={e => handleMouseMove(e)}
+                                onMouseUp={e => handleMouseUp(e)}
                             >
                                 {item.title}
                             </BSBloc>
