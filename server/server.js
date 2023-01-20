@@ -45,8 +45,11 @@ async function checkGithubTrigger(schema) {
 }
 
 function serverProcess() {
+    // Load User's AREAs from schemas
+    
+
     setInterval(() => {
-        checkGithubTrigger({ repositoryName: "VictorHarri-Chal/AREA", action: "push", access_token: "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" });
+        checkGithubTrigger({ repositoryName: "VictorHarri-Chal/AREA", action: "push", access_token: "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" });
     }, 3000);
 }
 
