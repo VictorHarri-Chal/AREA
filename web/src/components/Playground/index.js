@@ -8,8 +8,10 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
     const [isDragging, setIsDragging] = useState(false);
     const [containerPosition, setContainerPosition] = useState({});
     const containerRef = useRef(null);
+    const binRef = useRef(null);
     const [draggingId, setDraggingId] = useState(null);
-    const [boxes, setBoxes] = useState(BlocsData);
+    const [boxes, setBoxes] = useState(BlocsData)
+    const [blocSelected, setBlocSelected] = useState('');
 
     useEffect(() => {
         const containerRect = containerRef.current.getBoundingClientRect();
@@ -34,7 +36,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
     const handleMouseDown = (id) => (e) => {
         setDraggingId(id);
         setIsDragging(true);
-        handleBin(id);
+        setBlocSelected(id);
     };
 
     const handleResize = () => {
@@ -76,6 +78,8 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
 
     const handleMouseUp = (e) => {
         setIsDragging(false);
+        handleBin();
+        setBlocSelected('');
     };
 
     const getBlocData = (key) => {
@@ -101,7 +105,16 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         return blocData;
     }
 
-    const handleBin = (id) => {
+    const handleBin = () => {
+        let bin = binRef.current.getBoundingClientRect();
+
+        let bloc = document.querySelector(`#bloc${blocSelected}`);
+        let blocRect = bloc.getBoundingClientRect();
+
+
+        if (blocRect.x + 200 > bin.x && blocRect.x < bin.x + 200 && blocRect.y + 100 > bin.y && blocRect.y < bin.y + 100) {
+            setBoxes(boxes.filter(verifBox => verifBox.id !== blocSelected));
+        }
     };
 
     return (
@@ -110,7 +123,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                 {boxes.map(box => {
                     let data = getBlocData(box.key);
                     return (
-                        <PlaygroundBox key={box.id} color={data.color}
+                        <PlaygroundBox key={box.id} color={data.color} id={`bloc${box.id}`}
                             style={{
                                 left: box.x,
                                 top: box.y,
@@ -120,7 +133,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                         </PlaygroundBox>
                     )
                 })}
-                <PlaygroundBin><Icon icon="mdi:bin-empty" /></PlaygroundBin>
+                <PlaygroundBin><Icon icon="mdi:bin-empty" ref={binRef} /></PlaygroundBin>
             </PlaygroundContainer>
         </PlaygroundMain>
     );
