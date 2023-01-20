@@ -4,8 +4,8 @@ export const PlaygroundMain = styled.div`
     position: absolute;
     top: 110px;
     left: 475px;
-    width: calc(100vw - 495px);
-    height: calc(100vh - 130px);
+    width: calc(100vw - 485px);
+    height: calc(100vh - 120px);
 
     transition: all 0.2s ease-in-out forwards;
 
@@ -70,4 +70,19 @@ export const PlaygroundBox = styled.div`
     text-overflow: ellipsis;
     white-space: nowrap;
     word-wrap: break-word;
+`;
+
+export const PlaygroundBin = styled.div`
+    position: absolute;
+    border-radius: 20px;
+    box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.3);
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 60px;
+    color : lightgrey;
+    right: 15px;
+    bottom: 15px;
 `;

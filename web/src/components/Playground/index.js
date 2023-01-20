@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { PlaygroundContainer, PlaygroundMain, PlaygroundBox } from './PlaygroundElements'
+import { PlaygroundContainer, PlaygroundMain, PlaygroundBox, PlaygroundBin } from './PlaygroundElements'
 import { BlocsData } from './BlocsData';
 import { ASData } from '../AppSidebar/ASData';
+import { Icon } from '@iconify/react';
 
 const Playground = ({ newRectangle, setNewRectangle }) => {
     const [isDragging, setIsDragging] = useState(false);
@@ -102,19 +103,20 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
     return (
         <PlaygroundMain>
             <PlaygroundContainer onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} ref={containerRef}>
-            {boxes.map(box => {
-                let data = getBlocData(box.key);
-                return (
-                    <PlaygroundBox key={box.id} color={data.color}
-                        style={{
-                            left: box.x,
-                            top: box.y,
-                        }}
-                        onMouseDown={handleMouseDown(box.id)}>
-                        {data.title}
-                    </PlaygroundBox>
-                )
-            })}
+                {boxes.map(box => {
+                    let data = getBlocData(box.key);
+                    return (
+                        <PlaygroundBox key={box.id} color={data.color}
+                            style={{
+                                left: box.x,
+                                top: box.y,
+                            }}
+                            onMouseDown={handleMouseDown(box.id)}>
+                            {data.title}
+                        </PlaygroundBox>
+                    )
+                })}
+                <PlaygroundBin><Icon icon="mdi:bin-empty" /></PlaygroundBin>
             </PlaygroundContainer>
         </PlaygroundMain>
     );
