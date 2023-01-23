@@ -114,3 +114,28 @@ export const NavBtnLink = styled(LinkR)`
         color: #010606;
     }
 `;
+
+export const ProfileLink = styled.div`
+    letter-spacing: 3px;
+    position: relative;
+    border-radius: 50px;
+    transform: translateY(-50%);
+    background: #00ADB5;
+    width: 50px;
+    height: 50px;
+    color: #010606;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 50%;
+    font-weight: bold;
+    user-select: none;
+
+    &:hover {
+        transition: all 0.2s ease-in-out;
+        background: #fff;
+        color: #010606;
+    }
+`;

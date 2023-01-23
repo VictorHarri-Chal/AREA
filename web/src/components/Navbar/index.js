@@ -1,23 +1,47 @@
-import React from 'react'
+import React, {useRef, useEffect} from 'react'
 import { FaBars } from 'react-icons/fa'
-import { Nav, NavbarContainer, NavLogo, MobileIcon, NavMenu, NavItem, NavLinks, NavBtn, NavBtnLink } from './NavbarElements'
+import { Nav, NavbarContainer, NavLogo, MobileIcon, NavMenu, NavItem, NavLinks, NavBtn, NavBtnLink, ProfileLink } from './NavbarElements'
+import ProfileDDM from '../ProfileDDM'
 
 const Navbar = ({toggleSideBar, isInDashboard}) => {
 
     const [appName, setAppName] = React.useState("AREAction")
+
+    const [profileOpen, setProfileOpen] = React.useState(false)
+
+    const profileLinkRef = useRef(null)
+
+    const profileLinkPos = profileLinkRef.current ? profileLinkRef.current.getBoundingClientRect() : {};
+
+    const userData = { initials: "GC", username: "GuyClaude", email: "guyfraude@gerking.fr" }
+
+    useEffect(() => {
+        const handleResize = () => {
+            profileLinkPos = profileLinkRef.current ? profileLinkRef.current.getBoundingClientRect() : {};
+        };
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, [profileLinkRef]);
+
+    const toggleProfile = () => {
+        setProfileOpen(!profileOpen)
+    }
 
     if (isInDashboard === undefined) {
         isInDashboard = false
     }
 
     if (isInDashboard === true) {
+        console.log(profileLinkPos)
         return (
             <>
                 <Nav>
                     <NavbarContainer>
                         <NavLogo to="/">{appName}</NavLogo>
+                        <ProfileLink onClick={toggleProfile} ref={profileLinkRef}>GC</ProfileLink> {/* Remplacer GC par les initiales de l'utilisateur*/}
                     </NavbarContainer>
                 </Nav>
+                <ProfileDDM profileOpen={profileOpen} toggleProfile={toggleProfile} x={profileLinkPos.x} y={profileLinkPos.y} userData={userData}/>
             </>
         )
     } else {
