@@ -65,6 +65,16 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
 
             setBoxes(boxes.map(box => {
                 if (box.id === draggingId) {
+                    const binRect = binRef.current.getBoundingClientRect();
+                    const distance = Math.sqrt(
+                        Math.pow(binRect.x - newX - containerPosition.x, 2) +
+                        Math.pow(binRect.y - newY - containerPosition.y, 2)
+                    );
+                    if (distance < 100) {
+                        box.nextToBin = true;
+                    } else {
+                        box.nextToBin = false;
+                    }
                     return {
                         ...box,
                         x: newX,
@@ -122,13 +132,16 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
             <PlaygroundContainer onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} ref={containerRef}>
                 {boxes.map(box => {
                     let data = getBlocData(box.key);
+                    let style = {
+                        left: box.x,
+                        top: box.y,
+                    }
+                    if (box.nextToBin === true) {
+                        style.outline = "5px solid red";
+                        style.boxShadow = "0 0 30px red";
+                    }
                     return (
-                        <PlaygroundBox key={box.id} color={data.color} id={`bloc${box.id}`}
-                            style={{
-                                left: box.x,
-                                top: box.y,
-                            }}
-                            onMouseDown={handleMouseDown(box.id)}>
+                        <PlaygroundBox key={box.id} color={data.color} id={`bloc${box.id}`} style={style} onMouseDown={handleMouseDown(box.id)}>
                             {data.title}
                         </PlaygroundBox>
                     )
