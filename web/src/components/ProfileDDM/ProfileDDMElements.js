@@ -12,7 +12,6 @@ export const ProfileDDMContainer = styled.div`
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 
-    transition: all 0.2s ease-in-out;
 `;
 
 export const ProfilePicture = styled.div`

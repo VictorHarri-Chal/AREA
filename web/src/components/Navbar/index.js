@@ -6,18 +6,19 @@ import ProfileDDM from '../ProfileDDM'
 const Navbar = ({toggleSideBar, isInDashboard}) => {
 
     const [appName, setAppName] = React.useState("AREAction")
-
     const [profileOpen, setProfileOpen] = React.useState(false)
-
     const profileLinkRef = useRef(null)
-
     const profileLinkPos = profileLinkRef.current ? profileLinkRef.current.getBoundingClientRect() : {};
-
     const userData = { initials: "GC", username: "GuyClaude", email: "guyfraude@gerking.fr" }
+    const [position, setPosition] = React.useState({x: profileLinkPos.x, y: profileLinkPos.y})
 
     useEffect(() => {
         const handleResize = () => {
-            profileLinkPos = profileLinkRef.current ? profileLinkRef.current.getBoundingClientRect() : {};
+            const profileLinkPos = profileLinkRef.current ? profileLinkRef.current.getBoundingClientRect() : {};
+            setPosition({
+                x: profileLinkPos.x,
+                y: profileLinkPos.y
+            });
         };
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
@@ -27,18 +28,13 @@ const Navbar = ({toggleSideBar, isInDashboard}) => {
         setProfileOpen(!profileOpen)
     }
 
-    if (isInDashboard === undefined) {
-        isInDashboard = false
-    }
-
-    if (isInDashboard === true) {
-        console.log(profileLinkPos)
+    if (isInDashboard) {
         return (
             <>
                 <Nav>
                     <NavbarContainer>
                         <NavLogo to="/">{appName}</NavLogo>
-                        <ProfileLink onClick={toggleProfile} ref={profileLinkRef}>GC</ProfileLink> {/* Remplacer GC par les initiales de l'utilisateur*/}
+                        <ProfileLink onClick={toggleProfile} ref={profileLinkRef}>{userData.initials}</ProfileLink>
                     </NavbarContainer>
                 </Nav>
                 <ProfileDDM profileOpen={profileOpen} toggleProfile={toggleProfile} x={profileLinkPos.x} y={profileLinkPos.y} userData={userData}/>
