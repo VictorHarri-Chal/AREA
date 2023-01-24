@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { PlaygroundContainer, PlaygroundMain, PlaygroundBox } from './PlaygroundElements'
+import { PlaygroundContainer, PlaygroundMain, PlaygroundBox, ButtonStartArrow, RectArrivedArrow } from './PlaygroundElements'
 import { BlocsData } from './BlocsData';
 import { ASData } from '../AppSidebar/ASData';
 import Arrow from '../Arrow';
@@ -10,7 +10,8 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
     const containerRef = useRef(null);
     const [draggingId, setDraggingId] = useState(null);
     const [boxes, setBoxes] = useState(BlocsData);
-    const [arrow, setArrow] = useState({ exists: false, from: null, to: null });
+    const [arrows, setArrows] = useState([{id : 1, exists : false, from : null, to : null}]);
+    const [clientPosition, setClientPosition] = useState({x : 0, y : 0});
 
     useEffect(() => {
         const containerRect = containerRef.current.getBoundingClientRect();
@@ -36,6 +37,17 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         setDraggingId(id);
         setIsDragging(true);
     };
+    
+    const handleMouseDownOnArrived = (id) => (e) => {
+        arrows.forEach(arrow => {
+            if (arrow.to === '0' && arrow.from !== id) {
+                const index = arrow.id;
+                const from = arrow.from;
+                setArrows(arrows.filter(arrow => arrow.to !== "0"));
+                setArrows(arrows => [...arrows, { id: index, exists: true, from: from, to: id}]);
+            }
+        });
+    };
 
     const handleResize = () => {
         const containerRect = containerRef.current.getBoundingClientRect()
@@ -48,6 +60,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
     }
 
     const handleMouseMove = (e) => {
+        setClientPosition({ x: e.clientX, y: e.clientY});
         if (isDragging) {
             let newX = e.pageX - containerPosition.x - 100;
             let newY = e.pageY - containerPosition.y - 50;
@@ -116,13 +129,40 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
     }
 
     const handleArrowGeneration = (id) => {
-        setArrow({ exists: true, from: id, to: '2' });
+        let found = false;
+        arrows.forEach(arrow => {
+            if (!found && arrow.exists && arrow.from === id) {
+                found = true;
+                setArrows(arrows.filter(arrow => arrow.from !== id));
+            }
+        });
+        arrows.forEach(arrow => {
+            if (arrow.to === "0")
+                found = true;
+        })
+        if (!found) {
+            setArrows(arrows => [...arrows, { id: arrows.length + 1, exists: true, from: id, to: '0'}]);
+        }
     };
 
-    const handleArrowMove = (id) => {
-        if (arrow.exists && arrow.from !== id) {
-            setArrow({ ...arrow, to: id });
-        }
+    const handleButtonColorStart = (id) => {
+        let color = '#F9E4B7'
+        arrows.forEach(arrow => {
+            if (arrow.from === id && (arrow.to !== '0' || arrow.to !== null)) {
+                color = '#C8AD7F';
+            }
+        });
+        return color;
+    };
+
+    const handleButtonColorArrived = (id) => {
+        let color = '#F9E4B7'
+        arrows.forEach(arrow => {
+            if (arrow.to === id) {
+                color = '#C8AD7F';
+            }
+        });
+        return color;
     };
 
     return (
@@ -132,17 +172,18 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                 let data = getBlocData(box.key);
                 return (
                     <PlaygroundBox key={box.id} color={data.color}
-                        style={{
-                            left: box.x,
-                            top: box.y,
-                        }}
-                        onMouseDown={handleMouseDown(box.id)}>
-                        <button onClick={() => handleArrowGeneration(box.id)}>Generate Arrow</button>
+                    style={{
+                        left: box.x,
+                        top: box.y,
+                    }}
+                    onMouseDown={handleMouseDown(box.id)}>
+                    <ButtonStartArrow color={() => handleButtonColorStart(box.id)} onClick={() => handleArrowGeneration(box.id)}></ButtonStartArrow>
+                    <RectArrivedArrow color={() => handleButtonColorArrived(box.id)} onMouseDown={handleMouseDownOnArrived(box.id)}></RectArrivedArrow>
                         {/* {data.title} */}
                     </PlaygroundBox>
                 )
             })}
-            {arrow.exists && <Arrow from={arrow.from} to={arrow.to} boxes={boxes} />}
+            {arrows[1] && <Arrow arrows={arrows} boxes={boxes}  clientX={clientPosition.x} clientY={clientPosition.y}/>}
             </PlaygroundContainer>
         </PlaygroundMain>
     );

@@ -1,25 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-const Arrow = ({ from, to, boxes }) => {
-
-    const fromBox = boxes.find(box => box.id === from);
-    const toBox = boxes.find(box => box.id === to);
-
-    if (!fromBox || !toBox) {
-        console.log("fromBox or toBox not found");
-        return null;
-    }
-
-    const startX = fromBox.x + 200;
-    const startY = fromBox.y + 100;
-    const endX = toBox.x + 200;
-    const endY = toBox.y + 100;
-    const distance = Math.sqrt((endX - startX) ** 2 + (endY - startY) ** 2);
+const Arrow = ({ arrows, boxes, clientX, clientY }) => {
 
     return (
-        <svg>
-            <line x1={startX} y1={startY} x2={endX} y2={endY} stroke="black" strokeWidth="6" strokeDasharray={`${distance} ${distance}`} />
-            <path d={`M ${endX} ${endY} L ${endX - 10} ${endY - 10} L ${endX - 10} ${endY + 10} Z`} fill="black" />
+        <svg width="2000" height="1200">
+            {arrows.map(arrow => {
+                if (arrow.exists) {
+                    const fromBox = boxes.find(box => box.id === arrow.from);
+                    const toBox = boxes.find(box => box.id === arrow.to);
+                    if (arrow.to === '0') {
+                        return (
+                            <line x1={fromBox.x + 180} y1={fromBox.y + 50} x2={clientX - 475} y2={clientY - 110} stroke="#C8AD7F" strokeWidth="8"/>
+                        )
+                    } else {
+                        return (
+                            <line x1={fromBox.x + 180} y1={fromBox.y + 50} x2={toBox.x + 10} y2={toBox.y + 50} stroke="#C8AD7F" strokeWidth="8"/>
+                        )
+                    }
+                }
+            })}
         </svg>
     );
 };

@@ -56,7 +56,7 @@ export const PlaygroundBox = styled.div`
 
     &:hover {
         transform: scale(1.05);
-        cursor: pointer;
+        cursor: move;
         transition: transform  0.15s ease-in-out;
     }
 
@@ -71,3 +71,26 @@ export const PlaygroundBox = styled.div`
     white-space: nowrap;
     word-wrap: break-word;
 `;
+export const ButtonStartArrow = styled.button`
+    position: absolute;
+    left: 170px;
+    width: 25px;
+    height: 25px;
+    border-radius: 25px;
+    background-color: ${props => props.color};
+    color: white;
+    border: solid;
+    cursor: pointer;
+`
+
+export const RectArrivedArrow = styled.div`
+    position: absolute;
+    left: 5px;
+    width: 25px;
+    height: 25px;
+    border-radius: 25px;
+    background-color: ${props => props.color};
+    color: white;
+    border: solid;
+    cursor: pointer;
+`
