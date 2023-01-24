@@ -1,5 +1,5 @@
 import React from "react";
-import { ProfileDDMContainer, ProfilePicture, ProfileName, ProfileEmail, Separator, LogOut } from "./ProfileDDMElements";
+import { ProfileDDMContainer, ProfilePicture, ProfileName, ProfileEmail, Separator, Button } from "./ProfileDDMElements";
 
 const ProfileDDM = ( {profileOpen, toggleProfile, x, y, userData} ) => {
     if (!profileOpen) return null;
@@ -9,6 +9,7 @@ const ProfileDDM = ( {profileOpen, toggleProfile, x, y, userData} ) => {
             <ProfileName x={x} y={y}>{userData.username}</ProfileName>
             <ProfileEmail x={x} y={y}>{userData.email}</ProfileEmail>
             <Separator />
+            <Button>Log Out</Button>
         </ProfileDDMContainer>
     );
 };

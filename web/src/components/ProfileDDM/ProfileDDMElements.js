@@ -5,7 +5,7 @@ export const ProfileDDMContainer = styled.div`
     top: calc(${props => props.y}px - 10px);
     left: calc(${props => props.x}px - 140px);
     width: 200px;
-    height: 300px;
+    height: 200px;
     background: #fff;
     display: flex;
     z-index: 9998;
@@ -21,7 +21,7 @@ export const ProfilePicture = styled.div`
     letter-spacing: 3px;
     border-radius: 50px;
     transform: translateY(-50%);
-    background: #00ADB5;
+    background: #fac710;
     width: 50px;
     height: 50px;
     color: #010606;
@@ -65,5 +65,30 @@ export const Separator = styled.div`
     border-top: 2px solid #ccc;
     width: 100%;
     margin: auto 20px;
-    top: -30px;
+    bottom: -20px;
 `;
+
+export const Button = styled.div`
+    border-radius: 50px;
+    background: #00ADB5;
+    white-space: nowrap;
+    padding: 10px 22px;
+    color: #010606;
+    font-size: 16px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-decoration: none;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    &:hover {
+        transition: all 0.2s ease-in-out;
+        background: #fff;
+        color: #010606;
+    }
+`;
+

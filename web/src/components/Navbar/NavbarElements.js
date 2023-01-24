@@ -120,7 +120,7 @@ export const ProfileLink = styled.div`
     position: relative;
     border-radius: 50px;
     transform: translateY(-50%);
-    background: #00ADB5;
+    background: #fac710;
     width: 50px;
     height: 50px;
     color: #010606;
