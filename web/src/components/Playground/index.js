@@ -1,17 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { PlaygroundContainer, PlaygroundMain, PlaygroundBox, ButtonStartArrow, RectArrivedArrow } from './PlaygroundElements'
+import { PlaygroundContainer, PlaygroundMain, PlaygroundBox, ButtonStartArrow, RectArrivedArrow, PlaygroundBin } from './PlaygroundElements'
 import { BlocsData } from './BlocsData';
 import { ASData } from '../AppSidebar/ASData';
 import Arrow from '../Arrow';
+import { Icon } from '@iconify/react';
 
 const Playground = ({ newRectangle, setNewRectangle }) => {
     const [isDragging, setIsDragging] = useState(false);
     const [containerPosition, setContainerPosition] = useState({});
     const containerRef = useRef(null);
+    const binRef = useRef(null);
     const [draggingId, setDraggingId] = useState(null);
     const [boxes, setBoxes] = useState(BlocsData);
     const [arrows, setArrows] = useState([{id : 1, exists : false, from : null, to : null}]);
     const [clientPosition, setClientPosition] = useState({x : 0, y : 0});
+    const [blocSelected, setBlocSelected] = useState('');
 
     useEffect(() => {
         const containerRect = containerRef.current.getBoundingClientRect();
@@ -36,6 +39,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
     const handleMouseDown = (id) => (e) => {
         setDraggingId(id);
         setIsDragging(true);
+        setBlocSelected(id);
     };
     
     const handleMouseDownOnArrived = (id) => (e) => {
@@ -89,6 +93,16 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
             });
             setBoxes(boxes.map(box => {
                 if (box.id === draggingId) {
+                    const binRect = binRef.current.getBoundingClientRect();
+                    const distance = Math.sqrt(
+                        Math.pow(binRect.x - newX - containerPosition.x, 2) +
+                        Math.pow(binRect.y - newY - containerPosition.y, 2)
+                    );
+                    if (distance < 100) {
+                        box.nextToBin = true;
+                    } else {
+                        box.nextToBin = false;
+                    }
                     return {
                         ...box,
                         x: newX,
@@ -103,6 +117,8 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
 
     const handleMouseUp = (e) => {
         setIsDragging(false);
+        handleBin();
+        setBlocSelected('');
     };
 
     const getBlocData = (key) => {
@@ -164,26 +180,52 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         });
         return color;
     };
+    
+    const handleBin = () => {
+        let bin = binRef.current.getBoundingClientRect();
+
+        let bloc = document.querySelector(`#bloc${blocSelected}`);
+        let blocRect = bloc.getBoundingClientRect();
+
+
+        if (blocRect.x + 200 > bin.x && blocRect.x < bin.x + 200 && blocRect.y + 100 > bin.y && blocRect.y < bin.y + 100) {
+            arrows.forEach(arrow => {
+                if (arrow.exists && blocSelected === arrow.from) {
+                    setArrows(arrows.filter(arrow => arrow.from !== blocSelected));
+                }
+            });
+            arrows.forEach(arrow => {
+                if (arrow.exists && blocSelected === arrow.to) {
+                    setArrows(arrows.filter(arrow => arrow.to !== blocSelected));
+                }
+            });
+            setBoxes(boxes.filter(verifBox => verifBox.id !== blocSelected));
+        }
+    };
 
     return (
         <PlaygroundMain>
             <PlaygroundContainer onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} ref={containerRef}>
-            {boxes.map(box => {
-                let data = getBlocData(box.key);
-                return (
-                    <PlaygroundBox key={box.id} color={data.color}
-                    style={{
+                {boxes.map(box => {
+                    let data = getBlocData(box.key);
+                    let style = {
                         left: box.x,
                         top: box.y,
-                    }}
-                    onMouseDown={handleMouseDown(box.id)}>
-                    <ButtonStartArrow color={() => handleButtonColorStart(box.id)} onClick={() => handleArrowGeneration(box.id)}></ButtonStartArrow>
-                    <RectArrivedArrow color={() => handleButtonColorArrived(box.id)} onMouseDown={handleMouseDownOnArrived(box.id)}></RectArrivedArrow>
-                        {/* {data.title} */}
-                    </PlaygroundBox>
-                )
-            })}
-            {arrows[1] && <Arrow arrows={arrows} boxes={boxes}  clientX={clientPosition.x} clientY={clientPosition.y}/>}
+                    }
+                    if (box.nextToBin === true) {
+                        style.outline = "5px solid red";
+                        style.boxShadow = "0 0 30px red";
+                    }
+                    return (
+                        <PlaygroundBox key={box.id} color={data.color} id={`bloc${box.id}`} style={style} onMouseDown={handleMouseDown(box.id)}>
+                        <ButtonStartArrow color={() => handleButtonColorStart(box.id)} onClick={() => handleArrowGeneration(box.id)}></ButtonStartArrow>
+                        <RectArrivedArrow color={() => handleButtonColorArrived(box.id)} onMouseDown={handleMouseDownOnArrived(box.id)}></RectArrivedArrow>
+                            {/* {data.title} */}
+                        </PlaygroundBox>
+                    )
+                })}
+                <PlaygroundBin><Icon icon="mdi:bin-empty" ref={binRef} /></PlaygroundBin>
+                {arrows[1] && <Arrow arrows={arrows} boxes={boxes}  clientX={clientPosition.x} clientY={clientPosition.y}/>}
             </PlaygroundContainer>
         </PlaygroundMain>
     );
