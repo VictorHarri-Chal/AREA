@@ -38,7 +38,6 @@ const BlocSidebar = ({ appSelected, isOpen, newRectangle, setNewRectangle }) => 
         setRectanglePosition({ x: 25, y: 350 });
     }
 
-    if (appSelected.key === undefined) return (<></>)
     return (
         <BSContainer isOpen={isOpen}>
             <BSLogoApp color={appSelected.color}>{appSelected.icon}</BSLogoApp>
