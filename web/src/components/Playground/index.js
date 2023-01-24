@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { PlaygroundContainer, PlaygroundMain, PlaygroundBox, PlaygroundBin } from './PlaygroundElements'
+import { PlaygroundContainer, PlaygroundMain, PlaygroundBox, ButtonStartArrow, RectArrivedArrow, PlaygroundBin } from './PlaygroundElements'
 import { BlocsData } from './BlocsData';
 import { ASData } from '../AppSidebar/ASData';
+import Arrow from '../Arrow';
 import { Icon } from '@iconify/react';
 
 const Playground = ({ newRectangle, setNewRectangle }) => {
@@ -10,7 +11,9 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
     const containerRef = useRef(null);
     const binRef = useRef(null);
     const [draggingId, setDraggingId] = useState(null);
-    const [boxes, setBoxes] = useState(BlocsData)
+    const [boxes, setBoxes] = useState(BlocsData);
+    const [arrows, setArrows] = useState([{id : 1, exists : false, from : null, to : null}]);
+    const [clientPosition, setClientPosition] = useState({x : 0, y : 0});
     const [blocSelected, setBlocSelected] = useState('');
 
     useEffect(() => {
@@ -22,7 +25,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
             height: containerRect.height,
         });
         if (newRectangle.isNewRect === true) {
-            setBoxes(boxes => [...boxes, { id: boxes.length + 1, x: newRectangle.x , y: newRectangle.y, key: newRectangle.key}]);
+            setBoxes(boxes => [...boxes, { id: boxes.length + 1, x: newRectangle.x - 475, y: newRectangle.y - 110, key: newRectangle.key}]);
             setNewRectangle({ isNewRect: false, x: 0, y: 0, key: '' });
         }
 
@@ -38,6 +41,17 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         setIsDragging(true);
         setBlocSelected(id);
     };
+    
+    const handleMouseDownOnArrived = (id) => (e) => {
+        arrows.forEach(arrow => {
+            if (arrow.to === '0' && arrow.from !== id) {
+                const index = arrow.id;
+                const from = arrow.from;
+                setArrows(arrows.filter(arrow => arrow.to !== "0"));
+                setArrows(arrows => [...arrows, { id: index, exists: true, from: from, to: id}]);
+            }
+        });
+    };
 
     const handleResize = () => {
         const containerRect = containerRef.current.getBoundingClientRect()
@@ -50,10 +64,11 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
     }
 
     const handleMouseMove = (e) => {
+        setClientPosition({ x: e.clientX, y: e.clientY});
         if (isDragging) {
             let newX = e.pageX - containerPosition.x - 100;
             let newY = e.pageY - containerPosition.y - 50;
-
+    
             if (newX < 0)
                 newX = 0;
             if (newX + 100 > containerPosition.width)
@@ -62,7 +77,20 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                 newY = 0;
             if (newY + 100 > containerPosition.height)
                 newY = containerPosition.height - 100;
-
+            
+            boxes.forEach(otherBox => {
+                if (otherBox.id !== draggingId) {
+                    if (newX <= otherBox.x + 200 && newX + 200 >= otherBox.x && newY <= otherBox.y + 100 && newY + 100 >= otherBox.y) {
+                        setBoxes(boxes.map(box => {
+                            if (box.id === draggingId) {
+                                    newX = box.x
+                                    newY = box.y
+                                }
+                            })
+                        )
+                    }
+                }
+            });
             setBoxes(boxes.map(box => {
                 if (box.id === draggingId) {
                     const binRect = binRef.current.getBoundingClientRect();
@@ -85,6 +113,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
             }));
         }
     };
+    
 
     const handleMouseUp = (e) => {
         setIsDragging(false);
@@ -115,6 +144,43 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         return blocData;
     }
 
+    const handleArrowGeneration = (id) => {
+        let found = false;
+        arrows.forEach(arrow => {
+            if (!found && arrow.exists && arrow.from === id) {
+                found = true;
+                setArrows(arrows.filter(arrow => arrow.from !== id));
+            }
+        });
+        arrows.forEach(arrow => {
+            if (arrow.to === "0")
+                found = true;
+        })
+        if (!found) {
+            setArrows(arrows => [...arrows, { id: arrows.length + 1, exists: true, from: id, to: '0'}]);
+        }
+    };
+
+    const handleButtonColorStart = (id) => {
+        let color = '#F9E4B7'
+        arrows.forEach(arrow => {
+            if (arrow.from === id && (arrow.to !== '0' || arrow.to !== null)) {
+                color = '#C8AD7F';
+            }
+        });
+        return color;
+    };
+
+    const handleButtonColorArrived = (id) => {
+        let color = '#F9E4B7'
+        arrows.forEach(arrow => {
+            if (arrow.to === id) {
+                color = '#C8AD7F';
+            }
+        });
+        return color;
+    };
+    
     const handleBin = () => {
         let bin = binRef.current.getBoundingClientRect();
 
@@ -123,6 +189,16 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
 
 
         if (blocRect.x + 200 > bin.x && blocRect.x < bin.x + 200 && blocRect.y + 100 > bin.y && blocRect.y < bin.y + 100) {
+            arrows.forEach(arrow => {
+                if (arrow.exists && blocSelected === arrow.from) {
+                    setArrows(arrows.filter(arrow => arrow.from !== blocSelected));
+                }
+            });
+            arrows.forEach(arrow => {
+                if (arrow.exists && blocSelected === arrow.to) {
+                    setArrows(arrows.filter(arrow => arrow.to !== blocSelected));
+                }
+            });
             setBoxes(boxes.filter(verifBox => verifBox.id !== blocSelected));
         }
     };
@@ -142,11 +218,14 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                     }
                     return (
                         <PlaygroundBox key={box.id} color={data.color} id={`bloc${box.id}`} style={style} onMouseDown={handleMouseDown(box.id)}>
-                            {data.title}
+                        <ButtonStartArrow color={() => handleButtonColorStart(box.id)} onClick={() => handleArrowGeneration(box.id)}></ButtonStartArrow>
+                        <RectArrivedArrow color={() => handleButtonColorArrived(box.id)} onMouseDown={handleMouseDownOnArrived(box.id)}></RectArrivedArrow>
+                            {/* {data.title} */}
                         </PlaygroundBox>
                     )
                 })}
                 <PlaygroundBin><Icon icon="mdi:bin-empty" ref={binRef} /></PlaygroundBin>
+                {arrows[1] && <Arrow arrows={arrows} boxes={boxes}  clientX={clientPosition.x} clientY={clientPosition.y}/>}
             </PlaygroundContainer>
         </PlaygroundMain>
     );
