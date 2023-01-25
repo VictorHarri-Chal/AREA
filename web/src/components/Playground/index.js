@@ -3,6 +3,7 @@ import { PlaygroundContainer, PlaygroundMain, PlaygroundBox, ButtonStartArrow, R
 import { BlocsData } from './BlocsData';
 import { ASData } from '../AppSidebar/ASData';
 import Arrow from '../Arrow';
+import ValidateButton from '../ValidateButton'
 import { Icon } from '@iconify/react';
 
 const Playground = ({ newRectangle, setNewRectangle }) => {
@@ -41,7 +42,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         setIsDragging(true);
         setBlocSelected(id);
     };
-    
+
     const handleMouseDownOnArrived = (id) => (e) => {
         arrows.forEach(arrow => {
             if (arrow.to === '0' && arrow.from !== id) {
@@ -68,7 +69,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         if (isDragging) {
             let newX = e.pageX - containerPosition.x - 100;
             let newY = e.pageY - containerPosition.y - 50;
-    
+
             if (newX < 0)
                 newX = 0;
             if (newX + 100 > containerPosition.width)
@@ -77,7 +78,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                 newY = 0;
             if (newY + 100 > containerPosition.height)
                 newY = containerPosition.height - 100;
-            
+
             boxes.forEach(otherBox => {
                 if (otherBox.id !== draggingId) {
                     if (newX <= otherBox.x + 200 && newX + 200 >= otherBox.x && newY <= otherBox.y + 100 && newY + 100 >= otherBox.y) {
@@ -113,7 +114,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
             }));
         }
     };
-    
+
 
     const handleMouseUp = (e) => {
         setIsDragging(false);
@@ -180,7 +181,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         });
         return color;
     };
-    
+
     const handleBin = () => {
         let bin = binRef.current.getBoundingClientRect();
 
@@ -224,6 +225,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                         </PlaygroundBox>
                     )
                 })}
+                <ValidateButton />
                 <PlaygroundBin><Icon icon="mdi:bin-empty" ref={binRef} /></PlaygroundBin>
                 {arrows[1] && <Arrow arrows={arrows} boxes={boxes}  clientX={clientPosition.x} clientY={clientPosition.y}/>}
             </PlaygroundContainer>
