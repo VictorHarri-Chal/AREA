@@ -3,9 +3,17 @@ import { ASContainer, ASIconList, ASIcon, ASLogin, MobileIcon } from './ASElemen
 import {ASData} from './ASData'
 import { FiX, FiMenu } from 'react-icons/fi'
 
-const AppSidebar = ({ setAppSelected, isOpen, toggleSideBar }) => {
+const AppSidebar = ({ appSelected, setAppSelected, isOpen, toggleSideBar }) => {
 
     const handleIconClick = (item) => {
+        if (Object.is(item, appSelected)) {
+            toggleSideBar()
+            setAppSelected({})
+            return
+        }
+        if (isOpen === false) {
+            toggleSideBar()
+        }
         setAppSelected(item)
     }
 

@@ -6,7 +6,16 @@ const slideIn = keyframes`
     transform: translateX(-100%);
     }
     to {
-    transform: translateX(0);
+    transform: translateX(0%);
+    }
+`;
+
+const slideOut = keyframes`
+    from {
+        transform: translateX(0%);
+    }
+    to {
+        transform: translateX(-100%);
     }
 `;
 
@@ -23,7 +32,8 @@ export const BSContainer = styled.div`
     left: 150px;
     top: 0px;
     padding-top: 100px;
-    animation: ${slideIn} 0.5s ease-in-out forwards;
+    animation: ${props => props.isOpen === true ? slideIn : slideOut} 0.5s ease-in-out forwards;
+
 
     @media screen and (max-width: 1000px) {
         z-index: 2;
