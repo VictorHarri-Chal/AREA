@@ -115,7 +115,7 @@ export const StartFlag = styled.div`
 `;
 
 export const PlaygroundBin = styled.div`
-    background: #fff;
+    background: white;
     position: fixed;
     border-radius: 20px;
     box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.3);
@@ -128,4 +128,12 @@ export const PlaygroundBin = styled.div`
     color : lightgrey;
     right: 50px;
     bottom: 50px;
+
+    transition: all 0.2s ease-out;
+    &:hover {
+        background: lightgrey;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+    }
 `;

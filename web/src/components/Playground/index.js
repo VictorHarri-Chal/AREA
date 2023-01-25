@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { PlaygroundContainer, PlaygroundMain, PlaygroundBox, ButtonStartArrow, RectArrivedArrow, PlaygroundBin, StartFlag } from './PlaygroundElements'
 import { ASData } from '../AppSidebar/ASData';
 import Arrow from '../Arrow';
+import ValidateButton from '../ValidateButton'
 import { Icon } from '@iconify/react';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -229,6 +230,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                         </PlaygroundBox>
                     )
                 })}
+                <ValidateButton />
                 <PlaygroundBin><Icon icon="mdi:bin-empty" ref={binRef} /></PlaygroundBin>
                 {arrows[1] && <Arrow arrows={arrows} boxes={boxes}  clientX={clientPosition.x} clientY={clientPosition.y}/>}
             </PlaygroundContainer>
