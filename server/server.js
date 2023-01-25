@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const express = require('express');
+const Area = require('./src/models/ar.model');
 var bodyParser = require('body-parser');
 const utils = require('./src/utils/utils.js');
 const db = require('./src/models')
@@ -7,7 +8,7 @@ const User = db.user;
 const Role = db.role;
 const app = express();
 const port = 8081;
-const trigger = require('./src/services/actions/githubActions.js');
+const trigger = require('./src/services/checkTriggers');
 
 const newUser = new User({
     username: "example_username",
@@ -30,8 +31,28 @@ require('./src/routes/auth.routes')(app);
 require('./src/routes/user.routes')(app);
 
 function serverProcess() {
+    const area = new Area({
+        action: {
+            service: 'github',
+            token: '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',
+            data: {
+                repositoryName: 'VictorHarri-Chal/AREA',
+                trigger: 'push'
+            }
+        },
+        reaction: {}
+    });
+
+    area.save((err, area) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(`Successfully saved area: ${area}`);
+        }
+    });
+
     setInterval(() => {
-        trigger.checkGithubTrigger({ repositoryName: "VictorHarri-Chal/AREA", action: "push", access_token: "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" });
+        trigger.checkTriggers();
     }, 3000);
 }
 
@@ -65,8 +86,8 @@ function initDatabase() {
     useNewUrlParser: true,
     useUnifiedTopology: true
     }).then(() => {
-    console.log("Successfully connect to MongoDB.");
-    initRoles();
+        console.log("Successfully connect to MongoDB.");
+        initRoles();
     });
     serverProcess();
 }
