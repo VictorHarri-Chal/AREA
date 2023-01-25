@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { PlaygroundContainer, PlaygroundMain, PlaygroundBox, ButtonStartArrow, RectArrivedArrow, PlaygroundBin } from './PlaygroundElements'
-import { BlocsData } from './BlocsData';
 import { ASData } from '../AppSidebar/ASData';
 import Arrow from '../Arrow';
 import { Icon } from '@iconify/react';
+import { v4 as uuidv4 } from 'uuid';
 
 const Playground = ({ newRectangle, setNewRectangle }) => {
     const [isDragging, setIsDragging] = useState(false);
@@ -11,7 +11,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
     const containerRef = useRef(null);
     const binRef = useRef(null);
     const [draggingId, setDraggingId] = useState(null);
-    const [boxes, setBoxes] = useState(BlocsData);
+    const [boxes, setBoxes] = useState([]);
     const [arrows, setArrows] = useState([{id : 1, exists : false, from : null, to : null}]);
     const [clientPosition, setClientPosition] = useState({x : 0, y : 0});
     const [blocSelected, setBlocSelected] = useState('');
@@ -25,7 +25,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
             height: containerRect.height,
         });
         if (newRectangle.isNewRect === true) {
-            setBoxes(boxes => [...boxes, { id: boxes.length + 1, x: newRectangle.x - 475, y: newRectangle.y - 110, key: newRectangle.key}]);
+            setBoxes(boxes => [...boxes, { id: uuidv4(), x: newRectangle.x - 475, y: newRectangle.y - 110, key: newRectangle.key, linkTo: '0', linkFrom: '0' }]);
             setNewRectangle({ isNewRect: false, x: 0, y: 0, key: '' });
         }
 
@@ -41,7 +41,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         setIsDragging(true);
         setBlocSelected(id);
     };
-    
+
     const handleMouseDownOnArrived = (id) => (e) => {
         arrows.forEach(arrow => {
             if (arrow.to === '0' && arrow.from !== id) {
@@ -49,6 +49,8 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                 const from = arrow.from;
                 setArrows(arrows.filter(arrow => arrow.to !== "0"));
                 setArrows(arrows => [...arrows, { id: index, exists: true, from: from, to: id}]);
+                setBoxes(boxes.map(box => box.id === from ? {...box, linkTo: id} : box));
+                setBoxes(boxes.map(box => box.id === id ? {...box, linkFrom: from} : box));
             }
         });
     };
@@ -68,7 +70,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         if (isDragging) {
             let newX = e.pageX - containerPosition.x - 100;
             let newY = e.pageY - containerPosition.y - 50;
-    
+
             if (newX < 0)
                 newX = 0;
             if (newX + 100 > containerPosition.width)
@@ -77,7 +79,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                 newY = 0;
             if (newY + 100 > containerPosition.height)
                 newY = containerPosition.height - 100;
-            
+
             boxes.forEach(otherBox => {
                 if (otherBox.id !== draggingId) {
                     if (newX <= otherBox.x + 200 && newX + 200 >= otherBox.x && newY <= otherBox.y + 100 && newY + 100 >= otherBox.y) {
@@ -113,7 +115,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
             }));
         }
     };
-    
+
 
     const handleMouseUp = (e) => {
         setIsDragging(false);
@@ -157,7 +159,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                 found = true;
         })
         if (!found) {
-            setArrows(arrows => [...arrows, { id: arrows.length + 1, exists: true, from: id, to: '0'}]);
+            setArrows(arrows => [...arrows, { id: uuidv4(), exists: true, from: id, to: '0'}]);
         }
     };
 
@@ -180,7 +182,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         });
         return color;
     };
-    
+
     const handleBin = () => {
         let bin = binRef.current.getBoundingClientRect();
 
@@ -203,6 +205,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         }
     };
 
+    console.log(boxes);
     return (
         <PlaygroundMain>
             <PlaygroundContainer onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} ref={containerRef}>
