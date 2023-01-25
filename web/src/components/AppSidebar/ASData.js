@@ -80,8 +80,8 @@ export const ASData = [
         color : "#6441a5"
     },
     {
-        key : 'blocs',
-        title: 'Blocs',
+        key : 'tools',
+        title: 'Tools',
         icon : <Icon icon="mdi:puzzle" />,
         color : "#99aab5"
     }

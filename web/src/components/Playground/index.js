@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { PlaygroundContainer, PlaygroundMain, PlaygroundBox, ButtonStartArrow, RectArrivedArrow, PlaygroundBin } from './PlaygroundElements'
+import { PlaygroundContainer, PlaygroundMain, PlaygroundBox, ButtonStartArrow, RectArrivedArrow, PlaygroundBin, StartFlag } from './PlaygroundElements'
 import { ASData } from '../AppSidebar/ASData';
 import Arrow from '../Arrow';
 import { Icon } from '@iconify/react';
@@ -25,7 +25,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
             height: containerRect.height,
         });
         if (newRectangle.isNewRect === true) {
-            setBoxes(boxes => [...boxes, { id: uuidv4(), x: newRectangle.x - 475, y: newRectangle.y - 110, key: newRectangle.key, linkTo: '0', linkFrom: '0' }]);
+            setBoxes(boxes => [...boxes, { id: uuidv4(), x: newRectangle.x - 475, y: newRectangle.y - 110, key: newRectangle.key, linkTo: '0', linkFrom: '0', startOfFlow: (boxes.length === 0) ? true : false}]);
             setNewRectangle({ isNewRect: false, x: 0, y: 0, key: '' });
         }
 
@@ -216,13 +216,15 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                         top: box.y,
                     }
                     if (box.nextToBin === true) {
-                        style.outline = "5px solid red";
-                        style.boxShadow = "0 0 30px red";
+                        // style.outline = "5px solid red";
+                        // style.boxShadow = "0 0 30px red";
+                        style.opacity = "0.5";
                     }
                     return (
                         <PlaygroundBox key={box.id} color={data.color} id={`bloc${box.id}`} style={style} onMouseDown={handleMouseDown(box.id)}>
-                        <ButtonStartArrow color={() => handleButtonColorStart(box.id)} onClick={() => handleArrowGeneration(box.id)}></ButtonStartArrow>
-                        <RectArrivedArrow color={() => handleButtonColorArrived(box.id)} onMouseDown={handleMouseDownOnArrived(box.id)}></RectArrivedArrow>
+                            <ButtonStartArrow color={() => handleButtonColorStart(box.id)} onClick={() => handleArrowGeneration(box.id)}></ButtonStartArrow>
+                            <RectArrivedArrow color={() => handleButtonColorArrived(box.id)} onMouseDown={handleMouseDownOnArrived(box.id)} startOfFlow={box.startOfFlow}></RectArrivedArrow>
+                            <StartFlag startOfFlow={box.startOfFlow}><Icon icon="mdi:flag-variant"/></StartFlag>
                             {/* {data.title} */}
                         </PlaygroundBox>
                     )

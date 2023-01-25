@@ -71,6 +71,7 @@ export const PlaygroundBox = styled.div`
     white-space: nowrap;
     word-wrap: break-word;
 `;
+
 export const ButtonStartArrow = styled.button`
     position: absolute;
     left: 170px;
@@ -81,6 +82,7 @@ export const ButtonStartArrow = styled.button`
     color: white;
     border: solid;
     cursor: pointer;
+
 `
 
 export const RectArrivedArrow = styled.div`
@@ -93,7 +95,24 @@ export const RectArrivedArrow = styled.div`
     color: white;
     border: solid;
     cursor: pointer;
-`
+
+    display : ${props => props.startOfFlow === false ? `` : `none`};
+`;
+
+export const StartFlag = styled.div`
+    position: absolute;
+    left: 5px;
+    width: 25px;
+    height: 25px;
+
+    display : ${props => props.startOfFlow === true ? `` : `none`};
+    color : 'black';
+
+    svg {
+        width: 100%;
+        height: 100%;
+    }
+`;
 
 export const PlaygroundBin = styled.div`
     background: #fff;
