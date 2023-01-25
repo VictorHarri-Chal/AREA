@@ -188,18 +188,8 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         let bloc = document.querySelector(`#bloc${blocSelected}`);
         let blocRect = bloc.getBoundingClientRect();
 
-
         if (blocRect.x + 200 > bin.x && blocRect.x < bin.x + 200 && blocRect.y + 100 > bin.y && blocRect.y < bin.y + 100) {
-            arrows.forEach(arrow => {
-                if (arrow.exists && blocSelected === arrow.from) {
-                    setArrows(arrows.filter(arrow => arrow.from !== blocSelected));
-                }
-            });
-            arrows.forEach(arrow => {
-                if (arrow.exists && blocSelected === arrow.to) {
-                    setArrows(arrows.filter(arrow => arrow.to !== blocSelected));
-                }
-            });
+            setArrows(arrows.filter(arrow => arrow.to !== blocSelected && arrow.from !== blocSelected));
             setBoxes(boxes.filter(verifBox => verifBox.id !== blocSelected));
         }
     };
