@@ -2,18 +2,19 @@ const axios = require('axios');
 
 let lastCommitSHA = '';
 
-const trigger = {
-    checkGithubTrigger: async function checkGithubTrigger(schema) {
-        const repositoryName = schema.repositoryName;
-        const action = schema.action;
-        const access_token = schema.access_token;
+const githubTrigger = {
+    checkGithubTrigger: async function checkGithubTrigger(action) {
+        const repositoryName = action.data.repositoryName;
+        const trigger = action.data.trigger;
+        const access_token = action.token;
         let url = '';
-        if (action === "push") {
-        url = `https://api.github.com/repos/${repositoryName}/events`;
-        } else if (action === "issue") {
-        url = `https://api.github.com/repos/${repositoryName}/issues`;
+
+        if (trigger === "push") {
+            url = `https://api.github.com/repos/${repositoryName}/events`;
+        } else if (trigger === "issue") {
+            url = `https://api.github.com/repos/${repositoryName}/issues`;
         } else {
-        console.log("Invalid action provided. Please provide a valid action.");
+            console.log("Invalid action provided. Please provide a valid action.");
         }
 
         try {
@@ -22,7 +23,7 @@ const trigger = {
                 'Authorization': 'Token ' + access_token
                 }
             });
-        if (action === "push") {
+        if (trigger === "push") {
             const pushEvent = response.data.find(event => event.type === 'PushEvent');
             if(pushEvent) {
                 const commits = pushEvent.payload.commits.reverse();
@@ -33,7 +34,7 @@ const trigger = {
                     lastCommitSHA = currentCommitSHA;
                 }
             }
-        } else if (action === "issue") {
+        } else if (trigger === "issue") {
             console.log("New issue detected on repository: " + repositoryName);
         }
         } catch (error) {
@@ -42,4 +43,5 @@ const trigger = {
     }
 }
 
-module.exports = trigger;
+
+module.exports = githubTrigger;
