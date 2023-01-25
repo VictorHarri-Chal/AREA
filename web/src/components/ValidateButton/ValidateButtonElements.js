@@ -2,7 +2,7 @@ import styled, { keyframes } from 'styled-components';
 
 export const ValidateButtonStyle = styled.button`
     background: white;
-    position: absolute;
+    position: fixed;
     border-radius: 20px;
     box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.3);
     width: 80px;
@@ -12,8 +12,8 @@ export const ValidateButtonStyle = styled.button`
     justify-content: center;
     font-size: 60px;
     color : lightgrey;
-    top: 25px;
-    left: 1320px;
+    bottom: 700px;
+    right: 50px;
     border: none;
 
     cursor: pointer;
