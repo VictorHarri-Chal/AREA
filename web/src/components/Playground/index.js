@@ -26,8 +26,11 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
             height: containerRect.height,
         });
         if (newRectangle.isNewRect === true) {
-            setBoxes(boxes => [...boxes, { id: uuidv4(), x: newRectangle.x - 475, y: newRectangle.y - 110, key: newRectangle.key, linkTo: '0', linkFrom: '0', startOfFlow: (boxes.length === 0) ? true : false}]);
+            if (newRectangle.x > containerPosition.x && newRectangle.x < containerPosition.x + containerPosition.width && newRectangle.y > containerPosition.y && newRectangle.y < containerPosition.y + containerPosition.height) {
+                setBoxes(boxes => [...boxes, { id: uuidv4(), x: newRectangle.x - 475, y: newRectangle.y - 110, key: newRectangle.key, linkTo: '0', linkFrom: '0', startOfFlow: (boxes.length === 0) ? true : false}]);
+            }
             setNewRectangle({ isNewRect: false, x: 0, y: 0, key: '' });
+            console.log(boxes);
         }
 
         window.addEventListener("resize", handleResize);
@@ -190,18 +193,8 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         let bloc = document.querySelector(`#bloc${blocSelected}`);
         let blocRect = bloc.getBoundingClientRect();
 
-
         if (blocRect.x + 200 > bin.x && blocRect.x < bin.x + 200 && blocRect.y + 100 > bin.y && blocRect.y < bin.y + 100) {
-            arrows.forEach(arrow => {
-                if (arrow.exists && blocSelected === arrow.from) {
-                    setArrows(arrows.filter(arrow => arrow.from !== blocSelected));
-                }
-            });
-            arrows.forEach(arrow => {
-                if (arrow.exists && blocSelected === arrow.to) {
-                    setArrows(arrows.filter(arrow => arrow.to !== blocSelected));
-                }
-            });
+            setArrows(arrows.filter(arrow => arrow.to !== blocSelected && arrow.from !== blocSelected));
             setBoxes(boxes.filter(verifBox => verifBox.id !== blocSelected));
         }
     };
