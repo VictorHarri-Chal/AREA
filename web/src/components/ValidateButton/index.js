@@ -5,7 +5,7 @@ import { Icon } from '@iconify/react';
 function ValidateButton() {
 
     const handleClick = () => {
-
+        alert('Processing...')
     }
 
     return (
