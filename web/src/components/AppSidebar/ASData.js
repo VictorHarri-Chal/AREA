@@ -91,8 +91,8 @@ export const ASData = [
                 title: 'And',
             },
             {
-                key : 'blocs_and',
-                title: 'And',
+                key : 'blocs_or',
+                title: 'Or',
             }
         ],
         reaction_blocs : [

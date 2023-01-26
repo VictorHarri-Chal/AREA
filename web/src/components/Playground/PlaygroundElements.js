@@ -45,7 +45,7 @@ export const PlaygroundBox = styled.div`
     padding: 15px;
     border-radius: 10px;
     box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.3);
-    width: 200px;
+    width: ${props => props.special === true ? '100px' : '200px'};
     height: 100px;
     display: flex;
     align-items: center;
@@ -71,9 +71,10 @@ export const PlaygroundBox = styled.div`
     white-space: nowrap;
     word-wrap: break-word;
 `;
+
 export const ButtonStartArrow = styled.button`
     position: absolute;
-    left: 170px;
+    right: 5px;
     width: 25px;
     height: 25px;
     border-radius: 25px;

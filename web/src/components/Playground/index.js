@@ -211,7 +211,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                         style.boxShadow = "0 0 30px red";
                     }
                     return (
-                        <PlaygroundBox key={box.id} color={data.color} id={`bloc${box.id}`} style={style} onMouseDown={handleMouseDown(box.id)}>
+                        <PlaygroundBox key={box.id} color={data.color} id={`bloc${box.id}`} style={style} onMouseDown={handleMouseDown(box.id)} special = {box.key === 'blocs_and' ? true : (box.key === 'blocs_or' ? true : false)}>
                         <ButtonStartArrow color={() => handleButtonColorStart(box.id)} onClick={() => handleArrowGeneration(box.id)}></ButtonStartArrow>
                         <RectArrivedArrow color={() => handleButtonColorArrived(box.id)} onMouseDown={handleMouseDownOnArrived(box.id)}></RectArrivedArrow>
                             {data.title}
