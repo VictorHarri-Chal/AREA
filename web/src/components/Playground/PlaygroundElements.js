@@ -50,7 +50,7 @@ export const PlaygroundBox = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 16px;
     font-family: 'Open Sans', sans-serif;
     font-weight: bold;
 

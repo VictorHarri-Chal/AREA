@@ -214,7 +214,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                         <PlaygroundBox key={box.id} color={data.color} id={`bloc${box.id}`} style={style} onMouseDown={handleMouseDown(box.id)}>
                         <ButtonStartArrow color={() => handleButtonColorStart(box.id)} onClick={() => handleArrowGeneration(box.id)}></ButtonStartArrow>
                         <RectArrivedArrow color={() => handleButtonColorArrived(box.id)} onMouseDown={handleMouseDownOnArrived(box.id)}></RectArrivedArrow>
-                            {/* {data.title} */}
+                            {data.title}
                         </PlaygroundBox>
                     )
                 })}
