@@ -83,6 +83,7 @@ export const ButtonStartArrow = styled.button`
     border: solid;
     cursor: pointer;
 
+    display : ${props => props.endOfFlow === false ? `` : `none`};
 `
 
 export const RectArrivedArrow = styled.div`
@@ -102,16 +103,45 @@ export const RectArrivedArrow = styled.div`
 export const StartFlag = styled.div`
     position: absolute;
     left: 5px;
-    width: 25px;
-    height: 25px;
+    width: 27px;
+    height: 27px;
 
     display : ${props => props.startOfFlow === true ? `` : `none`};
-    color : 'black';
+    color : #00AB55;
+    cursor: pointer;
+    transition: transform 0.15s ease-in-out;
 
     svg {
         width: 100%;
         height: 100%;
     }
+    ${props => props.isHoldingFlag === true ? {
+        color: 'yellow',
+        transform: 'scale(1.7)',
+        transition: 'transform 0.15s ease-in-out',
+    } : {}}
+`;
+
+export const ArrivedFlag = styled.div`
+    position: absolute;
+    left: 170px;
+    width: 27px;
+    height: 27px;
+
+    display : ${props => props.endOfFlow === true ? `` : `none`};
+    color : red;
+    cursor: pointer;
+    transition: transform 0.15s ease-in-out;
+
+    svg {
+        width: 100%;
+        height: 100%;
+    }
+    ${props => props.isHoldingFlagArrived === true ? {
+        color: 'yellow',
+        transform: 'scale(1.7)',
+        transition: 'transform 0.15s ease-in-out',
+    } : {}}
 `;
 
 export const PlaygroundBin = styled.div`
