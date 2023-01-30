@@ -8,6 +8,7 @@ var jwt = require("jsonwebtoken");
 var bodyParser = require('body-parser');
 
 exports.signup = (req, res) => {
+    console.log('is posted ?');
     if (!req.body.password) {
         res.status(500).send({message: "No password provided"});
     }
@@ -18,11 +19,10 @@ exports.signup = (req, res) => {
         password: bcrypt.hashSync(req.body.password)
     });
 
-
     //Créer un nouveau User
     user.save((err, user) => {
         if (err) {
-            res.status(500).send({ message: err });
+            res.status(500).send({ message: "1: " + err });
             return;
         }
 
@@ -32,14 +32,14 @@ exports.signup = (req, res) => {
             },
             (err, roles) => {
                 if (err) {
-                    res.status(500).send({ message: err });
+                    res.status(500).send({ message: "2: " + err });
                     return;
                 }
 
                 user.roles = roles.map(role => role._id);
                 user.save(err => {
                 if (err) {
-                    res.status(500).send({ message: err });
+                    res.status(500).send({ message: "3: " + err });
                     return;
                 }
                 res.send({ message: "User was registered successfully!" });
@@ -49,14 +49,14 @@ exports.signup = (req, res) => {
         } else {
             Role.findOne({ name: "user" }, (err, role) => {
                 if (err) {
-                    res.status(500).send({ message: err });
+                    res.status(500).send({ message: "4: " + err });
                     return;
                 }
 
                 user.roles = [role._id];
                 user.save(err => {
                     if (err) {
-                        res.status(500).send({ message: err });
+                        res.status(500).send({ message: "5: " + err });
                         return;
                     }
 
@@ -68,6 +68,7 @@ exports.signup = (req, res) => {
 };
 
 exports.signin = (req, res) => {
+    console.log('SIGN IN TRIGGER;')
     User.findOne({
       username: req.body.username
     }).populate("roles", "-__v")
@@ -78,7 +79,7 @@ exports.signin = (req, res) => {
         }
 
         if (!user) {
-            return res.status(404).send({ message: "This User does not exist" });
+            return res.status(406).send({ message: "This User does not exist" });
         }
 
         var passwordIsValid = bcrypt.compareSync(

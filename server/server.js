@@ -6,34 +6,28 @@ const db = require('./src/models')
 const User = db.user;
 const Role = db.role;
 const app = express();
-const port = 8081;
-
-
-const newUser = new User({
-  username: "example_username",
-  email: "example@email.com"
-});
+const port = 8080;
 
 app.use(express.json());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => {
-  res.json({msg: 'Hello World!'});
+  res.json({ msg: 'Hello World!' });
 });
 
 app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
+  console.log(`Server listening on port ${port}`);
 });
 
-require('./src/routes/auth.routes')(app);
-require('./src/routes/user.routes')(app);
+require('./src/routes/auth.routes.js')(app);
+require('./src/routes/user.routes.js')(app);
 
 
 function serverProcess() {
-    // utils.deleteUsers();
-    // utils.addUser(newUser.username, newUser.email);
-    // utils.displayUsers();
+  // utils.deleteUsers();
+  // utils.addUser(newUser.username, newUser.email);
+  // utils.displayUsers();
 }
 
 function initRoles() {
