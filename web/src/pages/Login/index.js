@@ -12,19 +12,27 @@ const Login = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await fetch('/api/auth/signup', {
+            await fetch('http://localhost:8080/api/auth/signup', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify({ username, email, password, passwordConfirm }),
+            }).then((response) => {
+                if (response.ok) {
+                    return response.json();
+                }
+                console.log('error on submit ' + response.statusText + '  code: ' + response);
+                throw new Error('Something went wrong' + response.statusText);
+            }).catch((error) => {
+                console.log(error);
+                return;
             });
-            if (!response.ok) {
-                throw new Error(response.statusText);
-            }
             alert('User created successfully!');
             setSignIn(true);
         } catch (error) {
-            console.error(error);
-            alert("Couldn't create user. Please try again.");
+            alert("Couldn't create user. Please try again. " + error);
         }
     };
 
