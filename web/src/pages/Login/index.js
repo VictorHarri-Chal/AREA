@@ -1,9 +1,40 @@
-import React from 'react'
-import * as Comp from './LoginElements'
+import React, { useState } from 'react';
+import * as Comp from './LoginElements';
 
 const Login = () => {
 
     const [signIn, setSignIn] = React.useState(true);
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [passwordConfirm, setPasswordConfirm] = useState('');
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            await fetch('http://localhost:8080/api/auth/signup', {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, email, password, passwordConfirm }),
+            }).then((response) => {
+                if (response.ok) {
+                    return response.json();
+                }
+                console.log('error on submit ' + response.statusText + '  code: ' + response);
+                throw new Error('Something went wrong' + response.statusText);
+            }).catch((error) => {
+                console.log(error);
+                return;
+            });
+            alert('User created successfully!');
+            setSignIn(true);
+        } catch (error) {
+            alert("Couldn't create user. Please try again. " + error);
+        }
+    };
 
     return (
         <Comp.LoginContainer>
@@ -11,13 +42,33 @@ const Login = () => {
             <Comp.SignUpContainer signIn={signIn}>
                 <Comp.Form>
                     <Comp.Title>Create Account</Comp.Title>
-                    <Comp.Input type='text' placeholder='Username' />
-                    <Comp.Input type='email' placeholder='Email' />
-                    <Comp.Input type='password' placeholder='Password' />
-                    <Comp.Input type='password' placeholder='Confirm Password' />
-                    <Comp.Button> Sign Up </Comp.Button>
-                </Comp.Form>
 
+                    <Comp.Input
+                        type='text'
+                        placeholder='Username'
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                    <Comp.Input
+                        type='email'
+                        placeholder='Email'
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <Comp.Input
+                        type='password'
+                        placeholder='Password'
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <Comp.Input
+                        type='password'
+                        placeholder='Confirm Password'
+                        value={passwordConfirm}
+                        onChange={(e) => setPasswordConfirm(e.target.value)}
+                    />
+                    <Comp.Button onClick={handleSubmit}> Sign Up </Comp.Button>
+                </Comp.Form>
             </Comp.SignUpContainer>
 
             <Comp.SignInContainer signIn={signIn}>

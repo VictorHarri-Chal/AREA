@@ -83,7 +83,25 @@ export const ASData = [
         key : 'tools',
         title: 'Tools',
         icon : <Icon icon="mdi:puzzle" />,
-        color : "#99aab5"
+        login : true,
+        color : "#E7BC0D",
+        action_blocs : [
+            {
+                key : 'blocs_and',
+                title: 'And',
+            },
+            {
+                key : 'blocs_or',
+                title: 'Or',
+            }
+        ],
+        reaction_blocs : [
+            {
+                key : 'blocs',
+                title: 'NEED TO BE DEL',
+            }
+        ]
+
     }
 ]
 
