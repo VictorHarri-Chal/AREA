@@ -1,6 +1,8 @@
 const axios = require('axios');
 
 let lastCommitSHA = '';
+let previousIssues = [];
+
 
 const githubTrigger = {
     checkGithubTrigger: async function checkGithubTrigger(action) {
@@ -35,13 +37,16 @@ const githubTrigger = {
                 }
             }
         } else if (trigger === "issue") {
-            console.log("New issue detected on repository: " + repositoryName);
+            const currentIssue = response.data[0];
+            if(!previousIssues.includes(currentIssue.id)){
+                previousIssues.push(currentIssue.id);
+                console.log("New issue detected on repository: " + repositoryName + " with title: " + currentIssue.title);
+            }
         }
         } catch (error) {
             console.error(error);
         }
     }
 }
-
 
 module.exports = githubTrigger;

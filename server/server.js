@@ -7,7 +7,7 @@ const db = require('./src/models')
 const User = db.user;
 const Role = db.role;
 const app = express();
-const port = 8081;
+const port = 8080;
 const trigger = require('./src/services/checkTriggers');
 
 const newUser = new User({
@@ -34,22 +34,29 @@ function serverProcess() {
     const area = new Area({
         action: {
             service: 'github',
-            token: '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',
+            token: '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',
+            data: {
+                repositoryName: 'VictorHarri-Chal/AREA',
+                trigger: 'issue'
+            }
+        },
+        reaction: {
+            service: 'github',
+            token: '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',
             data: {
                 repositoryName: 'VictorHarri-Chal/AREA',
                 trigger: 'push'
             }
-        },
-        reaction: {}
-    });
-
-    area.save((err, area) => {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(`Successfully saved area: ${area}`);
         }
     });
+
+    // area.save((err, area) => {
+    //     if (err) {
+    //         console.log(err);
+    //     } else {
+    //         console.log(`Successfully saved area: ${area}`);
+    //     }
+    // });
 
     setInterval(() => {
         trigger.checkTriggers();
