@@ -45,14 +45,16 @@ export const PlaygroundBox = styled.div`
     padding: 15px;
     border-radius: 10px;
     box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.3);
-    width: ${props => props.special === true ? '100px' : '200px'};
+    width: ${props => props.special === true ? '100px' : (props.getADM === true ? '400px' : '200px')};
     height: 100px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content:  ${props => props.getADM === true ? 'left' : 'center'};
     font-size: 16px;
     font-family: 'Open Sans', sans-serif;
     font-weight: bold;
+
+    ${props => props.getADM === true ? `padding-left : 40px;` : ``}
 
     &:hover {
         transform: scale(1.05);

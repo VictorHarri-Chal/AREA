@@ -128,7 +128,8 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
     const getBlocData = (key) => {
         let blocData = {
             title: '',
-            color: ''
+            color: '',
+            getADM: false
         };
         ASData.find(el => {
             let actionBloc = undefined;
@@ -140,9 +141,11 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
             if (actionBloc !== undefined) {
                 blocData.title = actionBloc.title;
                 blocData.color = el.color;
+                blocData.getADM = actionBloc.getADM;
             } else if (reactionBloc !== undefined) {
                 blocData.title = reactionBloc.title;
                 blocData.color = el.color;
+                blocData.getADM = reactionBloc.getADM;
             }
         });
         return blocData;
@@ -197,6 +200,13 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         }
     };
 
+    const getGoodTitle = (title, getADM) => {
+        if (!getADM)
+            return title
+        let cleanedText = title.replace(/\[[^\]]*\]/g, "");
+        return cleanedText
+    }
+
     return (
         <PlaygroundMain>
             <PlaygroundContainer onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} ref={containerRef}>
@@ -211,10 +221,11 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                         style.boxShadow = "0 0 30px red";
                     }
                     return (
-                        <PlaygroundBox key={box.id} color={data.color} id={`bloc${box.id}`} style={style} onMouseDown={handleMouseDown(box.id)} special = {box.key === 'blocs_and' ? true : (box.key === 'blocs_or' ? true : false)}>
-                        <ButtonStartArrow color={() => handleButtonColorStart(box.id)} onClick={() => handleArrowGeneration(box.id)}></ButtonStartArrow>
-                        <RectArrivedArrow color={() => handleButtonColorArrived(box.id)} onMouseDown={handleMouseDownOnArrived(box.id)}></RectArrivedArrow>
-                            {data.title}
+                        <PlaygroundBox key={box.id} color={data.color} id={`bloc${box.id}`} style={style} onMouseDown={handleMouseDown(box.id)} special = {box.key === 'blocs_and' ? true : (box.key === 'blocs_or' ? true : false)} getADM={data.getADM} >
+                            <ButtonStartArrow color={() => handleButtonColorStart(box.id)} onClick={() => handleArrowGeneration(box.id)}></ButtonStartArrow>
+                            <RectArrivedArrow color={() => handleButtonColorArrived(box.id)} onMouseDown={handleMouseDownOnArrived(box.id)}></RectArrivedArrow>
+                            {getGoodTitle(data.title, data.getADM)}
+
                         </PlaygroundBox>
                     )
                 })}
