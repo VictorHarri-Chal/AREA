@@ -6,7 +6,16 @@ const slideIn = keyframes`
     transform: translateX(-100%);
     }
     to {
-    transform: translateX(0);
+    transform: translateX(0%);
+    }
+`;
+
+const slideOut = keyframes`
+    from {
+        transform: translateX(0%);
+    }
+    to {
+        transform: translateX(-100%);
     }
 `;
 
@@ -23,7 +32,8 @@ export const BSContainer = styled.div`
     left: 150px;
     top: 0px;
     padding-top: 100px;
-    animation: ${slideIn} 0.5s ease-in-out forwards;
+    animation: ${props => props.isOpen === true ? slideIn : slideOut} 0.5s ease-in-out forwards;
+
 
     @media screen and (max-width: 1000px) {
         z-index: 2;
@@ -147,6 +157,7 @@ export const BSBlocContainer = styled.ul`
     align-items: center;
     justify-content: center;
     list-style-type: none;
+    grid-gap: 20px;
 `;
 
 export const BSBloc = styled.li`
@@ -154,7 +165,7 @@ export const BSBloc = styled.li`
     padding: 15px;
     border-radius: 10px;
     box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.3);
-    width: 200px;
+    width: ${props => props.special === true ? '100px' : '200px'};
     height: 100px;
     display: flex;
     align-items: center;

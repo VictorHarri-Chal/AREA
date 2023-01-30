@@ -38,7 +38,6 @@ const BlocSidebar = ({ appSelected, isOpen, newRectangle, setNewRectangle }) => 
         setRectanglePosition({ x: 25, y: 350 });
     }
 
-    if (appSelected.key === undefined) return (<></>)
     return (
         <BSContainer isOpen={isOpen}>
             <BSLogoApp color={appSelected.color}>{appSelected.icon}</BSLogoApp>
@@ -64,6 +63,7 @@ const BlocSidebar = ({ appSelected, isOpen, newRectangle, setNewRectangle }) => 
                                 onMouseDown={e => handleMouseDown(e, item)}
                                 onMouseMove={e => handleMouseMove(e)}
                                 onMouseUp={e => handleMouseUp(e)}
+                                special = {item.key === 'blocs_and' ? true : (item.key === 'blocs_or' ? true : false)}
                             >
                                 {item.title}
                             </BSBloc>

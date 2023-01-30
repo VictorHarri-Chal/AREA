@@ -45,18 +45,18 @@ export const PlaygroundBox = styled.div`
     padding: 15px;
     border-radius: 10px;
     box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.3);
-    width: 200px;
+    width: ${props => props.special === true ? '100px' : '200px'};
     height: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 16px;
     font-family: 'Open Sans', sans-serif;
     font-weight: bold;
 
     &:hover {
         transform: scale(1.05);
-        cursor: pointer;
+        cursor: move;
         transition: transform  0.15s ease-in-out;
     }
 
@@ -72,8 +72,32 @@ export const PlaygroundBox = styled.div`
     word-wrap: break-word;
 `;
 
+export const ButtonStartArrow = styled.button`
+    position: absolute;
+    right: 5px;
+    width: 25px;
+    height: 25px;
+    border-radius: 25px;
+    background-color: ${props => props.color};
+    color: white;
+    border: solid;
+    cursor: pointer;
+`
+
+export const RectArrivedArrow = styled.div`
+    position: absolute;
+    left: 5px;
+    width: 25px;
+    height: 25px;
+    border-radius: 25px;
+    background-color: ${props => props.color};
+    color: white;
+    border: solid;
+    cursor: pointer;
+`
+
 export const PlaygroundBin = styled.div`
-    background: #fff;
+    background: white;
     position: fixed;
     border-radius: 20px;
     box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.3);
@@ -86,4 +110,12 @@ export const PlaygroundBin = styled.div`
     color : lightgrey;
     right: 50px;
     bottom: 50px;
+
+    transition: all 0.2s ease-out;
+    &:hover {
+        background: lightgrey;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+    }
 `;
