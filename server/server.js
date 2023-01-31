@@ -17,18 +17,18 @@ const newUser = new User({
 
 app.use(express.json());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => {
     res.json({msg: 'Hello World!'});
 });
 
 app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
+  console.log(`Server listening on port ${port}`);
 });
 
-require('./src/routes/auth.routes')(app);
-require('./src/routes/user.routes')(app);
+require('./src/routes/auth.routes.js')(app);
+require('./src/routes/user.routes.js')(app);
 
 function serverProcess() {
     const area = new Area({
@@ -61,6 +61,9 @@ function serverProcess() {
     setInterval(() => {
         trigger.checkTriggers();
     }, 3000);
+  // utils.deleteUsers();
+  // utils.addUser(newUser.username, newUser.email);
+  // utils.displayUsers();
 }
 
 function initRoles() {
