@@ -8,7 +8,6 @@ const Arrow = ({ arrows, boxes, clientX, clientY }) => {
                 if (arrow.exists) {
                     const fromBox = boxes.find(box => box.id === arrow.from);
                     const toBox = boxes.find(box => box.id === arrow.to);
-                    console.log(fromBox);
                     const decal =  180
                     if (arrow.to === '0') {
                         return (

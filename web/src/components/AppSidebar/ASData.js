@@ -30,6 +30,7 @@ export const ASData = [
             {
                 key : 'github_newCommit',
                 title: 'New commit [GNC_DM]',
+                placeHolder : 'Select a repository',
                 getADM : true,
                 DM : [
                     {

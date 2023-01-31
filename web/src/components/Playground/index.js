@@ -5,6 +5,7 @@ import { ASData } from '../AppSidebar/ASData';
 import Arrow from '../Arrow';
 import ValidateButton from '../ValidateButton'
 import { Icon } from '@iconify/react';
+import DropdownMenu from '../../components/DropdownMenu'
 
 const Playground = ({ newRectangle, setNewRectangle }) => {
     const [isDragging, setIsDragging] = useState(false);
@@ -30,7 +31,6 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                 setBoxes(boxes => [...boxes, { id: boxes.length + 1, x: newRectangle.x - 475, y: newRectangle.y - 110, key: newRectangle.key}]);
             }
             setNewRectangle({ isNewRect: false, x: 0, y: 0, key: '' });
-            console.log(boxes);
         }
 
         window.addEventListener("resize", handleResize);
@@ -143,11 +143,13 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                 blocData.color = el.color;
                 blocData.getADM = actionBloc.getADM;
                 blocData.DM = actionBloc.DM;
+                blocData.placeHolder = actionBloc.placeHolder;
             } else if (reactionBloc !== undefined) {
                 blocData.title = reactionBloc.title;
                 blocData.color = el.color;
                 blocData.getADM = reactionBloc.getADM;
                 blocData.DM = reactionBloc.DM;
+                blocData.placeHolder = reactionBloc.placeHolder;
             }
         });
         return blocData;
@@ -222,16 +224,19 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                         style.outline = "5px solid red";
                         style.boxShadow = "0 0 30px red";
                     }
-                    console.log(data);
+                    let pos = {x : box.x, y : box.y}
                     return (
-                        <PlaygroundBox key={box.id} color={data.color} id={`bloc${box.id}`} style={style} onMouseDown={handleMouseDown(box.id)} special = {box.key === 'blocs_and' ? true : (box.key === 'blocs_or' ? true : false)} getADM={data.getADM} >
-                            <ButtonStartArrow color={() => handleButtonColorStart(box.id)} onClick={() => handleArrowGeneration(box.id)}></ButtonStartArrow>
-                            <RectArrivedArrow color={() => handleButtonColorArrived(box.id)} onMouseDown={handleMouseDownOnArrived(box.id)}></RectArrivedArrow>
-                            {getGoodTitle(data.title, data.getADM)}
-                            {/* {data.getADM && (
+                        <div>
+                            <PlaygroundBox key={box.id} color={data.color} id={`bloc${box.id}`} style={style} onMouseDown={handleMouseDown(box.id)} special = {box.key === 'blocs_and' ? true : (box.key === 'blocs_or' ? true : false)} getADM={data.getADM} >
+                                <ButtonStartArrow color={() => handleButtonColorStart(box.id)} onClick={() => handleArrowGeneration(box.id)}></ButtonStartArrow>
+                                <RectArrivedArrow color={() => handleButtonColorArrived(box.id)} onMouseDown={handleMouseDownOnArrived(box.id)}></RectArrivedArrow>
+                                {getGoodTitle(data.title, data.getADM)}
+                            </PlaygroundBox>
+                            {data.getADM === true && (
+                                <DropdownMenu data={data.DM} placeHolder={data.placeHolder} pos={pos}/>
+                            )}
 
-                            )} */}
-                        </PlaygroundBox>
+                        </div>
                     )
                 })}
                 <ValidateButton />
