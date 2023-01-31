@@ -38,7 +38,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         return () => {
             window.removeEventListener("resize", handleResize);
         };
-    }, [newRectangle]);
+    }, [newRectangle, setNewRectangle, containerPosition]);
 
 
     const handleMouseDown = (id) => (e) => {
@@ -99,7 +99,8 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                             if (box.id === draggingId) {
                                     newX = box.x
                                     newY = box.y
-                                }
+                            }
+                            return null;
                             })
                         )
                     }
@@ -184,6 +185,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                 blocData.title = reactionBloc.title;
                 blocData.color = el.color;
             }
+            return null;
         });
         return blocData;
     }
@@ -254,7 +256,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
 
         let tmp = boxes;
         let currBox = null;
-        for (let i = 0; i != tmp.length; i++) {
+        for (let i = 0; i !== tmp.length; i++) {
             if (tmp[i].id === blocSelected) {
                 currBox = tmp[i];
             }
