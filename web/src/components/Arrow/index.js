@@ -19,6 +19,7 @@ const Arrow = ({ arrows, boxes, clientX, clientY }) => {
                         )
                     }
                 }
+                return null;
             })}
         </svg>
     );
