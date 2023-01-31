@@ -325,8 +325,8 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                     return (
                         <div>
                             <PlaygroundBox key={box.id} color={data.color} id={`bloc${box.id}`} style={style} onMouseDown={handleMouseDown(box.id)} special = {box.key === 'blocs_and' ? true : (box.key === 'blocs_or' ? true : false)} getADM={data.getADM} >
-                                <ButtonStartArrow color={() => handleButtonColorStart(box.id)} onClick={() => handleArrowGeneration(box.id)}></ButtonStartArrow>
-                                <RectArrivedArrow color={() => handleButtonColorArrived(box.id)} onMouseDown={handleMouseDownOnArrived(box.id)}></RectArrivedArrow>
+                                <ButtonStartArrow color={() => handleButtonColorStart(box.id)} onClick={() => handleArrowGeneration(box.id)} endOfFlow={box.endOfFlow}></ButtonStartArrow>
+                                <RectArrivedArrow color={() => handleButtonColorArrived(box.id)} onMouseDown={handleMouseDownOnArrived(box.id)} startOfFlow={box.startOfFlow}></RectArrivedArrow>
                                 <StartFlag startOfFlow={box.startOfFlow} onClick={() => handleMouseClickOnFlag("start")} isHoldingFlag={isHoldingFlag}><Icon icon="mdi:flag-variant"/></StartFlag>
                                 <ArrivedFlag endOfFlow={box.endOfFlow} onClick={() => handleMouseClickOnFlag("end")} isHoldingFlagArrived={isHoldingFlagArrived}><Icon icon="mdi:flag-variant"/></ArrivedFlag>
                                 {getGoodTitle(data.title, data.getADM)}
