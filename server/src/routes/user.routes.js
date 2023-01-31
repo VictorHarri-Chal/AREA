@@ -10,7 +10,7 @@ module.exports = function handleUserRoutes(app) {
         next();
     });
 
-    app.get("/api/services", controller.allAccess);
-    app.get("/api/dashboard", [authJwt.verifyTokenValidity] , controller.userAccess);
-    app.get("/api/adminPage", [authJwt.verifyTokenValidity, authJwt.isUserAdmin], controller.adminAccess);
+    app.get("/", controller.allAccess);
+    app.get("/dashboard", [authJwt.verifyTokenValidity] , controller.userAccess);
+    app.get("/adminPage", [authJwt.verifyTokenValidity, authJwt.isUserAdmin], controller.adminAccess);
 }
