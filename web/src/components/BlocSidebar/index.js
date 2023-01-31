@@ -31,7 +31,7 @@ const BlocSidebar = ({ appSelected, isOpen, newRectangle, setNewRectangle }) => 
     }
 
     const handleMouseUp = (e) => {
-        if (isDragging && rectanglePosition.x != 25 && rectanglePosition.y != 350) {
+        if (isDragging && rectanglePosition.x !== 25 && rectanglePosition.y !== 350) {
             setNewRectangle({isNewRect : true, x : rectanglePosition.x + 180, y : rectanglePosition.y + 20, key : blocSelected.key})
         }
         setIsDragging(false)
