@@ -33,10 +33,15 @@ export const ASData = [
                 getADM : true,
                 DM : [
                     {
-                        key : '208_terminator'
+                        key : '208_terminator',
+                        text: '208_terminator',
+                        value: '208_terminator',
+
                     },
                     {
-                        key : '209_teriaki'
+                        key : '209_teriaki',
+                        text: '209_teriaki',
+                        value: '209_teriaki',
                     }
                 ]
             },

@@ -69,7 +69,6 @@ export const PlaygroundBox = styled.div`
 
 
     overflow: hidden;
-    text-overflow: ellipsis;
     white-space: nowrap;
     word-wrap: break-word;
 `;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { PlaygroundContainer, PlaygroundMain, PlaygroundBox, ButtonStartArrow, RectArrivedArrow, PlaygroundBin } from './PlaygroundElements'
+import { PlaygroundContainer, PlaygroundMain, PlaygroundBox, ButtonStartArrow, RectArrivedArrow, PlaygroundBin, DropdownMenuBox, DropdownMenuBoxItem } from './PlaygroundElements'
 import { BlocsData } from './BlocsData';
 import { ASData } from '../AppSidebar/ASData';
 import Arrow from '../Arrow';
@@ -142,10 +142,12 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                 blocData.title = actionBloc.title;
                 blocData.color = el.color;
                 blocData.getADM = actionBloc.getADM;
+                blocData.DM = actionBloc.DM;
             } else if (reactionBloc !== undefined) {
                 blocData.title = reactionBloc.title;
                 blocData.color = el.color;
                 blocData.getADM = reactionBloc.getADM;
+                blocData.DM = reactionBloc.DM;
             }
         });
         return blocData;
@@ -220,12 +222,15 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                         style.outline = "5px solid red";
                         style.boxShadow = "0 0 30px red";
                     }
+                    console.log(data);
                     return (
                         <PlaygroundBox key={box.id} color={data.color} id={`bloc${box.id}`} style={style} onMouseDown={handleMouseDown(box.id)} special = {box.key === 'blocs_and' ? true : (box.key === 'blocs_or' ? true : false)} getADM={data.getADM} >
                             <ButtonStartArrow color={() => handleButtonColorStart(box.id)} onClick={() => handleArrowGeneration(box.id)}></ButtonStartArrow>
                             <RectArrivedArrow color={() => handleButtonColorArrived(box.id)} onMouseDown={handleMouseDownOnArrived(box.id)}></RectArrivedArrow>
                             {getGoodTitle(data.title, data.getADM)}
+                            {/* {data.getADM && (
 
+                            )} */}
                         </PlaygroundBox>
                     )
                 })}
