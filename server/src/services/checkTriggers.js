@@ -1,5 +1,5 @@
 const Area = require('../models/ar.model');
-const Services = require('./services')
+const Services = require('./services');
 
 
 const trigger = {

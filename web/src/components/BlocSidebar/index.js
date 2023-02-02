@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { BSAppName, BSContainer, BSLogoApp, BSConnectBtn, BSConnected, BSActionRea, BSBlocContainer, BSBloc} from './BSElements'
+const Services = require('./HandleConnect.js');
+
 
 const BlocSidebar = ({ appSelected, isOpen, newRectangle, setNewRectangle }) => {
     const [actionRea, setActionRea] = useState(true)
@@ -38,12 +40,16 @@ const BlocSidebar = ({ appSelected, isOpen, newRectangle, setNewRectangle }) => 
         setRectanglePosition({ x: 25, y: 350 });
     }
 
+    const handleConnectTest = (key) => {
+        Services[key].handleConnection();
+    }
+
     return (
         <BSContainer isOpen={isOpen}>
             <BSLogoApp color={appSelected.color}>{appSelected.icon}</BSLogoApp>
             <BSAppName color={appSelected.color}>{appSelected.title}</BSAppName>
 
-            <BSConnectBtn color={appSelected.color} login={appSelected.login}>Connect</BSConnectBtn>
+            <BSConnectBtn color={appSelected.color} login={appSelected.login} onClick={() => handleConnectTest(appSelected.key)}>Connect</BSConnectBtn>
             <BSConnected color={appSelected.color} login={appSelected.login}>Connected</BSConnected>
 
             <BSActionRea color={appSelected.color} actionRea={actionRea} onClick={() => toggleActionRea(true)} login={appSelected.login} which={false}>Action</BSActionRea>
