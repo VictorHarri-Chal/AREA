@@ -13,8 +13,10 @@ verifyTokenValidity = (req, res, next) => {
         return (res.status(403).send({ message: 'No token was found' }));
 
     jwt.verify(token, config.secret, (err, decoded) => {
-        if (err)
+        if (err) {
+            console.log('no access bozo');
             return (res.status(401).send({ message: 'Unauthorized access'}))
+        }
         req.userId = decoded.id;
         next();
     });

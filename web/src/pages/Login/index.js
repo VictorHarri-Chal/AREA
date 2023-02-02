@@ -43,24 +43,33 @@ const Login = () => {
     const handleSubmitSignIn = async (event) => {
         event.preventDefault();
         try {
-            await fetch('http://localhost:8080/api/auth/signin', {
+            let response = await fetch('http://localhost:8080/api/auth/signin', {
                 method: 'POST',
                 mode: 'cors',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ usernameSignIn, passwordSignIn }),
-            }).then((response) => {
-                if (response.ok) {
-                    console.log('logged in, redirecting...');
-                    window.location.href = 'http://localhost:8081/dashboard';
-                }
-                console.log('error on submit ' + response.statusText + '  code: ' + response);
-                throw new Error('Something went wrong' + response.statusText);
             }).catch((error) => {
                 console.log(error);
                 return;
-            });
+            })
+
+            if (response.ok) {
+                let json = response.json();
+                console.log('1 - ' + json);
+                console.log('2 - ' + response.text());
+                console.log(json.username);
+                console.log('logged in, redirecting...');
+                // console.log(response.body.token);
+                // headers = {
+                //     "Authorization": "Token " + response.body.token
+                // }
+                // window.location.href = 'http://localhost:8080/dashboard';
+            } else {
+                console.log('error on submit ');
+                throw new Error('Something went wrong');
+            }
             alert('Logged in successfully!');
         } catch (error) {
             alert("Couldn't log in. Please try again. " + error);

@@ -88,6 +88,7 @@ exports.signin = (req, res) => {
         );
 
         if (!passwordIsValid) {
+            console.log('wrong password bozo');
             return res.status(401).send({
                 accessToken: null,
                 message: "Wrong Password"
@@ -103,6 +104,7 @@ exports.signin = (req, res) => {
             authorities.push("role_permissions_" + user.roles[i].name);
         }
 
+        console.log('200 responding succesfully. . .');
         res.status(200).send({
             id: user._id,
             username: user.username,
