@@ -18,7 +18,7 @@ function Home({ navigation }) {
          <Button
             title="Sign in"
             onPress={() =>  navigation.navigate('Login')}
-      />
+         />
          <Animated.View style={{transform: [{translateX: pan.x}, {translateY: pan.y}]}}
             {...panResponder.panHandlers}>
             <View styles={styles.box} />

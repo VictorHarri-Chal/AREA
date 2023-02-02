@@ -14,9 +14,9 @@ function App() {
                     name="Home"
                     component={Home}
                     options={{
-                    title:'AREAction',
-                    headerStyle: { backgroundColor: '#222831' },
-                    headerTintColor: '#fff',
+                        title:'AREAction',
+                        headerStyle: { backgroundColor: '#222831' },
+                        headerTintColor: '#fff',
                     }}
                 />
                 {/* <Stack.Screen name="Dashboard" component={Dashboard} /> */}
