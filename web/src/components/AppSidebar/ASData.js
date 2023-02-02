@@ -29,13 +29,29 @@ export const ASData = [
         action_blocs : [
             {
                 key : 'github_newCommit',
-                title: 'New commit',
-            }
+                title: 'New commit [GNC_DM]',
+                placeHolder : 'Select a repository',
+                getADM : true,
+                DM : [
+                    {
+                        key : '208_terminator',
+                        text: '208_terminator',
+                        value: '208_terminator',
+
+                    },
+                    {
+                        key : '209_teriaki',
+                        text: '209_teriaki',
+                        value: '209_teriaki',
+                    }
+                ]
+            },
         ],
         reaction_blocs : [
             {
                 key : 'github_createIssue',
                 title: 'Create an issue',
+                getADM : false,
             }
         ]
     },
