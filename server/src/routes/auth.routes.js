@@ -12,7 +12,6 @@ module.exports = function handleAuthRoutes(app) {
         next();
     };
 
-    console.log('azzzzza');
     app.use(cors);
     app.post("/api/auth/signup", controller.signup);
     app.post("/api/auth/signin", controller.signin);
