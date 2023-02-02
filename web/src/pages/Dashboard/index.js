@@ -16,6 +16,8 @@ const Dashboard = () => {
         setIsOpen(!isOpen)
     }
 
+    require('./authJwt.js')();
+
     return (
         <>
             <Navbar isOpen={false} isInDashboard={true}/>
