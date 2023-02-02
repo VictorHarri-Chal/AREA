@@ -8,7 +8,9 @@ const Arrow = ({ arrows, boxes, clientX, clientY }) => {
                 if (arrow.exists) {
                     const fromBox = boxes.find(box => box.id === arrow.from);
                     const toBox = boxes.find(box => box.id === arrow.to);
-                    const decal =  180;
+                    let decal =  190;
+                    if (fromBox.key === 'blocs_and' || fromBox.key === 'blocs_or')
+                        decal = 90;
                     if (arrow.to === '0') {
                         return (
                             <line x1={fromBox.x + decal} y1={fromBox.y + 50} x2={clientX - 475} y2={clientY - 110} stroke="#C8AD7F" strokeWidth="8"/>

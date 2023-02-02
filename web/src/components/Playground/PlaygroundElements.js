@@ -125,7 +125,7 @@ export const StartFlag = styled.div`
 
 export const ArrivedFlag = styled.div`
     position: absolute;
-    left: 170px;
+    left: ${props => props.special === true ? '70px' : (props.getADM === true ? '370px' : '170px')};
     width: 27px;
     height: 27px;
 

@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 const Playground = ({ newRectangle, setNewRectangle }) => {
     const [isDragging, setIsDragging] = useState(false);
     const [containerPosition, setContainerPosition] = useState({});
+    const [isContainerInitialised, setIsContainerInitialised] = useState(false);
     const containerRef = useRef(null);
     const binRef = useRef(null);
     const [draggingId, setDraggingId] = useState(null);
@@ -21,13 +22,16 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
     const [isHoldingFlagArrived, setIsHoldingFlagArrived] = useState(false);
 
     useEffect(() => {
-        const containerRect = containerRef.current.getBoundingClientRect();
-        setContainerPosition({
-            x: containerRect.x,
-            y: containerRect.y,
-            width: containerRect.width,
-            height: containerRect.height,
-        });
+        if (!isContainerInitialised) {
+            const containerRect = containerRef.current.getBoundingClientRect();
+            setContainerPosition({
+                x: containerRect.x,
+                y: containerRect.y,
+                width: containerRect.width,
+                height: containerRect.height,
+            });
+            setIsContainerInitialised(true);
+        }
         if (newRectangle.isNewRect === true) {
             if (newRectangle.x > containerPosition.x && newRectangle.x < containerPosition.x + containerPosition.width && newRectangle.y > containerPosition.y && newRectangle.y < containerPosition.y + containerPosition.height) {
                 setBoxes(boxes => [...boxes, { id: uuidv4(), x: newRectangle.x - 475, y: newRectangle.y - 110, key: newRectangle.key, linkTo: '0', linkFrom: '0', startOfFlow: (boxes.length === 0) ? true : false, endOfFlow: (boxes.length === 1) ? true : false}]);
@@ -39,7 +43,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         return () => {
             window.removeEventListener("resize", handleResize);
         };
-    }, [newRectangle, setNewRectangle, containerPosition]);
+    }, [newRectangle, setNewRectangle, containerPosition, isContainerInitialised]);
 
 
     const handleMouseDown = (id) => (e) => {
@@ -289,6 +293,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                     foundBox.endOfFlow = true;
             }
             tmp = tmp.filter(verifBox => verifBox.id !== blocSelected)
+            console.log("here")
             setBoxes([...tmp])
         }
     };
@@ -317,8 +322,6 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                         top: box.y,
                     }
                     if (box.nextToBin === true) {
-                        // style.outline = "5px solid red";
-                        // style.boxShadow = "0 0 30px red";
                         style.opacity = "0.5";
                     }
                     let pos = {x : box.x, y : box.y}
@@ -328,7 +331,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                                 <ButtonStartArrow color={() => handleButtonColorStart(box.id)} onClick={() => handleArrowGeneration(box.id)} endOfFlow={box.endOfFlow}></ButtonStartArrow>
                                 <RectArrivedArrow color={() => handleButtonColorArrived(box.id)} onMouseDown={handleMouseDownOnArrived(box.id)} startOfFlow={box.startOfFlow}></RectArrivedArrow>
                                 <StartFlag startOfFlow={box.startOfFlow} onClick={() => handleMouseClickOnFlag("start")} isHoldingFlag={isHoldingFlag}><Icon icon="mdi:flag-variant"/></StartFlag>
-                                <ArrivedFlag endOfFlow={box.endOfFlow} onClick={() => handleMouseClickOnFlag("end")} isHoldingFlagArrived={isHoldingFlagArrived}><Icon icon="mdi:flag-variant"/></ArrivedFlag>
+                                <ArrivedFlag endOfFlow={box.endOfFlow} onClick={() => handleMouseClickOnFlag("end")} isHoldingFlagArrived={isHoldingFlagArrived} special = {box.key === 'blocs_and' ? true : (box.key === 'blocs_or' ? true : false)} getADM={data.getADM} ><Icon icon="mdi:flag-variant"/></ArrivedFlag>
                                 {getGoodTitle(data.title, data.getADM)}
                             </PlaygroundBox>
                             {data.getADM === true && (
@@ -339,7 +342,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                 })}
                 <ValidateButton />
                 <PlaygroundBin><Icon icon="mdi:bin-empty" ref={binRef} /></PlaygroundBin>
-                {arrows[1] && <Arrow arrows={arrows} boxes={boxes}  clientX={clientPosition.x} clientY={clientPosition.y}/>}
+                {arrows[1] && <Arrow arrows={arrows} boxes={boxes} clientX={clientPosition.x} clientY={clientPosition.y}/>}
             </PlaygroundContainer>
         </PlaygroundMain>
     );
