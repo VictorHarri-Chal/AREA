@@ -8,7 +8,6 @@ const Arrow = ({ arrows, boxes, clientX, clientY }) => {
                 if (arrow.exists) {
                     const fromBox = boxes.find(box => box.id === arrow.from);
                     const toBox = boxes.find(box => box.id === arrow.to);
-                    console.log(fromBox);
                     const decal = (fromBox.key === 'blocs_and' || 'blocs_or' ? 80 : 180)
                     if (arrow.to === '0') {
                         return (
@@ -20,6 +19,7 @@ const Arrow = ({ arrows, boxes, clientX, clientY }) => {
                         )
                     }
                 }
+                return null;
             })}
         </svg>
     );

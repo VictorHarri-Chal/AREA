@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ValidateButtonStyle } from './ValidateButtonElements';
 import { Icon } from '@iconify/react';
 
