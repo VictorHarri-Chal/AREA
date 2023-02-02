@@ -24,7 +24,7 @@ export const ASData = [
         key : 'github',
         title: 'Github',
         icon : <Icon icon="mdi:github" />,
-        login : false,
+        login : true,
         color : "#99aab5",
         action_blocs : [
             {

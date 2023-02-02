@@ -85,21 +85,37 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
     const handleMouseMove = (e) => {
         setClientPosition({ x: e.clientX, y: e.clientY});
         if (isDragging) {
-            let newX = e.pageX - containerPosition.x - 100;
+            let decal = 100;
+            boxes.forEach(box => {
+                if (box.id === draggingId) {
+                    let data = getBlocData(box.key);
+                    if (box.key === 'blocs_and' || box.key === 'blocs_or')
+                        decal = 50;
+                    else if (data.getADM)
+                        decal = 200;
+                }
+            });
+            let newX = e.pageX - containerPosition.x - decal;
             let newY = e.pageY - containerPosition.y - 50;
 
             if (newX < 0)
                 newX = 0;
-            if (newX + 100 > containerPosition.width)
-                newX = containerPosition.width - 100;
+            if (newX + decal > containerPosition.width)
+                newX = containerPosition.width - decal;
             if (newY < 0)
                 newY = 0;
-            if (newY + 100 > containerPosition.height)
-                newY = containerPosition.height - 100;
+            if (newY + (decal/2) > containerPosition.height)
+                newY = containerPosition.height - (decal/2);
 
             boxes.forEach(otherBox => {
                 if (otherBox.id !== draggingId) {
-                    if (newX <= otherBox.x + 200 && newX + 200 >= otherBox.x && newY <= otherBox.y + 100 && newY + 100 >= otherBox.y) {
+                    let offset = 200;
+                    let dataBis = getBlocData(otherBox.key);
+                    if (otherBox.key === 'blocs_and' || otherBox.key === 'blocs_or')
+                        offset = 100;
+                    else if (dataBis.getADM)
+                        offset = 400;
+                    if (newX <= otherBox.x + offset && newX + (decal*2) >= otherBox.x && newY <= otherBox.y + 100 && newY + 100 >= otherBox.y) {
                         setBoxes(boxes.map(box => {
                             if (box.id === draggingId) {
                                     newX = box.x
@@ -279,7 +295,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                 let foundBox = findFreeBloc("start");
                 if (foundBox != null)
                     foundBox.startOfFlow = true;
-                if (foundBox.endOfFlow === true) {
+                if (foundBox !== null && foundBox.endOfFlow === true) {
                     let foundBox2 = findFreeBloc("end");
                     if (foundBox2 != null)
                         foundBox2.endOfFlow = true;
@@ -334,15 +350,15 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                                 <ArrivedFlag endOfFlow={box.endOfFlow} onClick={() => handleMouseClickOnFlag("end")} isHoldingFlagArrived={isHoldingFlagArrived} special = {box.key === 'blocs_and' ? true : (box.key === 'blocs_or' ? true : false)} getADM={data.getADM} ><Icon icon="mdi:flag-variant"/></ArrivedFlag>
                                 {getGoodTitle(data.title, data.getADM)}
                             </PlaygroundBox>
-                            {data.getADM === true && (
+                            {/* {data.getADM === true && (
                                 <DropdownMenu data={data.DM} placeHolder={data.placeHolder} pos={pos}/>
-                            )}
+                            )} */}
                         </div>
                     )
                 })}
                 <ValidateButton />
                 <PlaygroundBin><Icon icon="mdi:bin-empty" ref={binRef} /></PlaygroundBin>
-                {arrows[1] && <Arrow arrows={arrows} boxes={boxes} clientX={clientPosition.x} clientY={clientPosition.y}/>}
+                {arrows[1] && <Arrow arrows={arrows} boxes={boxes} clientX={clientPosition.x} clientY={clientPosition.y} getBlocData={getBlocData}/>}
             </PlaygroundContainer>
         </PlaygroundMain>
     );
