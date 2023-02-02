@@ -50,27 +50,28 @@ const Login = () => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ usernameSignIn, passwordSignIn }),
-            }).catch((error) => {
+            }).then((response) => response.json())
+            .then((user) => {
+                if (user) {
+                    localStorage.setItem("accessToken", user.accessToken)
+                    console.log('logged in, redirecting...');
+                    fetch('http://localhost:8080/dashboard', {
+                        method: 'GET',
+                        headers: {
+                            'Authorization' : localStorage.accessToken
+                        },
+                        redirect: 'follow'
+                    })
+                } else {
+                    console.log('error on submit ');
+                    throw new Error('Something went wrong');
+                }
+            })
+            .catch((error) => {
                 console.log(error);
                 return;
             })
-
-            if (response.ok) {
-                let json = response.json();
-                console.log('1 - ' + json);
-                console.log('2 - ' + response.text());
-                console.log(json.username);
-                console.log('logged in, redirecting...');
-                // console.log(response.body.token);
-                // headers = {
-                //     "Authorization": "Token " + response.body.token
-                // }
-                // window.location.href = 'http://localhost:8080/dashboard';
-            } else {
-                console.log('error on submit ');
-                throw new Error('Something went wrong');
-            }
-            alert('Logged in successfully!');
+            // alert('Logged in successfully!');
         } catch (error) {
             alert("Couldn't log in. Please try again. " + error);
         }
