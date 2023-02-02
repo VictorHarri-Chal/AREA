@@ -40,12 +40,14 @@ app.get("/callback", (req, res) => {
     const code = req.query.code;
     getGitHubAuthToken("498e03f921f50999dbb4", "ef1c8f0525c5239d4635e3e5023ad4b6eb6929ed", code)
         .then(accessToken => {
-            console.log('Save acess token here');
+            console.log('access token: ', accessToken);
         })
         .catch(error => {
             console.error(error);
         });
-    res.send("OAuth authentication complete. You can close this page.");
+    res.statusCode = 302;
+    res.setHeader("Location", "http://localhost:8081/dashboard");
+    res.end();
 });
 
 app.get("/githubauth", (req, res) => {
