@@ -58,7 +58,7 @@ const Login = () => {
                     fetch('http://localhost:8080/dashboard', {
                         method: 'GET',
                         headers: {
-                            'Authorization' : localStorage.accessToken
+                            'x-access-token' : localStorage.accessToken
                         },
                         redirect: 'follow'
                     })
@@ -71,7 +71,7 @@ const Login = () => {
                 console.log(error);
                 return;
             })
-            // alert('Logged in successfully!');
+            alert('Logged in successfully!');
         } catch (error) {
             alert("Couldn't log in. Please try again. " + error);
         }
