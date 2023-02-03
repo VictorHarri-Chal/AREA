@@ -5,13 +5,9 @@ const DropdownMenu = ({ data, placeHolder, pos }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [chosenItem, setChosenItem] = useState('');
     const [currentPos, setCurrentPos] = useState(pos);
-    const oldPos = useRef({ x: null, y: null });
 
     useEffect(() => {
-        if (pos.x + 150 !== oldPos.current.x || pos.y + 30 !== oldPos.current.y) {
-            setCurrentPos({ x: pos.x + 150, y: pos.y + 30 });
-            oldPos.current = { x: pos.x + 150, y: pos.y + 30 };
-        }
+        setCurrentPos({ x: pos.x + 150, y: pos.y + 30 });
     }, [pos]);
 
     const toggleIsOpen = () => {
@@ -32,10 +28,20 @@ const DropdownMenu = ({ data, placeHolder, pos }) => {
 
     return (
         <div>
-            <DropdownMenuButton onClick={toggleIsOpen} isOpen={isOpen} y={currentPos.y} x={currentPos.x}>
+            <DropdownMenuButton
+                style={{
+                    top: currentPos.y,
+                    left: currentPos.x,
+                }}
+                onClick={toggleIsOpen} isOpen={isOpen}>
                 {goodPlaceholder()}
             </DropdownMenuButton>
-            <DropdownMenuContainer onClick={toggleIsOpen} isOpen={isOpen} y={currentPos.y} x={currentPos.x}>
+            <DropdownMenuContainer
+                style={{
+                    top: currentPos.y,
+                    left: currentPos.x,
+                }}
+                onClick={toggleIsOpen} isOpen={isOpen}>
                 {data.map(item => {
                 return (
                     <DropdownMenuItem onClick={() => changeItem(item.key)}>

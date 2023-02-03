@@ -2,8 +2,6 @@ import styled from 'styled-components';
 
 export const DropdownMenuButton = styled.button`
     position: absolute;
-    top: ${props => props.y}px;
-    left : ${props => props.x}px;
     width: 200px;
     background: white;
     border: none;
@@ -38,8 +36,6 @@ export const DropdownMenuContainer = styled.ul`
     background: white;
     width : 200px;
     position: absolute;
-    top: ${props => props.y}px;
-    left : ${props => props.x}px;
     outline: 3px solid #f5f5f5;
     border-radius: 10px;
 
