@@ -1,15 +1,7 @@
 const services = {
     github: {
-        handleConnection: async function (action) {
-            try {
-                const response = await fetch('http://localhost:8080/githubauth');
-                if (!response.ok) {
-                    throw new Error('Failed to connect to Github');
-                }
-            } catch (error) {
-                console.error(error);
-            }
-            console.log('Github connected');
+        handleConnection: async function () {
+            window.location.href = `https://github.com/login/oauth/authorize?client_id=498e03f921f50999dbb4`;
         },
     },
     twitter: {
