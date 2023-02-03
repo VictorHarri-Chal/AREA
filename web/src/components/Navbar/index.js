@@ -5,7 +5,7 @@ import ProfileDDM from '../ProfileDDM'
 
 const Navbar = ({toggleSideBar, isInDashboard}) => {
 
-    const [appName] = React.useState("AREAction")
+    const [appName, setAppName] = React.useState("FLOP")
     const [profileOpen, setProfileOpen] = React.useState(false)
     const profileLinkRef = useRef(null)
     const profileLinkPos = profileLinkRef.current ? profileLinkRef.current.getBoundingClientRect() : {};

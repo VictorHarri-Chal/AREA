@@ -45,14 +45,16 @@ export const PlaygroundBox = styled.div`
     padding: 15px;
     border-radius: 10px;
     box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.3);
-    width: ${props => props.special === true ? '100px' : '200px'};
+    width: ${props => props.special === true ? '100px' : (props.getADM === true ? '400px' : '200px')};
     height: 100px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content:  ${props => props.getADM === true ? 'left' : 'center'};
     font-size: 16px;
     font-family: 'Open Sans', sans-serif;
     font-weight: bold;
+
+    ${props => props.getADM === true ? `padding-left : 40px;` : ``}
 
     &:hover {
         transform: scale(1.05);
@@ -67,7 +69,6 @@ export const PlaygroundBox = styled.div`
 
 
     overflow: hidden;
-    text-overflow: ellipsis;
     white-space: nowrap;
     word-wrap: break-word;
 `;
@@ -124,7 +125,7 @@ export const StartFlag = styled.div`
 
 export const ArrivedFlag = styled.div`
     position: absolute;
-    left: 170px;
+    left: ${props => props.special === true ? '70px' : (props.getADM === true ? '370px' : '170px')};
     width: 27px;
     height: 27px;
 
