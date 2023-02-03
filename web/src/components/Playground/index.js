@@ -333,13 +333,9 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
             <PlaygroundContainer onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} ref={containerRef}>
                 {boxes.map(box => {
                     let data = getBlocData(box.key);
-                    let style = {
-                        left: box.x,
-                        top: box.y,
-                    }
-                    if (box.nextToBin === true) {
+                    let style = { left: box.x, top: box.y }
+                    if (box.nextToBin === true)
                         style.opacity = "0.5";
-                    }
                     let pos = {x : box.x, y : box.y}
                     return (
                         <div>
@@ -350,9 +346,9 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                                 <ArrivedFlag endOfFlow={box.endOfFlow} onClick={() => handleMouseClickOnFlag("end")} isHoldingFlagArrived={isHoldingFlagArrived} special = {box.key === 'blocs_and' ? true : (box.key === 'blocs_or' ? true : false)} getADM={data.getADM} ><Icon icon="mdi:flag-variant"/></ArrivedFlag>
                                 {getGoodTitle(data.title, data.getADM)}
                             </PlaygroundBox>
-                            {/* {data.getADM === true && (
+                            {data.getADM === true && (
                                 <DropdownMenu data={data.DM} placeHolder={data.placeHolder} pos={pos}/>
-                            )} */}
+                            )}
                         </div>
                     )
                 })}
