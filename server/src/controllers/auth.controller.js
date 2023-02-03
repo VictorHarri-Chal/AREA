@@ -8,7 +8,6 @@ var jwt = require("jsonwebtoken");
 var bodyParser = require('body-parser');
 
 exports.signup = (req, res) => {
-    console.log('is posted ?');
     if (!req.body.passwordSignUp) {
         res.status(500).send({message: "No password provided"});
     }
@@ -68,7 +67,6 @@ exports.signup = (req, res) => {
 };
 
 exports.signin = (req, res) => {
-    console.log('SIGN IN TRIGGER;')
     User.findOne({
       username: req.body.usernameSignIn
     }).populate("roles", "-__v")
@@ -88,7 +86,6 @@ exports.signin = (req, res) => {
         );
 
         if (!passwordIsValid) {
-            console.log('wrong password bozo');
             return res.status(401).send({
                 accessToken: null,
                 message: "Wrong Password"

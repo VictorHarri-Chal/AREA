@@ -43,7 +43,7 @@ const Login = () => {
     const handleSubmitSignIn = async (event) => {
         event.preventDefault();
         try {
-            let response = await fetch('http://localhost:8080/api/auth/signin', {
+            await fetch('http://localhost:8080/api/auth/signin', {
                 method: 'POST',
                 mode: 'cors',
                 headers: {
@@ -51,26 +51,35 @@ const Login = () => {
                 },
                 body: JSON.stringify({ usernameSignIn, passwordSignIn }),
             }).then((response) => response.json())
-            .then((user) => {
-                if (user) {
-                    localStorage.setItem("accessToken", user.accessToken)
-                    console.log('logged in, redirecting...');
-                    fetch('http://localhost:8080/dashboard', {
-                        method: 'GET',
-                        headers: {
-                            'x-access-token' : localStorage.accessToken
-                        },
-                        redirect: 'follow'
-                    })
-                } else {
-                    console.log('error on submit ');
-                    throw new Error('Something went wrong');
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-                return;
-            })
+                .then((user) => {
+                    if (user) {
+                        sessionStorage.setItem("accessToken", user.accessToken)
+                        console.log('logged in. . .');
+                        fetch('http://localhost:8080/dashboard', {
+                            method: 'GET',
+                            headers: {
+                                'x-access-token': sessionStorage.accessToken
+                            }
+                        }).then(function (responseGet) {
+                            if (responseGet.status === 200) {
+                                console.log('redirecting. . .');
+                                window.location.href = 'http://localhost:8081/dashboard';
+                            } else {
+                                console.log('response: ' + responseGet)
+                                console.log('Code: ' + responseGet.status);
+                            }
+                        }).catch(e => {
+                            console.log(e);
+                        });
+                    } else {
+                        console.log('error on submit ');
+                        throw new Error('Something went wrong');
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                    return;
+                })
             alert('Logged in successfully!');
         } catch (error) {
             alert("Couldn't log in. Please try again. " + error);

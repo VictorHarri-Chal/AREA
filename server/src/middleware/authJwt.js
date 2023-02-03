@@ -14,7 +14,6 @@ verifyTokenValidity = (req, res, next) => {
 
     jwt.verify(token, config.secret, (err, decoded) => {
         if (err) {
-            console.log('no access bozo');
             return (res.status(401).send({ message: 'Unauthorized access'}))
         }
         req.userId = decoded.id;
