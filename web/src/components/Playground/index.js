@@ -203,6 +203,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
     }
 
     const handleArrowGeneration = (id) => {
+        console.log("here")
         let found = false;
         arrows.forEach(arrow => {
             if (!found && arrow.exists && arrow.from === id) {
@@ -342,7 +343,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                 })}
                 <ValidateButton />
                 <PlaygroundBin><Icon icon="mdi:bin-empty" ref={binRef} /></PlaygroundBin>
-                {arrows[1] && <Arrow arrows={arrows} boxes={boxes} clientX={clientPosition.x} clientY={clientPosition.y}/>}
+                {arrows[1] && <Arrow arrows={arrows} boxes={boxes} clientX={clientPosition.x} clientY={clientPosition.y} getBlocData={getBlocData}/>}
             </PlaygroundContainer>
         </PlaygroundMain>
     );
