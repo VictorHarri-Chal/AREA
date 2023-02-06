@@ -70,7 +70,9 @@ const Login = () => {
                             }
                         }).catch(e => {
                             console.log(e);
+                            return;
                         });
+                        alert('Logged in successfully!');
                     } else {
                         console.log('error on submit ');
                         throw new Error('Something went wrong');
@@ -80,7 +82,6 @@ const Login = () => {
                     console.log(error);
                     return;
                 })
-            alert('Logged in successfully!');
         } catch (error) {
             alert("Couldn't log in. Please try again. " + error);
         }
