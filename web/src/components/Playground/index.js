@@ -340,7 +340,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                         </div>
                     )
                 })}
-                <ValidateButton />
+                <ValidateButton data={boxes} />
                 <PlaygroundBin><Icon icon="mdi:bin-empty" ref={binRef} /></PlaygroundBin>
                 {arrows[1] && <Arrow arrows={arrows} boxes={boxes} clientX={clientPosition.x} clientY={clientPosition.y} getBlocData={getBlocData}/>}
             </PlaygroundContainer>

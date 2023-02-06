@@ -61,6 +61,10 @@ const getGitHubAuthCode = (res, clientId) => {
     res.redirect(authorizationUrl);
 };
 
+app.post("/flow", (req, res) => {
+    console.log(res.body);
+});
+
 const getGitHubAuthToken = (clientId, clientSecret, code) => {
     return new Promise((resolve, reject) => {
         request.post({
