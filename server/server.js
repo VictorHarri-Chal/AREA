@@ -62,7 +62,7 @@ const getGitHubAuthCode = (res, clientId) => {
 };
 
 app.post("/flow", (req, res) => {
-    console.log(res.body);
+    console.log(req.body);
 });
 
 const getGitHubAuthToken = (clientId, clientSecret, code) => {
