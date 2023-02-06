@@ -203,7 +203,6 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
     }
 
     const handleArrowGeneration = (id) => {
-        console.log("here")
         let found = false;
         arrows.forEach(arrow => {
             if (!found && arrow.exists && arrow.from === id) {
