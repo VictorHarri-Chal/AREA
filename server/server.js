@@ -79,6 +79,76 @@ const getGitHubAuthToken = (clientId, clientSecret, code) => {
 };
 
 
+app.get("/discordcallback", (req, res) => {
+    console.log("discord-callback here");
+    res.header("Access-Control-Allow-Origin", "*");
+    const code = req.query.code;
+    console.log("Code: ", code);
+    getDiscordAccessToken("1063054273946058833", "Ie8_A2L-lNSnKFvjiXXQFfwX9Wwb2w_-", code)
+        .then((accessToken) => {
+            console.log("access token: ", accessToken);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    res.statusCode = 302;
+    res.setHeader("Location", "http://localhost:8081/dashboard");
+    res.end();
+});
+
+app.get("/discord-auth", (req, res) => {
+    console.log('discord auth here');
+    getDiscordAuthCode(res, "1063054273946058833");
+});
+
+const getDiscordAuthCode = (res, clientId) => {
+    console.log('discord authcode here');
+    const redirectUri = encodeURIComponent(`http://localhost:8080/discordcallback`);
+    const authorizationUrl = `https://discord.com/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=email%20guilds%20connections%20messages.read%20identify%20gdm.join`;
+    console.log("discord auth URL: ", authorizationUrl);
+    res.redirect(authorizationUrl);
+};
+
+async function getDiscordAccessToken(clientId, secret, code) {
+    const response = await fetch('https://discord.com/api/oauth2/token', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `client_id=${clientId}&client_secret=${secret}&grant_type=authorization_code&code=${code}&redirect_uri=http://localhost:8080/discordcallback`
+    });
+
+    if (response.ok) {
+        const json = await response.json();
+        return json.access_token;
+    } else {
+        return null;
+    }
+}
+
+
+// const getDiscordAuthToken = (clientId, clientSecret, code) => {
+//     return new Promise((resolve, reject) => {
+//         request.post(
+//             {
+//                 url: `https://discord.com/api/oauth2/token?client_id=${clientId}&client_secret=${clientSecret}&grant_type=authorization_code&redirect_uri=http://localhost:8080/discordcallback&code=${code}`,
+//                 headers: {
+//                     Accept: "application/json",
+//                 },
+//             },
+//             (err, response, body) => {
+//                 if (err) {
+//                     reject(err);
+//                 } else {
+//                     resolve(JSON.parse(body));
+//                     // resolve(JSON.parse(body).access_token);
+//                 }
+//             }
+//         );
+//     });
+// };
+
+
 function serverProcess() {
     const area = new Area({
         action: {
