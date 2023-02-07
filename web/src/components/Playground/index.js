@@ -309,7 +309,6 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                     foundBox.endOfFlow = true;
             }
             tmp = tmp.filter(verifBox => verifBox.id !== blocSelected)
-            console.log("here")
             setBoxes([...tmp])
         }
     };
@@ -333,6 +332,8 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
     const modifyItem = (chosenItem, box) => {
         if (chosenItem !== null)
             box.chosenItem = chosenItem;
+        if (chosenItem !== '')
+            setChosenItem('');
     }
 
     return (
@@ -358,9 +359,9 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                                 {getGoodTitle(data.title, data.getADM)}
                             </PlaygroundBox>
                             {data.getADM === true && (
-                                <DropdownMenu data={data.DM} placeHolder={data.placeHolder} pos={pos} chosenItem={chosenItem} setChosenItem={setChosenItem}/>
+                                <DropdownMenu data={data.DM} placeHolder={data.placeHolder} pos={pos} setChosenItem={setChosenItem}/>
                             )}
-                            {modifyItem(chosenItem, box)}
+                            {data.getADM === true && (modifyItem(chosenItem, box))}
                         </div>
                     )
                 })}

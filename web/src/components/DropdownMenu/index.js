@@ -20,7 +20,7 @@ const DropdownMenu = ({ data, placeHolder, pos, chosenItem, setChosenItem }) => 
     };
 
     const goodPlaceholder = () => {
-        if (chosenItem === '') {
+        if (currentItem === '') {
             return placeHolder;
         } else {
             return currentItem;
