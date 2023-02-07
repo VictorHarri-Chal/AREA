@@ -4,12 +4,16 @@ import * as Comp from './LoginElements';
 const Login = () => {
 
     const [signIn, setSignIn] = React.useState(true);
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordConfirm, setPasswordConfirm] = useState('');
 
-    const handleSubmit = async (event) => {
+    const [usernameSignUp, setUsernameSignUp] = useState('');
+    const [emailSignUp, setEmailSignUp] = useState('');
+    const [passwordSignUp, setPasswordSignUp] = useState('');
+    const [passwordConfirmSignUp, setPasswordConfirmSignUp] = useState('');
+
+    const [usernameSignIn, setUsernameSignIn] = useState('');
+    const [passwordSignIn, setPasswordSignIn] = useState('');
+
+    const handleSubmitSignUp = async (event) => {
         event.preventDefault();
         try {
             await fetch('http://localhost:8080/api/auth/signup', {
@@ -18,9 +22,11 @@ const Login = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ username, email, password, passwordConfirm }),
+                body: JSON.stringify({ usernameSignUp, emailSignUp, passwordSignUp, passwordConfirmSignUp }),
             }).then((response) => {
                 if (response.ok) {
+                    alert('User created successfully!');
+                    setSignIn(true);
                     return response.json();
                 }
                 console.log('error on submit ' + response.statusText + '  code: ' + response);
@@ -29,10 +35,55 @@ const Login = () => {
                 console.log(error);
                 return;
             });
-            alert('User created successfully!');
-            setSignIn(true);
         } catch (error) {
             alert("Couldn't create user. Please try again. " + error);
+        }
+    };
+
+    const handleSubmitSignIn = async (event) => {
+        event.preventDefault();
+        try {
+            await fetch('http://localhost:8080/api/auth/signin', {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ usernameSignIn, passwordSignIn }),
+            }).then((response) => response.json())
+                .then((user) => {
+                    if (user) {
+                        sessionStorage.setItem("accessToken", user.accessToken)
+                        console.log('logged in. . .');
+                        fetch('http://localhost:8080/dashboard', {
+                            method: 'GET',
+                            headers: {
+                                'x-access-token': sessionStorage.accessToken
+                            }
+                        }).then(function (responseGet) {
+                            if (responseGet.status === 200) {
+                                console.log('redirecting. . .');
+                                window.location.href = 'http://localhost:8081/dashboard';
+                            } else {
+                                console.log('response: ' + responseGet)
+                                console.log('Code: ' + responseGet.status);
+                            }
+                        }).catch(e => {
+                            console.log(e);
+                            return;
+                        });
+                        alert('Logged in successfully!');
+                    } else {
+                        console.log('error on submit ');
+                        throw new Error('Something went wrong');
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                    return;
+                })
+        } catch (error) {
+            alert("Couldn't log in. Please try again. " + error);
         }
     };
 
@@ -46,38 +97,48 @@ const Login = () => {
                     <Comp.Input
                         type='text'
                         placeholder='Username'
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        value={usernameSignUp}
+                        onChange={(e) => setUsernameSignUp(e.target.value)}
                     />
                     <Comp.Input
                         type='email'
                         placeholder='Email'
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={emailSignUp}
+                        onChange={(e) => setEmailSignUp(e.target.value)}
                     />
                     <Comp.Input
                         type='password'
                         placeholder='Password'
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        value={passwordSignUp}
+                        onChange={(e) => setPasswordSignUp(e.target.value)}
                     />
                     <Comp.Input
                         type='password'
                         placeholder='Confirm Password'
-                        value={passwordConfirm}
-                        onChange={(e) => setPasswordConfirm(e.target.value)}
+                        value={passwordConfirmSignUp}
+                        onChange={(e) => setPasswordConfirmSignUp(e.target.value)}
                     />
-                    <Comp.Button onClick={handleSubmit}> Sign Up </Comp.Button>
+                    <Comp.Button onClick={handleSubmitSignUp}> Sign Up </Comp.Button>
                 </Comp.Form>
             </Comp.SignUpContainer>
 
             <Comp.SignInContainer signIn={signIn}>
                 <Comp.Form>
                     <Comp.Title>Sign In</Comp.Title>
-                    <Comp.Input type='email' placeholder='Email' />
-                    <Comp.Input type='password' placeholder='Password' />
+                    <Comp.Input
+                        type='text' // AJOUTER SIGNIN ICI PEUTETRE
+                        placeholder='Username'
+                        value={usernameSignIn}
+                        onChange={(e) => setUsernameSignIn(e.target.value)}
+                    />
+                    <Comp.Input
+                        type='password'
+                        placeholder='Password'
+                        value={passwordSignIn}
+                        onChange={(e) => setPasswordSignIn(e.target.value)}
+                    />
                     <Comp.Anchor href='#'>Forgot your password?</Comp.Anchor>
-                    <Comp.Button> Sign In </Comp.Button>
+                    <Comp.Button onClick={handleSubmitSignIn}> Sign In </Comp.Button>
                 </Comp.Form>
             </Comp.SignInContainer>
 

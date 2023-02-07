@@ -8,21 +8,20 @@ var jwt = require("jsonwebtoken");
 var bodyParser = require('body-parser');
 
 exports.signup = (req, res) => {
-    console.log('is posted ?');
-    if (!req.body.password) {
+    if (!req.body.passwordSignUp) {
         res.status(500).send({message: "No password provided"});
     }
 
     const user = new User({
-        username: req.body.username,
-        email: req.body.email,
-        password: bcrypt.hashSync(req.body.password)
+        username: req.body.usernameSignUp,
+        email: req.body.emailSignUp,
+        password: bcrypt.hashSync(req.body.passwordSignUp)
     });
 
     //Créer un nouveau User
     user.save((err, user) => {
         if (err) {
-            res.status(500).send({ message: "1: " + err });
+            res.status(501).send({ message: "1: " + err });
             return;
         }
 
@@ -32,14 +31,14 @@ exports.signup = (req, res) => {
             },
             (err, roles) => {
                 if (err) {
-                    res.status(500).send({ message: "2: " + err });
+                    res.status(502).send({ message: "2: " + err });
                     return;
                 }
 
                 user.roles = roles.map(role => role._id);
                 user.save(err => {
                 if (err) {
-                    res.status(500).send({ message: "3: " + err });
+                    res.status(503).send({ message: "3: " + err });
                     return;
                 }
                 res.send({ message: "User was registered successfully!" });
@@ -49,14 +48,14 @@ exports.signup = (req, res) => {
         } else {
             Role.findOne({ name: "user" }, (err, role) => {
                 if (err) {
-                    res.status(500).send({ message: "4: " + err });
+                    res.status(504).send({ message: "4: " + err });
                     return;
                 }
 
                 user.roles = [role._id];
                 user.save(err => {
                     if (err) {
-                        res.status(500).send({ message: "5: " + err });
+                        res.status(505).send({ message: "5: " + err });
                         return;
                     }
 
@@ -68,9 +67,8 @@ exports.signup = (req, res) => {
 };
 
 exports.signin = (req, res) => {
-    console.log('SIGN IN TRIGGER;')
     User.findOne({
-      username: req.body.username
+      username: req.body.usernameSignIn
     }).populate("roles", "-__v")
       .exec((err, user) => {
         if (err) {
@@ -83,7 +81,7 @@ exports.signin = (req, res) => {
         }
 
         var passwordIsValid = bcrypt.compareSync(
-            req.body.password,
+            req.body.passwordSignIn,
             user.password
         );
 
@@ -103,6 +101,7 @@ exports.signin = (req, res) => {
             authorities.push("role_permissions_" + user.roles[i].name);
         }
 
+        console.log('200 responding succesfully. . .');
         res.status(200).send({
             id: user._id,
             username: user.username,
