@@ -4,8 +4,11 @@ const services = {
             window.location.href = `https://github.com/login/oauth/authorize?client_id=498e03f921f50999dbb4`;
         },
     },
-    twitter: {
-    }
+    discord: {
+        handleConnection: async function () {
+            window.location.href = `http://localhost:8080/discord-auth`;
+        },
+    },
 };
 
 module.exports = services;
