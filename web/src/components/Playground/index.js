@@ -312,6 +312,8 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
             setIsHoldingFlagArrived(true);
     };
 
+    const [chosenItem, setChosenItem] = useState('');
+
     return (
         <PlaygroundMain>
             <PlaygroundContainer onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} ref={containerRef}>
@@ -335,8 +337,9 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                                 {getGoodTitle(data.title, data.getADM)}
                             </PlaygroundBox>
                             {data.getADM === true && (
-                                <DropdownMenu data={data.DM} placeHolder={data.placeHolder} pos={pos}/>
+                                <DropdownMenu data={data.DM} placeHolder={data.placeHolder} pos={pos} chosenItem={chosenItem} setChosenItem={setChosenItem}/>
                             )}
+                            {box.chosenItem = chosenItem}
                         </div>
                     )
                 })}

@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { DropdownMenuButton, DropdownMenuContainer, DropdownMenuItem } from './DropdownMenuElements';
 
-const DropdownMenu = ({ data, placeHolder, pos }) => {
+const DropdownMenu = ({ data, placeHolder, pos, chosenItem, setChosenItem }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [chosenItem, setChosenItem] = useState('');
     const [currentPos, setCurrentPos] = useState(pos);
 
     useEffect(() => {
