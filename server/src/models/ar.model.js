@@ -5,13 +5,16 @@ const actionSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    trigger : {
+        type: String,
+        required: true
+    },
     token: {
         type: String,
         required: true
     },
     data: {
         type: Object,
-        required: true
     },
     date: {
         type: Date,
@@ -24,13 +27,16 @@ const reactionSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    trigger : {
+        type: String,
+        required: true
+    },
     token: {
         type: String,
         required: true
     },
     data: {
         type: Object,
-        required: true
     },
     date: {
         type: Date,
