@@ -126,29 +126,6 @@ async function getDiscordAccessToken(clientId, secret, code) {
     }
 }
 
-
-// const getDiscordAuthToken = (clientId, clientSecret, code) => {
-//     return new Promise((resolve, reject) => {
-//         request.post(
-//             {
-//                 url: `https://discord.com/api/oauth2/token?client_id=${clientId}&client_secret=${clientSecret}&grant_type=authorization_code&redirect_uri=http://localhost:8080/discordcallback&code=${code}`,
-//                 headers: {
-//                     Accept: "application/json",
-//                 },
-//             },
-//             (err, response, body) => {
-//                 if (err) {
-//                     reject(err);
-//                 } else {
-//                     resolve(JSON.parse(body));
-//                     // resolve(JSON.parse(body).access_token);
-//                 }
-//             }
-//         );
-//     });
-// };
-
-
 function serverProcess() {
     const area = new Area({
         action: {
