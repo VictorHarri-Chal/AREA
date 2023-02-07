@@ -14,7 +14,7 @@ const DropdownMenu = ({ data, placeHolder, pos }) => {
         setIsOpen(!isOpen);
     };
 
-    const changeItem = item => {
+    const changeItem = (item) => {
         setChosenItem(item);
     };
 
