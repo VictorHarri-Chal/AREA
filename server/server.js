@@ -62,8 +62,41 @@ const getGitHubAuthCode = (res, clientId) => {
 };
 
 app.post("/flow", (req, res) => {
-    console.log(req.body);
+    genSchema(req.body);
 });
+
+const getService = (key) => {
+    return key.split('_')[0];
+};
+
+const getTrigger = (key) => {
+    return key.split('_').slice(1).join('_');
+};
+
+const genSchema = (data) => {
+    const firstBox = data.firstBox;
+    const endBox = data.endBox;
+
+    const area = new Area({
+        action: {
+            service: getService(firstBox.key),
+            trigger : getTrigger(firstBox.key),
+            token : 'ThisIsAToken',
+            data : {
+                data : firstBox.chosenItem // change this to a generic way
+            }
+        },
+        reaction: {
+            service: getService(endBox.key),
+            trigger : getTrigger(endBox.key),
+            token : 'ThisIsAToken',
+            data : {
+                data : endBox.chosenItem
+            }
+        }
+    });
+    console.log(area);
+};
 
 const getGitHubAuthToken = (clientId, clientSecret, code) => {
     return new Promise((resolve, reject) => {
