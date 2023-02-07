@@ -314,6 +314,11 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
 
     const [chosenItem, setChosenItem] = useState('');
 
+    const modifyItem = (chosenItem, box) => {
+        if (chosenItem !== null)
+            box.chosenItem = chosenItem;
+    }
+
     return (
         <PlaygroundMain>
             <PlaygroundContainer onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} ref={containerRef}>
@@ -339,7 +344,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                             {data.getADM === true && (
                                 <DropdownMenu data={data.DM} placeHolder={data.placeHolder} pos={pos} chosenItem={chosenItem} setChosenItem={setChosenItem}/>
                             )}
-                            {box.chosenItem = chosenItem}
+                            {modifyItem(chosenItem, box)}
                         </div>
                     )
                 })}

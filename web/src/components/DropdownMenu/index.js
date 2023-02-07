@@ -4,6 +4,7 @@ import { DropdownMenuButton, DropdownMenuContainer, DropdownMenuItem } from './D
 const DropdownMenu = ({ data, placeHolder, pos, chosenItem, setChosenItem }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [currentPos, setCurrentPos] = useState(pos);
+    const [currentItem, setCurrentItem] = useState('');
 
     useEffect(() => {
         setCurrentPos({ x: pos.x + 150, y: pos.y + 30 });
@@ -15,13 +16,14 @@ const DropdownMenu = ({ data, placeHolder, pos, chosenItem, setChosenItem }) => 
 
     const changeItem = (item) => {
         setChosenItem(item);
+        setCurrentItem(item);
     };
 
     const goodPlaceholder = () => {
         if (chosenItem === '') {
             return placeHolder;
         } else {
-            return chosenItem;
+            return currentItem;
         }
     };
 
