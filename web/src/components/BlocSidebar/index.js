@@ -40,6 +40,12 @@ const BlocSidebar = ({ appSelected, isOpen, newRectangle, setNewRectangle }) => 
         setRectanglePosition({ x: 25, y: 350 });
     }
 
+    const getGoodTitle = (title, getADM) => {
+        if (!getADM)
+            return title
+        let cleanedText = title.replace(/\[[^\]]*\]/g, "");
+        return cleanedText
+    }
     const handleConnectTest = (key) => {
         Services[key].handleConnection();
     }
@@ -71,7 +77,7 @@ const BlocSidebar = ({ appSelected, isOpen, newRectangle, setNewRectangle }) => 
                                 onMouseUp={e => handleMouseUp(e)}
                                 special = {item.key === 'blocs_and' ? true : (item.key === 'blocs_or' ? true : false)}
                             >
-                                {item.title}
+                                {getGoodTitle(item.title, item.getADM)}
                             </BSBloc>
                         )
                     })}
