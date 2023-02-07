@@ -333,9 +333,13 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
             <PlaygroundContainer onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} ref={containerRef}>
                 {boxes.map(box => {
                     let data = getBlocData(box.key);
-                    let style = { left: box.x, top: box.y }
-                    if (box.nextToBin === true)
+                    let style = {
+                        left: box.x,
+                        top: box.y,
+                    }
+                    if (box.nextToBin === true) {
                         style.opacity = "0.5";
+                    }
                     let pos = {x : box.x, y : box.y}
                     return (
                         <div>
