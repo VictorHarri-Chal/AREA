@@ -67,7 +67,6 @@ app.get("/githubauth", (req, res) => {
 const getGitHubAuthCode = (res, clientId) => {
     const redirectUri = encodeURIComponent(`http://localhost:8080/callback`);
     const authorizationUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=read:user&state=random_string`;
-    console.log('ça passe là')
     res.redirect(authorizationUrl);
 };
 
@@ -105,7 +104,6 @@ const genSchema = (data) => {
             }
         }
     });
-    console.log(area);
 };
 
 const getGitHubAuthToken = (clientId, clientSecret, code) => {
@@ -178,37 +176,38 @@ async function getDiscordAccessToken(clientId, secret, code) {
 function serverProcess() {
 
     setInterval(() => {
-        if (githubConnected) {
-            const area = new Area({
-                action: {
-                    service: 'github',
-                    token: githubAccessToken,
-                    data: {
-                        repositoryName: 'VictorHarri-Chal/AREA',
-                        trigger: 'issue'
-                    }
-                },
-                reaction: {
-                    service: 'github',
-                    token: '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',
-                    data: {
-                        repositoryName: 'VictorHarri-Chal/AREA',
-                        trigger: 'push'
-                    }
-                }
-            });
-            area.save((err, area) => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    // console.log(`Successfully saved area: ${area}`);
-                    console.log(`Successfully saved area`);
-                }
-            });
-        }
+        // if (githubConnected && discordConnected) {
+        //     testZZZZZ = true;
+        //     console.log('Launch Action');
+        //     const area = new Area({
+        //         action: {
+        //             service: 'github',
+        //             trigger: 'issue',
+        //             token: githubAccessToken,
+        //             data: 'VictorHarri-Chal/AREA',
+        //         },
+        //         reaction: {
+        //             service: 'github',
+        //             trigger: 'send_Private_Message',
+        //             token: discordAccessToken,
+        //             data: 'VictorHarri-Chal/AREA',
+        //         }
+        //     });
+        //     area.save((err, area) => {
+        //         console.log('save..');
+        //         if (err) {
+        //             console.log('ERRRRRR');
+        //             console.log(err);
+        //         } else {
+        //             // console.log(`Successfully saved area: ${area}`);
+        //             console.log(`Successfully saved area`);
+        //         }
+        //     });
+        // }
     }, 15000);
 
     setInterval(() => {
+        console.log('Check...');
         trigger.checkTriggers();
     }, 5000);
 

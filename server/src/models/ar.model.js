@@ -14,7 +14,7 @@ const actionSchema = new mongoose.Schema({
         required: true
     },
     data: {
-        type: Object,
+        type: String,
     },
     date: {
         type: Date,
@@ -36,7 +36,7 @@ const reactionSchema = new mongoose.Schema({
         required: true
     },
     data: {
-        type: Object,
+        type: String,
     },
     date: {
         type: Date,
