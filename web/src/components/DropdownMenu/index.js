@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { DropdownMenuButton, DropdownMenuContainer, DropdownMenuItem } from './DropdownMenuElements';
 
-const DropdownMenu = ({ data, placeHolder, pos }) => {
+const DropdownMenu = ({ data, placeHolder, pos, chosenItem, setChosenItem }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [chosenItem, setChosenItem] = useState('');
     const [currentPos, setCurrentPos] = useState(pos);
+    const [currentItem, setCurrentItem] = useState('');
 
     useEffect(() => {
         setCurrentPos({ x: pos.x + 150, y: pos.y + 30 });
@@ -14,15 +14,16 @@ const DropdownMenu = ({ data, placeHolder, pos }) => {
         setIsOpen(!isOpen);
     };
 
-    const changeItem = item => {
+    const changeItem = (item) => {
         setChosenItem(item);
+        setCurrentItem(item);
     };
 
     const goodPlaceholder = () => {
-        if (chosenItem === '') {
+        if (currentItem === '') {
             return placeHolder;
         } else {
-            return chosenItem;
+            return currentItem;
         }
     };
 

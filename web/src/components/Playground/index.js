@@ -34,7 +34,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         }
         if (newRectangle.isNewRect === true) {
             if (newRectangle.x > containerPosition.x && newRectangle.x < containerPosition.x + containerPosition.width && newRectangle.y > containerPosition.y && newRectangle.y < containerPosition.y + containerPosition.height) {
-                setBoxes(boxes => [...boxes, { id: uuidv4(), x: newRectangle.x - 475, y: newRectangle.y - 110, key: newRectangle.key, linkTo: '0', linkFrom: '0', startOfFlow: (boxes.length === 0) ? true : false, endOfFlow: (boxes.length === 1) ? true : false}]);
+                setBoxes(boxes => [...boxes, { id: uuidv4(), x: newRectangle.x - 475, y: newRectangle.y - 110, key: newRectangle.key, linkTo: '0', linkFrom: '0', startOfFlow: (boxes.length === 0) ? true : false, endOfFlow: (boxes.length === 1) ? true : false, chosenItem : ''}]);
             }
             setNewRectangle({ isNewRect: false, x: 0, y: 0, key: '' });
         }
@@ -309,7 +309,6 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                     foundBox.endOfFlow = true;
             }
             tmp = tmp.filter(verifBox => verifBox.id !== blocSelected)
-            console.log("here")
             setBoxes([...tmp])
         }
     };
@@ -327,6 +326,15 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         if (flag === "end")
             setIsHoldingFlagArrived(true);
     };
+
+    const [chosenItem, setChosenItem] = useState('');
+
+    const modifyItem = (chosenItem, box) => {
+        if (chosenItem !== null)
+            box.chosenItem = chosenItem;
+        if (chosenItem !== '')
+            setChosenItem('');
+    }
 
     return (
         <PlaygroundMain>
@@ -351,12 +359,13 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                                 {getGoodTitle(data.title, data.getADM)}
                             </PlaygroundBox>
                             {data.getADM === true && (
-                                <DropdownMenu data={data.DM} placeHolder={data.placeHolder} pos={pos}/>
+                                <DropdownMenu data={data.DM} placeHolder={data.placeHolder} pos={pos} setChosenItem={setChosenItem}/>
                             )}
+                            {data.getADM === true && (modifyItem(chosenItem, box))}
                         </div>
                     )
                 })}
-                <ValidateButton />
+                <ValidateButton data={boxes} />
                 <PlaygroundBin><Icon icon="mdi:bin-empty" ref={binRef} /></PlaygroundBin>
                 {arrows[1] && <Arrow arrows={arrows} boxes={boxes} clientX={clientPosition.x} clientY={clientPosition.y} getBlocData={getBlocData}/>}
             </PlaygroundContainer>
