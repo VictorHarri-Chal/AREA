@@ -22,7 +22,7 @@ const githubTrigger = {
         try {
             const response = await axios.get(url, {
                 headers: {
-                'Authorization': 'Token ' + access_token
+                    'Authorization': 'Token ' + access_token
                 }
             });
         if (trigger === "push") {

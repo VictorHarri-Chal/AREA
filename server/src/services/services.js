@@ -1,4 +1,5 @@
 const githubTrigger = require('./actions/githubActions');
+const discordTrigger = require('./actions/discordActions');
 
 const services = {
     github: {
@@ -6,7 +7,7 @@ const services = {
             return await githubTrigger.checkGithubTrigger(action);
         },
         startReaction: function(reaction) {
-            console.log('REACTION');
+            console.log('[GitHub] - Reaction');
         }
     },
     twitter: {
@@ -15,6 +16,16 @@ const services = {
         },
         startReaction: function(reaction) {
 
+        }
+    },
+    discord: {
+        checkTrigger: async function(action) {
+            console.log('[Discord] - Action');
+            // return await discordTrigger.discordAction(action);
+        },
+        startReaction: async function(reaction) {
+            console.log('[Discord] - Reaction');
+            return await discordTrigger.discordReaction(reaction);
         }
     }
 };
