@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { DropdownMenuButton, DropdownMenuContainer, DropdownMenuItem } from './DropdownMenuElements';
 
-const DropdownMenu = ({ data, placeHolder, pos, chosenItem, setChosenItem }) => {
+const DropdownMenu = ({ data, placeHolder, pos, box }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [currentPos, setCurrentPos] = useState(pos);
     const [currentItem, setCurrentItem] = useState('');
@@ -15,7 +15,7 @@ const DropdownMenu = ({ data, placeHolder, pos, chosenItem, setChosenItem }) => 
     };
 
     const changeItem = (item) => {
-        setChosenItem(item);
+        box.chosenItem = item;
         setCurrentItem(item);
     };
 
