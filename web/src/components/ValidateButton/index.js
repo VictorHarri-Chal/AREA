@@ -35,12 +35,11 @@ async function genFlow(data) {
             body: JSON.stringify(sendData),
         });
         if (!response.ok) {
-            throw new Error('Failed to connect to Github');
+            throw new Error('Failed');
         }
     } catch (error) {
         console.error(error);
     }
-    console.log('Schema created');
 }
 
 function ValidateButton( {data} ) {
