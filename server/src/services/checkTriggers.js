@@ -9,7 +9,8 @@ const trigger = {
             for (const area of areas) {
                 const serviceFunction = Services[area.action.service];
                 if (await serviceFunction.checkTrigger(area.action)) {
-                    serviceFunction.startReaction(area.reaction);
+                    // serviceFunction.startReaction(area.reaction);
+                    console.log('CHAMPION DU MONDE');
                 }
             }
         } catch (err) {
