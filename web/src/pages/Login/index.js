@@ -72,6 +72,8 @@ const Login = () => {
                             console.log(e);
                             return;
                         });
+                        sessionStorage.setItem("connectTogithub", false);
+                        sessionStorage.setItem("connectTodiscord", false);
                         alert('Logged in successfully!');
                     } else {
                         console.log('error on submit ');

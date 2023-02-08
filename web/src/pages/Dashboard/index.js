@@ -3,6 +3,7 @@ import Navbar from '../../components/Navbar'
 import AppSidebar from '../../components/AppSidebar'
 import BlocSidebar from '../../components/BlocSidebar'
 import Playground from '../../components/Playground'
+import {ASData} from './../../components/AppSidebar/ASData'
 
 const Dashboard = () => {
 
@@ -16,6 +17,22 @@ const Dashboard = () => {
         setIsOpen(!isOpen)
     }
 
+    const verifyLogin = () => {
+        console.log(sessionStorage)
+        ASData.map((item, index) => {
+            if (sessionStorage.connectTogithub === 'true') {
+                if (item.key === 'github') {
+                    item.login = true
+                }
+            }
+            if (sessionStorage.connectTodiscord === 'true') {
+                if (item.key === 'discord') {
+                    item.login = true
+                }
+            }
+        })
+    }
+
     if (!sessionStorage.accessToken) {
         alert('Please connect as User to access Dashboard');
         window.location.href = 'http://localhost:8081/login';
@@ -23,10 +40,11 @@ const Dashboard = () => {
 
     return (
         <>
+            {verifyLogin()}
             <Navbar isOpen={false} isInDashboard={true} />
             <Playground newRectangle={newRectangle} setNewRectangle={setNewRectangle} />
-            <AppSidebar appSelected={appSelected} setAppSelected={setAppSelected} isOpen={isOpen} toggleSideBar={toggleSideBar} />
-            <BlocSidebar appSelected={appSelected} isOpen={isOpen} newRectangle={newRectangle} setNewRectangle={setNewRectangle} />
+            <AppSidebar appSelected={appSelected} setAppSelected={setAppSelected} isOpen={isOpen} toggleSideBar={toggleSideBar} ASData={ASData} />
+            <BlocSidebar appSelected={appSelected} isOpen={isOpen} newRectangle={newRectangle} setNewRectangle={setNewRectangle} ASData={ASData}/>
         </>
     )
 }

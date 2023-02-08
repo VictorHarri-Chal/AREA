@@ -1,9 +1,8 @@
 import React from 'react'
 import { ASContainer, ASIconList, ASIcon, ASLogin, MobileIcon } from './ASElements'
-import {ASData} from './ASData'
 import { FiX, FiMenu } from 'react-icons/fi'
 
-const AppSidebar = ({ appSelected, setAppSelected, isOpen, toggleSideBar }) => {
+const AppSidebar = ({ appSelected, setAppSelected, isOpen, toggleSideBar, ASData }) => {
 
     const handleIconClick = (item) => {
         if (Object.is(item, appSelected)) {

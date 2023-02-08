@@ -3,7 +3,7 @@ import { BSAppName, BSContainer, BSLogoApp, BSConnectBtn, BSConnected, BSActionR
 const Services = require('./HandleConnect.js');
 
 
-const BlocSidebar = ({ appSelected, isOpen, newRectangle, setNewRectangle }) => {
+const BlocSidebar = ({ appSelected, isOpen, newRectangle, setNewRectangle, ASData }) => {
     const [actionRea, setActionRea] = useState(true)
     const [isDragging, setIsDragging] = useState(false)
     const [rectanglePosition, setRectanglePosition] = useState({x : 25, y : 350})
@@ -46,8 +46,31 @@ const BlocSidebar = ({ appSelected, isOpen, newRectangle, setNewRectangle }) => 
         let cleanedText = title.replace(/\[[^\]]*\]/g, "");
         return cleanedText
     }
-    const handleConnectTest = (key) => {
+
+    async function isConnected(key) {
+        let sendData = {
+            key: key,
+        }
+        try {
+            const response = await fetch('http://localhost:8080/isConnect', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(sendData),
+            }).then((response) => {
+                if (response.status === 200) {
+                    sessionStorage.setItem("connectTo" + key, true)
+                }
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const handleConnect = (key) => {
         Services[key].handleConnection();
+        isConnected(key);
     }
 
     return (
@@ -55,13 +78,13 @@ const BlocSidebar = ({ appSelected, isOpen, newRectangle, setNewRectangle }) => 
             <BSLogoApp color={appSelected.color}>{appSelected.icon}</BSLogoApp>
             <BSAppName color={appSelected.color}>{appSelected.title}</BSAppName>
 
-            <BSConnectBtn color={appSelected.color} login={appSelected.login} onClick={() => handleConnectTest(appSelected.key)}>Connect</BSConnectBtn>
+            <BSConnectBtn color={appSelected.color} login={appSelected.login} onClick={() => handleConnect(appSelected.key)}>Connect</BSConnectBtn>
             <BSConnected color={appSelected.color} login={appSelected.login}>Connected</BSConnected>
 
             <BSActionRea color={appSelected.color} actionRea={actionRea} onClick={() => toggleActionRea(true)} login={appSelected.login} which={false}>Action</BSActionRea>
             <BSActionRea color={appSelected.color} actionRea={!actionRea} onClick={() => toggleActionRea(false)} login={appSelected.login} which={true}>Reaction</BSActionRea>
 
-            {appSelected && appSelected.login ? (
+            {appSelected && (appSelected.login || appSelected.login === undefined) ? (
                 <BSBlocContainer
                 style={{
                     left : rectanglePosition.x,

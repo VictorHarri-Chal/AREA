@@ -24,7 +24,7 @@ export const ASData = [
         key : 'github',
         title: 'Github',
         icon : <Icon icon="mdi:github" />,
-        login : true,
+        login : false,
         color : "#99aab5",
         action_blocs : [
             {
@@ -66,7 +66,7 @@ export const ASData = [
         key : 'spotify',
         title: 'Spotify',
         icon : <Icon icon="mdi:spotify" />,
-        login : true,
+        login : false,
         color : "#1ed760",
         action_blocs : [
             {
@@ -85,21 +85,20 @@ export const ASData = [
         key : 'youtube',
         title: 'Youtube',
         icon : <Icon icon="mdi:youtube" />,
-        login : true,
+        login : false,
         color : "#fe0000"
     },
     {
         key : 'twitch',
         title: 'Twitch',
         icon : <Icon icon="mdi:twitch" />,
-        login : true,
+        login : false,
         color : "#6441a5"
     },
     {
         key : 'tools',
         title: 'Tools',
         icon : <Icon icon="mdi:puzzle" />,
-        login : true,
         color : "#E7BC0D",
         action_blocs : [
             {

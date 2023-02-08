@@ -98,6 +98,11 @@ const genSchema = (data) => {
     console.log(area);
 };
 
+app.post("/isConnect", (req, res) => {
+    // if (req.body.key === 'github')
+    res.status(200).send('Connected');
+});
+
 const getGitHubAuthToken = (clientId, clientSecret, code) => {
     return new Promise((resolve, reject) => {
         request.post({
