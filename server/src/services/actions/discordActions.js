@@ -1,7 +1,7 @@
 const axios = require('axios');
 const Discord = require('discord.js');
 const discordClient = new Discord.Client();
-const token = 'MTA2MzA1NDI3Mzk0NjA1ODgzMw.GNwfOX.r4txg7hw1Fl5-3OR5mGqnIOkGFi63qwF5iMtpc'
+const token = ''
 
 
 const discordAction = {
