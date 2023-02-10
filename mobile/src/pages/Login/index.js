@@ -19,7 +19,6 @@ class Login extends React.Component {
     render() {
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Text>Sign in please</Text>
                 <Button title="Create Rectangle" onPress={() => this.createRectangle()}/>
                 {this.state.rectangles.map((rectangle) => rectangle)}
             </View>
