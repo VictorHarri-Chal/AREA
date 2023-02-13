@@ -13,18 +13,26 @@ const cors = require('cors');
 const trigger = require('./src/services/checkTriggers');
 
 const newUser = new User({
-        username: "example_username",
-        email: "example@email.com"
-    });
+    username: "example_username",
+    email: "example@email.com"
+});
 
-    app.use(cors());
+app.use(cors());
 
-    app.use(express.json());
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
-    require('./src/routes/auth.routes.js')(app);
+require('./src/routes/auth.routes.js')(app);
 require('./src/routes/user.routes.js')(app);
+
+var githubConnected = false;
+//declare a global variable to store the github access token
+var githubAccessToken = "";
+//same for discord
+var discordAccessToken = "";
+
+var discordConnected = false;
 
 app.get('/', (req, res) => {
     res.json({ msg: 'Hello World!' });
@@ -41,6 +49,8 @@ app.get("/callback", (req, res) => {
     getGitHubAuthToken("498e03f921f50999dbb4", "ef1c8f0525c5239d4635e3e5023ad4b6eb6929ed", code)
         .then(accessToken => {
             console.log('access token: ', accessToken);
+            githubConnected = true;
+            githubAccessToken = accessToken;
         })
         .catch(error => {
             console.error(error);
@@ -57,7 +67,6 @@ app.get("/githubauth", (req, res) => {
 const getGitHubAuthCode = (res, clientId) => {
     const redirectUri = encodeURIComponent(`http://localhost:8080/callback`);
     const authorizationUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=read:user&state=random_string`;
-    console.log('ça passe là')
     res.redirect(authorizationUrl);
 };
 
@@ -148,6 +157,8 @@ app.get("/discordcallback", (req, res) => {
     getDiscordAccessToken("1063054273946058833", "Ie8_A2L-lNSnKFvjiXXQFfwX9Wwb2w_-", code)
         .then((accessToken) => {
             console.log("access token: ", accessToken);
+            discordConnected = true;
+            discordAccessToken = accessToken;
         })
         .catch((error) => {
             console.error(error);
@@ -188,37 +199,43 @@ async function getDiscordAccessToken(clientId, secret, code) {
 }
 
 function serverProcess() {
-    const area = new Area({
-        action: {
-            service: 'github',
-            token: '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',
-            data: {
-                repositoryName: 'VictorHarri-Chal/AREA',
-                trigger: 'issue'
-            }
-        },
-        reaction: {
-            service: 'github',
-            token: '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',
-            data: {
-                repositoryName: 'VictorHarri-Chal/AREA',
-                trigger: 'push'
-            }
-        }
-    });
-
-    // area.save((err, area) => {
-    //     if (err) {
-    //         console.log(err);
-    //     } else {
-    //         console.log(`Successfully saved area: ${area}`);
-    //     }
-    // });
 
     setInterval(() => {
-        // trigger.checkTriggers();
-        // console.log('Checking triggers...');
-    }, 3000);
+        // if (githubConnected && discordConnected) {
+        //     testZZZZZ = true;
+        //     console.log('Launch Action');
+        //     const area = new Area({
+        //         action: {
+        //             service: 'github',
+        //             trigger: 'issue',
+        //             token: githubAccessToken,
+        //             data: 'VictorHarri-Chal/AREA',
+        //         },
+        //         reaction: {
+        //             service: 'github',
+        //             trigger: 'send_Private_Message',
+        //             token: discordAccessToken,
+        //             data: 'VictorHarri-Chal/AREA',
+        //         }
+        //     });
+        //     area.save((err, area) => {
+        //         console.log('save..');
+        //         if (err) {
+        //             console.log('ERRRRRR');
+        //             console.log(err);
+        //         } else {
+        //             // console.log(`Successfully saved area: ${area}`);
+        //             console.log(`Successfully saved area`);
+        //         }
+        //     });
+        // }
+    }, 15000);
+
+    setInterval(() => {
+        console.log('Check...');
+        trigger.checkTriggers();
+    }, 5000);
+
     // utils.deleteUsers();
     // utils.addUser(newUser.username, newUser.email);
     // utils.displayUsers();
