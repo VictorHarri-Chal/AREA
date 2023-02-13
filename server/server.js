@@ -73,9 +73,28 @@ const getTrigger = (key) => {
     return key.split('_').slice(1).join('_');
 };
 
+const getFirstBox = (data) => {
+    return data.find((box) => {
+        if (box.startOfFlow === true) {
+            return true;
+        }
+    });
+};
+
+const getLastBox = (data) => {
+    return data.find((box) => {
+        if (box.endOfFlow === true) {
+            return true;
+        }
+    });
+};
+
 const genSchema = (data) => {
-    const firstBox = data.firstBox;
-    const endBox = data.endBox;
+    const firstBox = getFirstBox(data);
+    const endBox = getLastBox(data);
+
+    // console.log(firstBox);
+    // console.log(endBox);
 
     const area = new Area({
         action: {
@@ -95,7 +114,7 @@ const genSchema = (data) => {
             }
         }
     });
-    console.log(area);
+    // console.log(area);
 };
 
 app.post("/isConnect", (req, res) => {
