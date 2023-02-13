@@ -2,29 +2,38 @@ import React from 'react';
 import { ValidateButtonStyle } from './ValidateButtonElements';
 import { Icon } from '@iconify/react';
 
-function findFirstBox(data) {
+function findFirstBox(data, sendData) {
     const firstBox = data.find((box) => {
         if (box.startOfFlow === true) {
             return true;
         }
     });
-    return firstBox;
+    sendData.push(firstBox);
+    if (firstBox.linkTo !== '0') {
+        findNextBox(data, firstBox, sendData);
+    }
+    return sendData;
 }
 
-function findEndBox(data) {
-    const endBox = data.find((box) => {
-        if (box.endOfFlow === true) {
+function findNextBox(data, firstBox, sendData) {
+    const nextBox = data.find((box) => {
+        if (box.id === firstBox.linkTo) {
             return true;
         }
     });
-    return endBox;
+    sendData.push(nextBox);
+    if (nextBox.linkTo !== '0') {
+        findNextBox(data, nextBox, sendData);
+    }
+    return sendData;
 }
 
 async function genFlow(data) {
-    const firstBox = findFirstBox(data);
-    const endBox = findEndBox(data);
+    let sendData = [];
+    sendData = findFirstBox(data, sendData);
 
-    let sendData = {"firstBox": firstBox, "endBox": endBox };
+
+    console.log(sendData)
 
     try {
         const response = await fetch('http://localhost:8080/flow', {
