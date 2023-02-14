@@ -37,6 +37,10 @@ var discordAccessToken = "";
 
 var discordConnected = false;
 
+var spotifyConnected = false;
+
+var spotifyAccessToken = "";
+
 app.get('/', (req, res) => {
     res.json({ msg: 'Hello World!' });
 });
@@ -235,10 +239,7 @@ app.get("/spotify-auth", (req, res) => {
 });
 
 app.get("/spotifycallback", (req, res) => {
-    console.log("spotify-callback here");
     const code = req.query.code;
-
-    console.log("Code: ", code);
 
     const requestBody = {
         grant_type: 'authorization_code',
@@ -253,7 +254,6 @@ app.get("/spotifycallback", (req, res) => {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
     }).then((response) => {
-        console.log(response.data);
         spotifyConnected = true;
         spotifyAccessToken = response.data.access_token;
     }).catch((error) => {
