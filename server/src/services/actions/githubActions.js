@@ -1,7 +1,5 @@
 const axios = require('axios');
 const mongoose = require('mongoose');
-const { Client, GatewayIntentBits, Partials } = require('discord.js');
-const client = new Client({ intents: [GatewayIntentBits.DirectMessageTyping, GatewayIntentBits.Guilds], partials: [Partials.Channel] });
 
 const issueSchema = new mongoose.Schema({
   repositoryName: String,
@@ -68,30 +66,7 @@ const githubTrigger = {
     return false;
   },
   checkGithubReaction: async function checkGithubReaction(reaction) {
-    const trigger = reaction.trigger;
-    const access_token = reaction.token;
-    let url = '';
-
-    if (trigger === 'send_Private_Message') {
-        console.log('setting url. . .');
-      url = `https://discordapp.com/api/users/@me`;
-    } else {
-      console.log('Invalid reaction provided. Please provide a valid reaction.');
-    }
-
-    try {
-        const response = await axios.get(url, {
-            headers: {
-              Authorization: 'Bearer ' + access_token,
-            },
-        }).then(response => {
-            console.log('User id: ' + response.data.id);
-            // const user = client.users.cache.get(response.data.id);
-            // user.send('azifnzemofnqmorg');
-        });
-    } catch (err) {
-        console.log(err);
-    }
+      console.log('reactGitHub - . . . in the function . . .')
   }
 };
 

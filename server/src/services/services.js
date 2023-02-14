@@ -27,7 +27,7 @@ const services = {
         },
         startReaction: async function(reaction) {
             console.log('[Discord] - Reaction');
-            // return await discordTrigger.discordReaction(reaction);
+            return await discordTrigger.checkDiscordReaction(reaction);
         }
     }
 };

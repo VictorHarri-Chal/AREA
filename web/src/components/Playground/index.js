@@ -65,15 +65,8 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                     const from = arrow.from;
                     setArrows(arrows.filter(arrow => arrow.to !== "0"));
                     setArrows(arrows => [...arrows, { id: index, exists: true, from: from, to: id}]);
-                    setBoxes(boxes.map(box => {
-                        if (box.id === id) {
-                            box.linkFrom = from;
-                        }
-                        if (box.id === from) {
-                            box.linkTo = id;
-                        }
-                        return box;
-                    }));
+                    setBoxes(boxes.map(box => box.id === from ? {...box, linkTo: id} : box));
+                    setBoxes(boxes.map(box => box.id === id ? {...box, linkFrom: from} : box));
                 }
             }
         });

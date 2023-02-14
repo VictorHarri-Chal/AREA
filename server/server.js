@@ -82,28 +82,9 @@ const getTrigger = (key) => {
     return key.split('_').slice(1).join('_');
 };
 
-const getFirstBox = (data) => {
-    return data.find((box) => {
-        if (box.startOfFlow === true) {
-            return true;
-        }
-    });
-};
-
-const getLastBox = (data) => {
-    return data.find((box) => {
-        if (box.endOfFlow === true) {
-            return true;
-        }
-    });
-};
-
 const genSchema = (data) => {
-    const firstBox = getFirstBox(data);
-    const endBox = getLastBox(data);
-
-    // console.log(firstBox);
-    // console.log(endBox);
+    const firstBox = data.firstBox;
+    const endBox = data.endBox;
 
     const area = new Area({
         action: {
@@ -123,7 +104,6 @@ const genSchema = (data) => {
             }
         }
     });
-    // console.log(area);
 };
 
 app.post("/isConnect", (req, res) => {
@@ -202,7 +182,6 @@ function serverProcess() {
 
     setInterval(() => {
         // if (githubConnected && discordConnected) {
-        //     testZZZZZ = true;
         //     console.log('Launch Action');
         //     const area = new Area({
         //         action: {
@@ -212,7 +191,7 @@ function serverProcess() {
         //             data: 'VictorHarri-Chal/AREA',
         //         },
         //         reaction: {
-        //             service: 'github',
+        //             service: 'discord',
         //             trigger: 'send_Private_Message',
         //             token: discordAccessToken,
         //             data: 'VictorHarri-Chal/AREA',
@@ -229,7 +208,7 @@ function serverProcess() {
         //         }
         //     });
         // }
-    }, 15000);
+    }, 10000);
 
     setInterval(() => {
         console.log('Check...');

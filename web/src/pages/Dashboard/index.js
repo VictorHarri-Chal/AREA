@@ -18,6 +18,7 @@ const Dashboard = () => {
     }
 
     const verifyLogin = () => {
+        console.log(sessionStorage)
         ASData.map((item, index) => {
             if (sessionStorage.connectTogithub === 'true') {
                 if (item.key === 'github') {
