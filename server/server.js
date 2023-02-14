@@ -13,6 +13,7 @@ const cors = require('cors');
 const trigger = require('./src/services/checkTriggers');
 const Math = require('mathjs');
 const queryString = require('querystring');
+const axios = require('axios');
 
 const newUser = new User({
     username: "example_username",
@@ -213,6 +214,7 @@ const generateRandomString = (length) => {
 
 
 var client_id = '7e1049e74b76497a9c192fcf08c9a279'; // Your client id spotify
+var client_secret = '331c1bb09e3042f9b06a9302dc01a74c'; // Your secret spotify
 
 app.get("/spotify-auth", (req, res) => {
     console.log('spotify auth here');
@@ -234,6 +236,34 @@ app.get("/spotify-auth", (req, res) => {
 
 app.get("/spotifycallback", (req, res) => {
     console.log("spotify-callback here");
+    const code = req.query.code;
+
+    console.log("Code: ", code);
+
+    const requestBody = {
+        grant_type: 'authorization_code',
+        code: code,
+        redirect_uri: 'http://localhost:8080/spotifycallback',
+        client_id: client_id,
+        client_secret: client_secret,
+    };
+
+    axios.post('https://accounts.spotify.com/api/token', queryString.stringify(requestBody), {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    }).then((response) => {
+        console.log(response.data);
+        spotifyConnected = true;
+        spotifyAccessToken = response.data.access_token;
+    }).catch((error) => {
+        console.log(error);
+    });
+
+    res.header("Access-Control-Allow-Origin", "*");
+    res.statusCode = 302;
+    res.setHeader("Location", "http://localhost:8081/dashboard");
+    res.end();
 });
 
 function serverProcess() {
