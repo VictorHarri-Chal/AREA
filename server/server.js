@@ -181,6 +181,10 @@ const getDiscordAuthCode = (res, clientId) => {
     res.redirect(authorizationUrl);
 };
 
+app.get("/spotify-auth", (req, res) => {
+    console.log('spotify auth here');
+});
+
 async function getDiscordAccessToken(clientId, secret, code) {
     const response = await fetch('https://discord.com/api/oauth2/token', {
         method: 'POST',
