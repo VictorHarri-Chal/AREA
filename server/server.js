@@ -7,6 +7,7 @@ const utils = require('./src/utils/utils.js');
 const db = require('./src/models')
 const User = db.user;
 const Role = db.role;
+const AccessTokens = db.accessTokens;
 const app = express();
 const port = 8080;
 const cors = require('cors');
@@ -51,6 +52,15 @@ app.get("/callback", (req, res) => {
             console.log('access token: ', accessToken);
             githubConnected = true;
             githubAccessToken = accessToken;
+            userID = User.
+            AccessTokens.countDocuments({_userID: userID}, function (err, count) {
+                if (count > 0) {
+                    //document exists });
+                }
+            });
+            if (!AccessTokens.exists({tokens: {service: "github"}})) {
+                ; // save github
+            }
         })
         .catch(error => {
             console.error(error);
@@ -204,7 +214,7 @@ function serverProcess() {
         // if (githubConnected && discordConnected) {
         //     testZZZZZ = true;
         //     console.log('Launch Action');
-        //     const area = new Area({
+            // const area = new Area({
         //         action: {
         //             service: 'github',
         //             trigger: 'issue',
@@ -227,7 +237,7 @@ function serverProcess() {
         //             // console.log(`Successfully saved area: ${area}`);
         //             console.log(`Successfully saved area`);
         //         }
-        //     });
+            // });
         // }
     }, 15000);
 

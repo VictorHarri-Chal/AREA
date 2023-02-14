@@ -3,6 +3,7 @@ const config = require("../config/auth.config");
 const db = require("../models");
 const User = db.user;
 const Role = db.role;
+const AccessTokens = db.accessTokens;
 var bcrypt = require("bcryptjs");
 var jwt = require("jsonwebtoken");
 var bodyParser = require('body-parser');
@@ -63,6 +64,12 @@ exports.signup = (req, res) => {
                 });
             });
         }
+
+        const setupTokens = new AccessTokens({
+            _userID: 
+        });
+
+        AccessTokens.save({_userID})
     });
 };
 
