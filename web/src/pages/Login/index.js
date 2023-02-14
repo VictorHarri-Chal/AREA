@@ -54,6 +54,9 @@ const Login = () => {
                 .then((user) => {
                     if (user) {
                         sessionStorage.setItem("accessToken", user.accessToken)
+                        sessionStorage.setItem("username", user.username)
+                        sessionStorage.setItem("email", user.email)
+                        sessionStorage.setItem("initials", user.username.charAt(0).toUpperCase() + user.username.charAt(1).toUpperCase())
                         console.log('logged in. . .');
                         fetch('http://localhost:8080/dashboard', {
                             method: 'GET',
@@ -74,7 +77,6 @@ const Login = () => {
                         });
                         sessionStorage.setItem("connectTogithub", false);
                         sessionStorage.setItem("connectTodiscord", false);
-                        alert('Logged in successfully!');
                     } else {
                         console.log('error on submit ');
                         throw new Error('Something went wrong');
