@@ -11,6 +11,8 @@ const app = express();
 const port = 8080;
 const cors = require('cors');
 const trigger = require('./src/services/checkTriggers');
+const Math = require('mathjs');
+const queryString = require('querystring');
 
 const newUser = new User({
     username: "example_username",
@@ -181,9 +183,6 @@ const getDiscordAuthCode = (res, clientId) => {
     res.redirect(authorizationUrl);
 };
 
-app.get("/spotify-auth", (req, res) => {
-    console.log('spotify auth here');
-});
 
 async function getDiscordAccessToken(clientId, secret, code) {
     const response = await fetch('https://discord.com/api/oauth2/token', {
@@ -201,6 +200,41 @@ async function getDiscordAccessToken(clientId, secret, code) {
         return null;
     }
 }
+
+const generateRandomString = (length) => {
+    var text = '';
+    var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+    for (var i = 0; i < length; i++) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
+};
+
+
+var client_id = '7e1049e74b76497a9c192fcf08c9a279'; // Your client id spotify
+
+app.get("/spotify-auth", (req, res) => {
+    console.log('spotify auth here');
+
+    var state = generateRandomString(16);
+    var scope = 'user-read-private user-read-email';
+
+    res.redirect('https://accounts.spotify.com/authorize?' +
+        queryString.stringify({
+            response_type: 'code',
+            client_id: client_id,
+            scope: scope,
+            redirect_uri: 'http://localhost:8080/spotifycallback',
+            state: state
+        })
+    );
+
+});
+
+app.get("/spotifycallback", (req, res) => {
+    console.log("spotify-callback here");
+});
 
 function serverProcess() {
 
