@@ -78,6 +78,7 @@ const getGitHubAuthCode = (res, clientId) => {
 };
 
 app.post("/flow", (req, res) => {
+    console.log("spotify token: ", spotifyAccessToken);
     genSchema(req.body);
 });
 
@@ -268,36 +269,35 @@ app.get("/spotifycallback", (req, res) => {
 
 function serverProcess() {
 
-    setInterval(() => {
-        // if (githubConnected && discordConnected) {
-        //     testZZZZZ = true;
-        //     console.log('Launch Action');
-        //     const area = new Area({
-        //         action: {
-        //             service: 'github',
-        //             trigger: 'issue',
-        //             token: githubAccessToken,
-        //             data: 'VictorHarri-Chal/AREA',
-        //         },
-        //         reaction: {
-        //             service: 'github',
-        //             trigger: 'send_Private_Message',
-        //             token: discordAccessToken,
-        //             data: 'VictorHarri-Chal/AREA',
-        //         }
-        //     });
-        //     area.save((err, area) => {
-        //         console.log('save..');
-        //         if (err) {
-        //             console.log('ERRRRRR');
-        //             console.log(err);
-        //         } else {
-        //             // console.log(`Successfully saved area: ${area}`);
-        //             console.log(`Successfully saved area`);
-        //         }
-        //     });
-        // }
-    }, 15000);
+    // setInterval(() => {
+    //     if (spotifyConnected) {
+    //         console.log('Launch Action');
+    //         const area = new Area({
+    //             action: {
+    //                 service: 'spotify',
+    //                 trigger: 'newStream',
+    //                 token: spotifyAccessToken,
+    //                 data: '',
+    //             },
+    //             reaction: {
+    //                 service: 'spotify',
+    //                 trigger: 'newPlaylist',
+    //                 token: spotifyAccessToken,
+    //                 data: '',
+    //             }
+    //         });
+    //         area.save((err, area) => {
+    //             console.log('save..');
+    //             if (err) {
+    //                 console.log('ERRRRRR');
+    //                 console.log(err);
+    //             } else {
+    //                 // console.log(`Successfully saved area: ${area}`);
+    //                 console.log(`Successfully saved area`);
+    //             }
+    //         });
+    //     }
+    // }, 15000);
 
     setInterval(() => {
         console.log('Check...');
