@@ -64,12 +64,6 @@ exports.signup = (req, res) => {
                 });
             });
         }
-
-        const setupTokens = new AccessTokens({
-            _userID: 
-        });
-
-        AccessTokens.save({_userID})
     });
 };
 
@@ -117,4 +111,10 @@ exports.signin = (req, res) => {
             accessToken: token
         });
     });
+    const setupTokens = new AccessTokens({
+        _userID: User.findOne(req.body.usernameSignUp)._id,
+        tokens: []
+    });
+
+    AccessTokens.save(setupTokens);
 };
