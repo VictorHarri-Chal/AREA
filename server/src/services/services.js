@@ -12,7 +12,7 @@ const services = {
             return await githubTrigger.checkGithubReaction(reaction);
         }
     },
-    twitter: {
+    spotify: {
         checkTrigger: async function(action) {
 
         },
