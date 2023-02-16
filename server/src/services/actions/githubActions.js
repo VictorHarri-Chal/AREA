@@ -4,38 +4,35 @@ let lastETags = {};
 
 const githubTrigger = {
 
-    async checkGithubAction(action) {
+    checkGithubAction: async function checkGithubAction(action) {
         const [ownerName, repoName] = action.data.split("/");
         switch (action.trigger) {
             case "push":
-                await this.checkNewCommits(ownerName, repoName, action.token);
-                break;
+                return await this.checkNewCommits(ownerName, repoName, action.token);
             case "issue":
-                await this.checkNewIssues(ownerName, repoName, action.token);
-                break;
+                return await this.checkNewIssues(ownerName, repoName, action.token);
             case "pull_request":
-                await this.checkNewPullRequests(ownerName, repoName, action.token);
-                break;
+                return await this.checkNewPullRequests(ownerName, repoName, action.token);
             default:
                 console.log(`Unsupported trigger type: ${action.trigger}`);
-                break;
+                return false;
         }
     },
 
     async checkNewCommits(ownerName, repoName, token) {
-        await this.checkNewEvents("PushEvent", ownerName, repoName, token, (event) => {
+        return await this.checkNewEvents("PushEvent", ownerName, repoName, token, (event) => {
             console.log(`Commit: ${event.payload.commits[0].message}`);
         });
     },
 
     async checkNewIssues(ownerName, repoName, token) {
-        await this.checkNewEvents("IssuesEvent", ownerName, repoName, token, (event) => {
+        return await this.checkNewEvents("IssuesEvent", ownerName, repoName, token, (event) => {
             console.log(`Issue: ${event.payload.issue.title}`);
         }, true);
     },
 
     async checkNewPullRequests(ownerName, repoName, token) {
-        await this.checkNewEvents("PullRequestEvent", ownerName, repoName, token, (event) => {
+        return await this.checkNewEvents("PullRequestEvent", ownerName, repoName, token, (event) => {
             console.log(`Pull Request: ${event.payload.pull_request.title}`);
         });
     },
@@ -63,22 +60,23 @@ const githubTrigger = {
                 } else {
                     events.forEach(callback);
                 }
+                return true;
             } else {
                 console.log(`No new ${eventType} events since last request.`);
+                return false;
             }
         } catch (error) {
             if (error.status === 304) {
                 console.log(`No new ${eventType} events since last request.`);
+                return false;
             } else {
                 throw error;
             }
         }
     },
 
-    async checkGithubAction(action) {
-        
-    },
-
+    checkGithubReaction: async function checkGithubReaction(reaction) {
+    }
 };
 
 module.exports = githubTrigger;
