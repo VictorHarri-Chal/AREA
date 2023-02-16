@@ -1,17 +1,21 @@
 const lastStreamFunc = require('./lastStream');
+const newPlaylistFunc = require('./newPlaylist');
+var token = 'BQBbwDmeIcPehztibXB4V1WtN_tVB2nfFvCg5KQz1WLItvdTHVvBLyGmt2FSWMAwNj2AzlglACVpAQTazI8qPXDejCT2qAIzni4b1YLzdke7PGPofsY1hgH2BEAqLlcZtmH_3vNtW47UsF-M2w6s2RK0i2pFwYiJ1gL0RzyfmcxMxhl-4eaSySHSTmV5KgAOEF-_gB474-V-yAsyip0aFGiJVTFSThlY3FAeww';
 
 const spotifyTrigger = {
     checkSpotifyAction: async function checkSpotifyAction(action) {
 
-        var token = 'BQB3GWRlQQtHnsSvmKbKmC_tK_mitnHEee0H7G1ZK9_zkog1SUaqQLW_Pv7yjChDJFemCbj8xdmkwt0-tpRi8ntxyRBI1V478Pg2wlkPfzbUCkae57KjXwnIanfYZNjg4PeMw5X4qwMVPvuVTYgC-vAYIXAWqP7ritJxyK77fIXUPsl6sVfOXstfmfolXlaVE9TU0mk5';
 
         if (action.trigger === 'newStream') {
-            lastStreamFunc(token)
+            return lastStreamFunc(token)
         }
     },
 
     checkSpotifyReaction: async function checkSpotifyReaction(reaction) {
-        console.log('Spotify Reaction')
+        if (reaction.trigger === 'newPlaylist') {
+            return newPlaylistFunc(token)
+
+        }
     }
 }
 

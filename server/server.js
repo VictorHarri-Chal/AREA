@@ -225,7 +225,7 @@ app.get("/spotify-auth", (req, res) => {
     console.log('spotify auth here');
 
     var state = generateRandomString(16);
-    var scope = 'user-read-private user-read-email user-read-currently-playing user-read-playback-state';
+    var scope = 'user-read-private user-read-email user-read-currently-playing user-read-playback-state playlist-modify-private';
 
     res.redirect('https://accounts.spotify.com/authorize?' +
         queryString.stringify({
