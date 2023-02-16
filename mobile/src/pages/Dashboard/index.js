@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import Rectangle from '../../components/Draggable/Draggable.js';
 
 const Dashboard = () => {
   const [menuVisible, setMenuVisible] = useState(false);
   const [selectedButton, setSelectedButton] = useState(null);
   const [currentBlocType, setCurrentBlocType] = useState("action_blocs");
+  const [boxes, setBoxes] = useState([]);
 
   const [menuButtons, setMenuButtons] = useState([
     {
@@ -69,9 +71,20 @@ const Dashboard = () => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => setMenuVisible(true)}>
-        <Text style={styles.openMenuButton}>Open Menu</Text>
-      </TouchableOpacity>
+      <>
+        <TouchableOpacity onPress={() => {
+          setMenuVisible(true)}}>
+          <Text style={styles.openMenuButton}>Open Menu</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {}}>
+          <View style={styles.validateMenuButton}>
+            <Icon name={"play"} size={19} color={"red"}/>
+          </View>
+        </TouchableOpacity>
+        {boxes.map(box => (
+          <Rectangle key={box.key} title={box.title} color={box.color}></Rectangle>
+        ))}
+      </>
       {menuVisible && (
         <View style={styles.menuContainer}>
           <View style={styles.menuLeft}>
@@ -85,10 +98,13 @@ const Dashboard = () => {
                 onPress={() => setSelectedButton(button.name)}
               >
                 <Icon name={button.icon} size={30} color={button.color} />
-                {console.log(menuButtons)}
                 <View style={[styles.buttonIndicator, { backgroundColor: button.login ? 'green' : 'red' }]} />
               </TouchableOpacity>
             ))}
+            <TouchableOpacity onPress={() => {
+              setMenuVisible(false)}}>
+              <Text style={styles.closeMenuButton}>Close Menu</Text>
+            </TouchableOpacity>
           </View>
           <View style={styles.menuRight}>
             {selectedButton ? (
@@ -109,7 +125,7 @@ const Dashboard = () => {
                   ) : (
                     <>
                       <TouchableOpacity class="actionButton"
-                      style={styles.actionButton}
+                      style={[styles.actionButton, { backgroundColor: currentBlocType === "action_blocs" ? 'white' : 'lightgray'}]}
                       onPress={() => {
                         setCurrentBlocType("action_blocs");
                       }}
@@ -117,7 +133,7 @@ const Dashboard = () => {
                         <Text style={styles.actionReactionButtonText} >Action</Text>
                       </TouchableOpacity>
                       <TouchableOpacity class="reactionButton"
-                      style={styles.reactionButton}
+                      style={[styles.reactionButton, { backgroundColor: currentBlocType === "reaction_blocs" ? 'white' : 'lightgray'}]}
                       onPress={() => {
                         setCurrentBlocType("reaction_blocs");
                       }}
@@ -128,6 +144,7 @@ const Dashboard = () => {
                       style={[styles.rectangleButton, { backgroundColor: menuButtons.find(button => button.name === selectedButton).color}]}
                       onPress={() => {
                         setMenuVisible(false);
+                        setBoxes(boxes => [...boxes, {key: boxes.length+1, title: defineBlocType(), color: menuButtons.find(button => button.name === selectedButton).color}])
                       }}
                       >
                         <Text style={styles.actionReactionButtonText}>{defineBlocType()}</Text>
@@ -152,6 +169,25 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     openMenuButton: {
+      position: 'absolute',
+      top: 315,
+      left: -185,
+      padding: 10,
+      backgroundColor: 'lightgray',
+      borderRadius: 5,
+    },
+    closeMenuButton: {
+      position: 'absolute',
+      top: 230,
+      left: 0,
+      padding: 10,
+      backgroundColor: 'white',
+      borderRadius: 5,
+    },
+    validateMenuButton: {
+      position: 'absolute',
+      top: 315,
+      left: -20,
       padding: 10,
       backgroundColor: 'lightgray',
       borderRadius: 5,
@@ -197,6 +233,7 @@ const styles = StyleSheet.create({
     menuButtonText: {
       color: 'black',
       fontSize: 20,
+      fontWeight: 'bold',
     },
     iconeMenuRight: {
         marginTop: 1,
@@ -214,7 +251,6 @@ const styles = StyleSheet.create({
       top: 90,
       left: 40,
       padding: 7,
-      backgroundColor: 'lightgray',
       borderRadius: 6,
     },
     reactionButton: {
