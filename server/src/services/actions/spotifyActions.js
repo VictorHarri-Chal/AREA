@@ -1,10 +1,19 @@
 const SpotifyWebApi = require('spotify-web-api-node');
+const mongoose = require('mongoose');
+
+const lastStreamSchema = new mongoose.Schema({
+    name : String,
+    artist : String,
+    date : Date,
+    id : String,
+})
+
+const lastStream = mongoose.model('lastStream', lastStreamSchema);
 
 const spotifyTrigger = {
     checkSpotifyAction: async function checkSpotifyAction(action) {
-        console.log(action)
 
-        var token = 'BQDjeEY6CTM6LqZ5S0jQ6c-z6bNxcXchDzvMq33hTu2dVjRRH-mPgVuXH0HdKCLmowuWLP6OcGgesX_xuynB1eE-yHi-GJazRtWcYLY7vopE5b7KkpbKY6RpP8GtGrfxPZlgmZbbRvO5ptYEH320RZP0HC7YCXYUT8ZGo_u-oZZhcx4aMJEIMheaDkQ_B92fA3yChqBH';
+        var token = 'BQB3GWRlQQtHnsSvmKbKmC_tK_mitnHEee0H7G1ZK9_zkog1SUaqQLW_Pv7yjChDJFemCbj8xdmkwt0-tpRi8ntxyRBI1V478Pg2wlkPfzbUCkae57KjXwnIanfYZNjg4PeMw5X4qwMVPvuVTYgC-vAYIXAWqP7ritJxyK77fIXUPsl6sVfOXstfmfolXlaVE9TU0mk5';
 
 
         if (action.trigger === 'newStream') {
@@ -20,13 +29,26 @@ const spotifyTrigger = {
             const currentTrack = await spotifyApi.getMyCurrentPlayingTrack();
 
             if (currentTrack.body.is_playing) {
-                console.log('Chanson en cours de lecture')
-                console.log(currentTrack.body.item.name)
-                return true
-            } else {
-                console.log('Pas de chanson en cours de lecture')
+                console.log(currentTrack.body.item.name + ' de ' + currentTrack.body.item.artists[0].name)
+
+                if (await lastStream.findOne({id: currentTrack.body.item.id}) === null) {
+
+                    lastStream.deleteMany({}, function (err) {
+                        if (err) console.log(err);
+                    });
+
+                    const newStream = new lastStream({
+                        name: currentTrack.body.item.name,
+                        artist: currentTrack.body.item.artists[0].name,
+                        date: currentTrack.body.timestamp,
+                        id: currentTrack.body.item.id
+                    })
+                    await newStream.save();
+                    return true
+                } else
+                    return false
+            } else
                 return false
-            }
         }
 
 
@@ -34,7 +56,6 @@ const spotifyTrigger = {
 
     checkSpotifyReaction: async function checkSpotifyReaction(reaction) {
         console.log('Spotify Reaction')
-        console.log(reaction)
     }
 }
 
