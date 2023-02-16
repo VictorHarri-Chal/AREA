@@ -1,98 +1,84 @@
-const axios = require('axios');
-const mongoose = require('mongoose');
-const { Client, GatewayIntentBits, Partials } = require('discord.js');
-const client = new Client({ intents: [GatewayIntentBits.DirectMessageTyping, GatewayIntentBits.Guilds], partials: [Partials.Channel] });
+const { Octokit } = require("@octokit/rest");
 
-const issueSchema = new mongoose.Schema({
-  repositoryName: String,
-  issueId: String,
-  title: String,
-  createdAt: Date,
-});
-
-const Issue = mongoose.model('Issue', issueSchema);
+let lastETags = {};
 
 const githubTrigger = {
-  checkGithubAction: async function checkGithubAction(action) {
-    const repositoryName = action.data;
-    const trigger = action.trigger;
-    const access_token = action.token;
-    let url = '';
 
-    if (trigger === 'push') {
-      url = `https://api.github.com/repos/${repositoryName}/events`;
-    } else if (trigger === 'issue') {
-      url = `https://api.github.com/repos/${repositoryName}/issues`;
-    } else {
-      console.log('Invalid action provided. Please provide a valid action.');
-    }
-
-    try {
-      const response = await axios.get(url, {
-        headers: {
-          Authorization: 'Token ' + access_token,
-        },
-      });
-      if (trigger === 'push') {
-        const pushEvent = response.data.find((event) => event.type === 'PushEvent');
-        if (pushEvent) {
-          const commits = pushEvent.payload.commits.reverse();
-          console.log(
-            'Push detected on repository: ' + repositoryName + ' with commit: ' + commits[0].message
-          );
-          return true;
+    async checkGithubAction(action) {
+        const [ownerName, repoName] = action.data.split("/");
+        switch (action.trigger) {
+            case "push":
+                await this.checkNewCommits(ownerName, repoName, action.token);
+                break;
+            case "issue":
+                await this.checkNewIssues(ownerName, repoName, action.token);
+                break;
+            case "pull_request":
+                await this.checkNewPullRequests(ownerName, repoName, action.token);
+                break;
+            default:
+                console.log(`Unsupported trigger type: ${action.trigger}`);
+                break;
         }
-      } else if (trigger === 'issue') {
-        const currentIssue = response.data[0];
-        const existingIssue = await Issue.findOne({ issueId: currentIssue.id });
-        if (!existingIssue) {
-          console.log(
-            'New issue detected on repository: ' +
-              repositoryName +
-              ' with title: ' +
-              currentIssue.title
-          );
-          const newIssue = new Issue({
-            repositoryName: repositoryName,
-            issueId: currentIssue.id,
-            title: currentIssue.title,
-            createdAt: currentIssue.created_at,
-          });
-          await newIssue.save();
-          return true;
-        }
-      }
-    } catch (error) {
-      console.error(error);
-    }
-    return false;
-  },
-  checkGithubReaction: async function checkGithubReaction(reaction) {
-    const trigger = reaction.trigger;
-    const access_token = reaction.token;
-    let url = '';
+    },
 
-    if (trigger === 'send_Private_Message') {
-        console.log('setting url. . .');
-      url = `https://discordapp.com/api/users/@me`;
-    } else {
-      console.log('Invalid reaction provided. Please provide a valid reaction.');
-    }
-
-    try {
-        const response = await axios.get(url, {
-            headers: {
-              Authorization: 'Bearer ' + access_token,
-            },
-        }).then(response => {
-            console.log('User id: ' + response.data.id);
-            // const user = client.users.cache.get(response.data.id);
-            // user.send('azifnzemofnqmorg');
+    async checkNewCommits(ownerName, repoName, token) {
+        await this.checkNewEvents("PushEvent", ownerName, repoName, token, (event) => {
+            console.log(`Commit: ${event.payload.commits[0].message}`);
         });
-    } catch (err) {
-        console.log(err);
-    }
-  }
+    },
+
+    async checkNewIssues(ownerName, repoName, token) {
+        await this.checkNewEvents("IssuesEvent", ownerName, repoName, token, (event) => {
+            console.log(`Issue: ${event.payload.issue.title}`);
+        }, true);
+    },
+
+    async checkNewPullRequests(ownerName, repoName, token) {
+        await this.checkNewEvents("PullRequestEvent", ownerName, repoName, token, (event) => {
+            console.log(`Pull Request: ${event.payload.pull_request.title}`);
+        });
+    },
+
+    async checkNewEvents(eventType, ownerName, repoName, token, callback, reverse = false) {
+        const octokit = new Octokit({ auth: token });
+        const requestOptions = {
+            owner: ownerName,
+            repo: repoName,
+            per_page: 100,
+            page: 1,
+            headers: { "If-None-Match": lastETags[eventType] },
+        };
+
+        try {
+            const response = await octokit.activity.listRepoEvents(requestOptions);
+
+            lastETags[eventType] = response.headers.etag;
+            const events = response.data.filter((event) => event.type === eventType);
+
+            if (events.length > 0) {
+                console.log(`New ${eventType} events detected:`);
+                if (reverse) {
+                    callback(events[0]);
+                } else {
+                    events.forEach(callback);
+                }
+            } else {
+                console.log(`No new ${eventType} events since last request.`);
+            }
+        } catch (error) {
+            if (error.status === 304) {
+                console.log(`No new ${eventType} events since last request.`);
+            } else {
+                throw error;
+            }
+        }
+    },
+
+    async checkGithubAction(action) {
+        
+    },
+
 };
 
 module.exports = githubTrigger;
