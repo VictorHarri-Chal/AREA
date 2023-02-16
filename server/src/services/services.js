@@ -16,13 +16,11 @@ const services = {
     spotify: {
         checkTrigger: async function(action) {
             console.log('[Spotify] - Action');
-            console.log(action);
             return await spotifyTrigger.checkSpotifyAction(action);
 
         },
         startReaction: function(reaction) {
             console.log('[Spotify] - Reaction');
-            console.log(reaction);
             return spotifyTrigger.checkSpotifyReaction(reaction);
         }
     },

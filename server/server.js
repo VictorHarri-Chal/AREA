@@ -225,7 +225,7 @@ app.get("/spotify-auth", (req, res) => {
     console.log('spotify auth here');
 
     var state = generateRandomString(16);
-    var scope = 'user-read-private user-read-email';
+    var scope = 'user-read-private user-read-email user-read-currently-playing user-read-playback-state';
 
     res.redirect('https://accounts.spotify.com/authorize?' +
         queryString.stringify({
@@ -255,6 +255,8 @@ app.get("/spotifycallback", (req, res) => {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
     }).then((response) => {
+        // console.log("\n\n\n\n\n\n\n")
+        // console.log(response.data);
         spotifyConnected = true;
         spotifyAccessToken = response.data.access_token;
     }).catch((error) => {
