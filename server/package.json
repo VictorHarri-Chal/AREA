@@ -20,6 +20,7 @@
     "mathjs": "^11.5.1",
     "mongoose": "^6.8.3",
     "query-string": "^8.1.0",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "spotify-web-api-node": "^5.0.2"
   }
 }
