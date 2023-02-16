@@ -1,6 +1,6 @@
 const githubTrigger = require('./actions/githubActions');
 const discordTrigger = require('./actions/discordActions');
-const spotifyTrigger = require('./actions/spotifyActions')
+const spotifyTrigger = require('./actions/spotify/spotifyActions') 
 
 const services = {
     github: {
