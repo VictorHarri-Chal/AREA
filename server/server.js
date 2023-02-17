@@ -3,6 +3,7 @@ const express = require('express');
 const request = require("request");
 const Area = require('./src/models/ar.model');
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
 const utils = require('./src/utils/utils.js');
 const db = require('./src/models')
 const User = db.user;
@@ -22,6 +23,7 @@ const newUser = new User({
 app.use(cors());
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -55,7 +57,7 @@ app.get("/callback", (req, res) => {
             console.log('access token: ', accessToken);
             githubConnected = true;
             githubAccessToken = accessToken;
-            var parsedUserID = cookies.parseJwt(cookies.getCookie('jwtToken'))
+            var parsedUserID = cookies.parseJwt(req.cookies.jwtToken)
             console.log(parsedUserID)
             AccessTokens.findOneAndUpdate(
                 {ownerUserID: parsedUserID},
@@ -65,9 +67,9 @@ app.get("/callback", (req, res) => {
                     }
                 }, function (error, success) {
                     if (error) {
-                        console.log(error);
+                        console.log(error + 'zzz');
                     } else {
-                        console.log(success);
+                        console.log(success + '???');
                     }
                 });
         })

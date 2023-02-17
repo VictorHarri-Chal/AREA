@@ -1,3 +1,5 @@
+const jwtDecode = require('jwt-decode');
+
 exports.getCookie = (name) => {
 
     let cookie = {};
@@ -12,6 +14,12 @@ exports.getCookie = (name) => {
         return ''
 }
 
-exports.parseJwt = (jwtToken) => {
-    return JSON.parse(Buffer.from(jwtToken.split('.')[1], 'base64').toString());
+exports.parseJwt = (token) => {
+    const payload = token.split('.')[1];
+    const decodedPayload = atob(payload);
+    const parsedPayload = JSON.parse(decodedPayload);
+
+    console.log('My userID is: ' + parsedPayload.userID);
+
+    return parsedPayload.userID
 }

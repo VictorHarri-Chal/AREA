@@ -103,11 +103,11 @@ exports.signin = (req, res) => {
         }
 
         var authorities = [];
-        console.log('a');
-        var token = jwt.sign(user.id, config.secret);
-        console.log('b');
-        res.cookie('jwtToken', token, { httpOnly: true });
-        console.log('c');
+        var payload = {
+            userID: user.id,
+        }
+        var token = jwt.sign(payload, config.secret);
+        res.cookie('jwtToken', token);
 
         for (let i = 0; i < user.roles.length; i++) {
             authorities.push("role_permissions_" + user.roles[i].name);
