@@ -1,9 +1,9 @@
 const { Octokit } = require("@octokit/rest");
 
 let lastETags = {};
+let isFirstCheck = true;
 
 const githubTrigger = {
-
     checkGithubAction: async function checkGithubAction(action) {
         const [ownerName, repoName] = action.data.split("/");
         switch (action.trigger) {
@@ -54,6 +54,12 @@ const githubTrigger = {
             const events = response.data.filter((event) => event.type === eventType);
 
             if (events.length > 0) {
+                if (isFirstCheck) {
+                    isFirstCheck = false;
+                    console.log(`No new ${eventType} events since last request.`);
+                    return false;
+                }
+
                 console.log(`New ${eventType} events detected:`);
                 if (reverse) {
                     callback(events[0]);
@@ -62,6 +68,12 @@ const githubTrigger = {
                 }
                 return true;
             } else {
+                if (isFirstCheck) {
+                    isFirstCheck = false;
+                    console.log(`No new ${eventType} events since last request.`);
+                    return false;
+                }
+
                 console.log(`No new ${eventType} events since last request.`);
                 return false;
             }
@@ -76,7 +88,32 @@ const githubTrigger = {
     },
 
     checkGithubReaction: async function checkGithubReaction(reaction) {
+        const { data, trigger, token } = reaction;
+
+        if (trigger !== "issue") {
+            console.log(`Unsupported trigger type: ${trigger}`);
+            return false;
+        }
+
+        const octokit = new Octokit({ auth: token });
+        const [owner, repo] = data.split("/");
+
+        try {
+            const issue = await octokit.issues.create({
+                owner,
+                repo,
+                title: "New issue created by reaction",
+                body: "This issue was created in response to a reaction on an existing issue.",
+            });
+
+            console.log(`Created new issue: ${issue.data.html_url}`);
+            return true;
+        } catch (error) {
+            console.error(`Error creating issue: ${error}`);
+            return false;
+        }
     }
+
 };
 
 module.exports = githubTrigger;
