@@ -130,12 +130,20 @@ const githubTrigger = {
         const octokit = new Octokit({ auth: reaction.token });
 
         try {
+            // const issue = await octokit.issues.create({
+            //     ownerName,
+            //     repoName,
+            //     title: "New issue created by reaction",
+            //     body: "This issue was created in response to a reaction on an existing issue.",
+            // });
+
             const issue = await octokit.issues.create({
-                ownerName,
-                repoName,
+                owner: ownerName,
+                repo: repoName,
                 title: "New issue created by reaction",
                 body: "This issue was created in response to a reaction on an existing issue.",
             });
+
 
             console.log(`Created new issue: ${issue.data.html_url}`);
             return true;
