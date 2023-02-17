@@ -87,6 +87,10 @@ export const ASData = [
                 key : 'spotify_pausePlayblack',
                 title: 'Pause playback',
             },
+            {
+                key : 'spotify_randomTrack',
+                title: 'Random track to queue',
+            }
         ]
     },
     {

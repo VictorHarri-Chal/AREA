@@ -2,8 +2,9 @@ const lastStreamFunc = require('./lastStream');
 const createPlaylistFunc = require('./createPlaylist');
 const newPlaylistFunc = require('./newPlaylist');
 const pausePlaybackFunc = require('./pausePlayback');
+const randomTrackFunc = require('./randomTrack');
 
-var token = 'BQA3bU8b1mJxf7o0-xTKY4nQhmxjX_vuMnyiQmUHuzPadtLKMjVhlpAd0FdVJRxuhYQTwqWD7Dgkx_kdQBhJMf1sgpSFAcsBkn1x-BSVIHPYvjynWUHcJta2Oae5m2tjozYOc2mq4zoY0FLaAD-jBnIjW6xrPlfvBMK1AWiwHyKQZm_nU8MHPSSq6L1l5MZDmmDSnJ4xi9O4q1-cS2SvhFYTTYX99E7TQd2QN-_IM2SDBioj5Q';
+var token = 'BQAkATAxw3CSi5IQvMh0pHjHQgwNkGQgLOZxwToZV02TENLGgdiu6wY8PpiP65wqaTfApHSnwjQtc-alcKIOndpSCjY8l07b-PU82gN31dgCbFGUL3ulZBfWI4glkRdxirEfHmhoic6LChBV0XmgdygF7tJJQvw5EDu95q3tky-GXgss4JqsAKajvhCfAC6C_-xTwgLpZcy0gCqoMvIuLUQB85-_1qlylLPO0nWW5BQ74WYoCg';
 
 const spotifyTrigger = {
     checkSpotifyAction: async function checkSpotifyAction(action) {
@@ -25,6 +26,10 @@ const spotifyTrigger = {
 
         if (reaction.trigger === 'pausePlayback') {
             return pausePlaybackFunc(token)
+        }
+
+        if (reaction.trigger === 'randomTrack') {
+            return randomTrackFunc(token)
         }
     }
 }
