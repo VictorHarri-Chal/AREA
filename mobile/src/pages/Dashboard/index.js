@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Rectangle from '../../components/Draggable/Draggable.js';
 
@@ -8,7 +8,15 @@ const Dashboard = () => {
   const [selectedButton, setSelectedButton] = useState(null);
   const [currentBlocType, setCurrentBlocType] = useState("action_blocs");
   const [boxes, setBoxes] = useState([]);
-
+  const [finalSchema, setFinalSchema] = useState([]);
+  const [listSlot, setListSlot] = useState([
+    { name: 1, top: 100, },
+    { name: 2, top: 210, },
+    { name: 3, top: 320, },
+    { name: 4, top: 430, },
+    { name: 5, top: 540, },
+    { name: 6, top: 650, },
+  ]);
   const [menuButtons, setMenuButtons] = useState([
     {
       name: "Discord",
@@ -69,20 +77,36 @@ const Dashboard = () => {
     return null;
   }
 
+  const validateButton = () => {
+    console.log(boxes)
+  }
+
   return (
     <View style={styles.container}>
       <>
         <TouchableOpacity onPress={() => {
           setMenuVisible(true)}}>
-          <Text style={styles.openMenuButton}>Open Menu</Text>
+          <View style={styles.openMenuButton}>
+            <Icon name={"bars"} size={19} color={"black"}/>
+          </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity onPress={() => {validateButton()}}>
           <View style={styles.validateMenuButton}>
             <Icon name={"play"} size={19} color={"red"}/>
           </View>
         </TouchableOpacity>
+        <TouchableOpacity onPress={() => {
+          setBoxes([]);
+        }}>
+          <View style={styles.binMenuButton}>
+            <Icon name={"trash"} size={19} color={"black"}/>
+          </View>
+        </TouchableOpacity>
         {boxes.map(box => (
-          <Rectangle key={box.key} title={box.title} color={box.color}></Rectangle>
+          <Rectangle key={box.key} title={box.title} color={box.color} listSlot={listSlot} box={box} boxes={boxes} setBoxes={setBoxes}></Rectangle>
+          ))}
+        {listSlot.map(slot => (
+          <View key={slot.name} style={[styles.slotDelimiter, {top: slot.top}]}></View>
         ))}
       </>
       {menuVisible && (
@@ -103,7 +127,9 @@ const Dashboard = () => {
             ))}
             <TouchableOpacity onPress={() => {
               setMenuVisible(false)}}>
-              <Text style={styles.closeMenuButton}>Close Menu</Text>
+              <View style={styles.closeMenuButton}>
+              <Icon name={"times"} size={19} color={"black"}/>
+              </View>
             </TouchableOpacity>
           </View>
           <View style={styles.menuRight}>
@@ -144,7 +170,7 @@ const Dashboard = () => {
                       style={[styles.rectangleButton, { backgroundColor: menuButtons.find(button => button.name === selectedButton).color}]}
                       onPress={() => {
                         setMenuVisible(false);
-                        setBoxes(boxes => [...boxes, {key: boxes.length+1, title: defineBlocType(), color: menuButtons.find(button => button.name === selectedButton).color}])
+                        setBoxes(boxes => [...boxes, {key: boxes.length+1, title: defineBlocType(), color: menuButtons.find(button => button.name === selectedButton).color, x: 0, y: 0}])
                       }}
                       >
                         <Text style={styles.actionReactionButtonText}>{defineBlocType()}</Text>
@@ -171,15 +197,15 @@ const styles = StyleSheet.create({
     openMenuButton: {
       position: 'absolute',
       top: 315,
-      left: -185,
+      left: -180,
       padding: 10,
       backgroundColor: 'lightgray',
       borderRadius: 5,
     },
     closeMenuButton: {
       position: 'absolute',
-      top: 230,
-      left: 0,
+      top: 231,
+      left: 6,
       padding: 10,
       backgroundColor: 'white',
       borderRadius: 5,
@@ -191,6 +217,21 @@ const styles = StyleSheet.create({
       padding: 10,
       backgroundColor: 'lightgray',
       borderRadius: 5,
+    },
+    binMenuButton: {
+      position: 'absolute',
+      top: 315,
+      left: 140,
+      padding: 10,
+      backgroundColor: 'lightgray',
+      borderRadius: 5,
+    },
+    slotDelimiter: {
+      position: 'absolute',
+      width: Dimensions.get('window').width,
+      height: 8,
+      left: 0,
+      backgroundColor: 'black',
     },
     menuContainer: {
       position: 'absolute',
