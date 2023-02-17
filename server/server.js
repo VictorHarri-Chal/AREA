@@ -73,7 +73,7 @@ app.get("/githubauth", (req, res) => {
 
 const getGitHubAuthCode = (res, clientId) => {
     const redirectUri = encodeURIComponent(`http://localhost:8080/callback`);
-    const authorizationUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=repo&read:user&state=random_string`;
+    const authorizationUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=repo,public_repo,admin:repo_hook,read:user&state=random_string`;
     res.redirect(authorizationUrl);
 };
 
