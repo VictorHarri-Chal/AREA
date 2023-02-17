@@ -2,46 +2,57 @@ import React, { Component } from 'react';
 import { View, Text, PanResponder, StyleSheet, Dimensions } from 'react-native';
 
 class Rectangle extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            x: 0,
-            y: 0,
-            initialX: 0,
-            initialY: 0,
-            color: props.color,
-            title: props.title
-        };
-        const windowWidth = Dimensions.get('window').width;
-        const windowHeight = Dimensions.get('window').height;
+    state = {
+        x: 0,
+        y: 0,
+        initialX: 0,
+        initialY: 0,
+        color: this.props.color,
+        title: this.props.title,
+    };
 
-        this.panResponder = PanResponder.create({
-            onMoveShouldSetPanResponder: (evt, gestureState) => {
-                return true;
-            },
-            onPanResponderMove: (evt, gestureState) => {
-                if (this.state.initialX + gestureState.dx < 0 || this.state.initialX + gestureState.dx + styles.rectangle.width > windowWidth ||
-                    this.state.initialY + gestureState.dy < 0 || this.state.initialY + gestureState.dy + styles.rectangle.height + 120 > windowHeight)
+    panResponder = PanResponder.create({
+        onMoveShouldSetPanResponder: (evt, gestureState) => {
+            return true;
+        },
+        onPanResponderMove: (evt, gestureState) => {
+            const windowWidth = Dimensions.get('window').width;
+            const windowHeight = Dimensions.get('window').height;
+            let isCollide = false;
+
+            if (this.state.initialX + gestureState.dx < 0 || this.state.initialX + gestureState.dx + styles.rectangle.width > windowWidth ||
+                this.state.initialY + gestureState.dy < 0 || this.state.initialY + gestureState.dy + styles.rectangle.height + 136 > windowHeight)
+                return;
+            this.props.listSlot.forEach(slot => {
+                if (this.state.initialY + gestureState.dy <= slot.top + 8 && this.state.initialY + gestureState.dy + 70 >= slot.top) {
+                    isCollide = true;
                     return;
+                }
+            });
+            if (!isCollide) {
                 this.setState({
                     x: this.state.initialX + gestureState.dx,
                     y: this.state.initialY + gestureState.dy
                 });
-            },
-            onPanResponderRelease: (evt, gestureState) => {
-                this.setState({
-                    initialX: this.state.x,
-                    initialY: this.state.y
-                });
-            },
-            onPanResponderTerminate: (evt, gestureState) => {
-                this.setState({
-                    initialX: this.state.x,
-                    initialY: this.state.y
-                });
             }
-        });
-    }
+            this.props.box.x = this.state.initialX;
+            this.props.box.y = this.state.initialY;
+            this.props.setBoxes([...this.props.boxes]);
+        },
+        onPanResponderRelease: (evt, gestureState) => {
+            this.setState({
+                initialX: this.state.x,
+                initialY: this.state.y
+            });
+        },
+        onPanResponderTerminate: (evt, gestureState) => {
+            this.setState({
+                initialX: this.state.x,
+                initialY: this.state.y
+            });
+        },
+    });
+
 
     render() {
         return (
@@ -59,14 +70,14 @@ class Rectangle extends Component {
 
 const styles = StyleSheet.create({
     rectangle: {
-        width: 100,
-        height: 50,
+        width: 150,
+        height: 70,
         borderRadius: 5,
         position: 'absolute',
         justifyContent: 'center'
     },
     rectangleText: {
-        color: 'black',
+        color: 'white',
         fontSize: 15,
         padding: 5,
         textAlign: 'center'
@@ -74,23 +85,3 @@ const styles = StyleSheet.create({
 });
 
 export default Rectangle;
-
-
-
-// class MyCollision extends React.Component {
-//     render() {
-//         return (
-//             <Collision shape="rect" coords={this.props.coords}>
-//                 <View
-//                     style={[
-//                         styles.rectangle,
-//                         {
-//                             left: this.props.coords.x,
-//                             top: this.props.coords.y
-//                         }
-//                     ]}
-//                 />
-//             </Collision>
-//         );
-//     }
-// }
