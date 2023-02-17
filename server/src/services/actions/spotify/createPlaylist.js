@@ -1,6 +1,6 @@
 const SpotifyWebApi = require('spotify-web-api-node');
 
-async function newPlaylistFunc(token) {
+async function createPlaylistFunc(token) {
     const spotifyApi = new SpotifyWebApi({
         clientId: '7e1049e74b76497a9c192fcf08c9a279',
         clientSecret: '331c1bb09e3042f9b06a9302dc01a74c',
@@ -18,4 +18,4 @@ async function newPlaylistFunc(token) {
 
 }
 
-module.exports = newPlaylistFunc;
+module.exports = createPlaylistFunc;

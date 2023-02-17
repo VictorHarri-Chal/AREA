@@ -1,6 +1,6 @@
 const lastStreamFunc = require('./lastStream');
-const newPlaylistFunc = require('./newPlaylist');
-var token = 'BQBbwDmeIcPehztibXB4V1WtN_tVB2nfFvCg5KQz1WLItvdTHVvBLyGmt2FSWMAwNj2AzlglACVpAQTazI8qPXDejCT2qAIzni4b1YLzdke7PGPofsY1hgH2BEAqLlcZtmH_3vNtW47UsF-M2w6s2RK0i2pFwYiJ1gL0RzyfmcxMxhl-4eaSySHSTmV5KgAOEF-_gB474-V-yAsyip0aFGiJVTFSThlY3FAeww';
+const createPlaylistFunc = require('./createPlaylist');
+var token = 'BQAWVNM7ZOJFIB0JYZyE1xAaHkPDsuEWBrs_yNShxleKXRL1G4hVw562qumPX_9Q0_ISHsRmOwgNt4T7bR5RZ8hqve-peAwonm19pwQoiaRiqJ9yeqqE8e8k5X4FThVj1_yn_B3T6r7M3ZT8hqhyGfYRNFPQhA5Km20U6lw4UNdS1AI9JUeT83aTziu1VjZqXbL4RqfPseoBmMGsz-lXlCeNXXZPvU0iRulIOA';
 
 const spotifyTrigger = {
     checkSpotifyAction: async function checkSpotifyAction(action) {
@@ -12,8 +12,8 @@ const spotifyTrigger = {
     },
 
     checkSpotifyReaction: async function checkSpotifyReaction(reaction) {
-        if (reaction.trigger === 'newPlaylist') {
-            return newPlaylistFunc(token)
+        if (reaction.trigger === 'createPlaylist') {
+            return createPlaylistFunc(token)
 
         }
     }

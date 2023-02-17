@@ -76,7 +76,7 @@ export const ASData = [
         ],
         reaction_blocs : [
             {
-                key : 'spotify_newPlaylist',
+                key : 'spotify_createPlaylist',
                 title: 'Create a playlist',
             }
         ]

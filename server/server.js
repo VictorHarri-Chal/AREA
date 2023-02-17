@@ -283,7 +283,7 @@ function serverProcess() {
     //             },
     //             reaction: {
     //                 service: 'spotify',
-    //                 trigger: 'newPlaylist',
+    //                 trigger: 'createPlaylist',
     //                 token: spotifyAccessToken,
     //                 data: '',
     //             }
