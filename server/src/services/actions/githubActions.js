@@ -20,9 +20,41 @@ const githubTrigger = {
     },
 
     async checkNewCommits(ownerName, repoName, token) {
-        return await this.checkNewEvents("PushEvent", ownerName, repoName, token, (event) => {
-            console.log(`Commit: ${event.payload.commits[0].message}`);
-        });
+        const octokit = new Octokit({ auth: token });
+        const requestOptions = {
+            owner: ownerName,
+            repo: repoName,
+            per_page: 1,
+            page: 1,
+            headers: { "If-None-Match": lastETags["PushEvent"] },
+        };
+
+        try {
+            const response = await octokit.activity.listRepoEvents(requestOptions);
+            lastETags["PushEvent"] = response.headers.etag;
+            const event = response.data[0];
+
+            if (isFirstCheck) {
+                isFirstCheck = false;
+                console.log(`No new PushEvent events since last request.`);
+                return false;
+            }
+
+            if (event) {
+                console.log(`Last push event detected: ${event.payload.commits[0].message}`);
+                return true;
+            } else {
+                console.log(`No new PushEvent events since last request.`);
+                return false;
+            }
+        } catch (error) {
+            if (error.status === 304) {
+                console.log(`No new PushEvent events since last request.`);
+                return false;
+            } else {
+                throw error;
+            }
+        }
     },
 
     async checkNewIssues(ownerName, repoName, token) {
@@ -88,20 +120,19 @@ const githubTrigger = {
     },
 
     checkGithubReaction: async function checkGithubReaction(reaction) {
-        const { data, trigger, token } = reaction;
+        const [ownerName, repoName] = reaction.data.split("/");
 
-        if (trigger !== "issue") {
+        if (reaction.trigger !== "issue") {
             console.log(`Unsupported trigger type: ${trigger}`);
             return false;
         }
 
-        const octokit = new Octokit({ auth: token });
-        const [owner, repo] = data.split("/");
+        const octokit = new Octokit({ auth: reaction.token });
 
         try {
             const issue = await octokit.issues.create({
-                owner,
-                repo,
+                ownerName,
+                repoName,
                 title: "New issue created by reaction",
                 body: "This issue was created in response to a reaction on an existing issue.",
             });
