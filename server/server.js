@@ -43,9 +43,11 @@ app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
 });
 
+
 app.get("/callback", (req, res) => {
     console.log('callback here');
     res.header("Access-Control-Allow-Origin", "*");
+    console.log()
     const code = req.query.code;
     getGitHubAuthToken("498e03f921f50999dbb4", "ef1c8f0525c5239d4635e3e5023ad4b6eb6929ed", code)
         .then(accessToken => {
@@ -169,6 +171,7 @@ app.get("/discordcallback", (req, res) => {
             console.log("access token: ", accessToken);
             discordConnected = true;
             discordAccessToken = accessToken;
+            accessToken.save();
         })
         .catch((error) => {
             console.error(error);

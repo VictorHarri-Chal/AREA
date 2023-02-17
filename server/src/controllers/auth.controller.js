@@ -94,9 +94,8 @@ exports.signin = (req, res) => {
         }
 
         var authorities = [];
-        var token = jwt.sign({ id: user.id }, config.secret, {
-            expiresIn: 86400 // L'équivalent d'un jour en secondes
-        });
+        var token = jwt.sign(user.id);
+        res.cookie('jwtToken', token, { httpOnly: true });
 
         for (let i = 0; i < user.roles.length; i++) {
             authorities.push("role_permissions_" + user.roles[i].name);
@@ -111,10 +110,11 @@ exports.signin = (req, res) => {
             accessToken: token
         });
     });
-    const setupTokens = new AccessTokens({
-        _userID: User.findOne(req.body.usernameSignUp)._id,
-        tokens: []
-    });
+    // zzz ici
+    // const setupTokens = new AccessTokens({
+    //     _userID: User.findOne(req.body.usernameSignUp)._id,
+    //     tokens: []
+    // });
 
-    AccessTokens.save(setupTokens);
+    // AccessTokens.save(setupTokens);
 };

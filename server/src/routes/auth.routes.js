@@ -5,7 +5,6 @@ const { models } = require('mongoose');
 module.exports = function handleAuthRoutes(app) {
     const cors = (req, res, next) => {
 
-        console.log('setup Header to allow Origins');
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE");
         res.header("Access-Control-Allow-Headers", "Origin, Content-Type");

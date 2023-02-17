@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import * as Comp from './LoginElements';
+const cookies = require('../../utils/getCookie.js');
 
 const Login = () => {
 
@@ -53,12 +54,12 @@ const Login = () => {
             }).then((response) => response.json())
                 .then((user) => {
                     if (user) {
-                        sessionStorage.setItem("accessToken", user.accessToken)
+                        document.cookie = "jwtToken=" + user.accessToken;
                         console.log('logged in. . .');
                         fetch('http://localhost:8080/dashboard', {
                             method: 'GET',
                             headers: {
-                                'x-access-token': sessionStorage.accessToken
+                                'x-access-token': cookies('jwtToken')
                             }
                         }).then(function (responseGet) {
                             if (responseGet.status === 200) {
