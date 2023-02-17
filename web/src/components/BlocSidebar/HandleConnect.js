@@ -1,7 +1,7 @@
 const services = {
     github: {
         handleConnection: async function () {
-            window.location.href = `https://github.com/login/oauth/authorize?client_id=4046d9ca5e2152e64fec`;
+            window.location.href = `https://github.com/login/oauth/authorize?client_id=ffd70e614dd0cd62f19e`;
         },
     },
     discord: {
