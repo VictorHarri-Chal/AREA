@@ -269,20 +269,20 @@ app.get("/spotifycallback", (req, res) => {
 function serverProcess() {
 
     setInterval(() => {
-        // if (githubConnected && discordConnected) {
+        // if (githubConnected) {
         //     testZZZZZ = true;
         //     console.log('Launch Action');
         //     const area = new Area({
         //         action: {
         //             service: 'github',
-        //             trigger: 'issue',
+        //             trigger: 'push',
         //             token: githubAccessToken,
         //             data: 'VictorHarri-Chal/AREA',
         //         },
         //         reaction: {
         //             service: 'github',
-        //             trigger: 'send_Private_Message',
-        //             token: discordAccessToken,
+        //             trigger: 'issue',
+        //             token: githubAccessToken,
         //             data: 'VictorHarri-Chal/AREA',
         //         }
         //     });
