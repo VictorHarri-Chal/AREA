@@ -59,7 +59,7 @@ const Login = () => {
                         fetch('http://localhost:8080/dashboard', {
                             method: 'GET',
                             headers: {
-                                'x-access-token': cookies('jwtToken')
+                                'x-access-token': cookies.getCookie('jwtToken')
                             }
                         }).then(function (responseGet) {
                             if (responseGet.status === 200) {

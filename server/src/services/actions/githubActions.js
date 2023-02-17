@@ -68,30 +68,30 @@ const githubTrigger = {
     return false;
   },
   checkGithubReaction: async function checkGithubReaction(reaction) {
-    const trigger = reaction.trigger;
-    const access_token = reaction.token;
-    let url = '';
+    // const trigger = reaction.trigger;
+    // const access_token = reaction.token;
+    // let url = '';
 
-    if (trigger === 'send_Private_Message') {
-        console.log('setting url. . .');
-      url = `https://discordapp.com/api/users/@me`;
-    } else {
-      console.log('Invalid reaction provided. Please provide a valid reaction.');
-    }
+    // if (trigger === 'send_Private_Message') {
+    //     console.log('setting url. . .');
+    //   url = `https://discordapp.com/api/users/@me`;
+    // } else {
+    //   console.log('Invalid reaction provided. Please provide a valid reaction.');
+    // }
 
-    try {
-        const response = await axios.get(url, {
-            headers: {
-              Authorization: 'Bearer ' + access_token,
-            },
-        }).then(response => {
-            console.log('User id: ' + response.data.id);
-            // const user = client.users.cache.get(response.data.id);
-            // user.send('azifnzemofnqmorg');
-        });
-    } catch (err) {
-        console.log(err);
-    }
+    // try {
+    //     const response = await axios.get(url, {
+    //         headers: {
+    //           Authorization: 'Bearer ' + access_token,
+    //         },
+    //     }).then(response => {
+    //         console.log('User id: ' + response.data.id);
+    //         // const user = client.users.cache.get(response.data.id);
+    //         // user.send('azifnzemofnqmorg');
+    //     });
+    // } catch (err) {
+    //     console.log(err);
+    // }
   }
 };
 

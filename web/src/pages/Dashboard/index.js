@@ -33,7 +33,7 @@ const Dashboard = () => {
         })
     }
 
-    if (cookies('jwtToken') === '') {
+    if (cookies.getCookie('jwtToken') === '') {
         alert('Please connect as User to access Dashboard');
         window.location.href = 'http://localhost:8081/login';
     }

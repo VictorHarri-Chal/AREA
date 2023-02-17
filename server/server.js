@@ -12,6 +12,7 @@ const app = express();
 const port = 8080;
 const cors = require('cors');
 const trigger = require('./src/services/checkTriggers');
+const cookies = require('./src/utils/getCookie');
 
 const newUser = new User({
     username: "example_username",
@@ -54,15 +55,21 @@ app.get("/callback", (req, res) => {
             console.log('access token: ', accessToken);
             githubConnected = true;
             githubAccessToken = accessToken;
-            userID = User.
-            AccessTokens.countDocuments({_userID: userID}, function (err, count) {
-                if (count > 0) {
-                    //document exists });
-                }
-            });
-            if (!AccessTokens.exists({tokens: {service: "github"}})) {
-                ; // save github
-            }
+            var parsedUserID = cookies.parseJwt(cookies.getCookie('jwtToken'))
+            console.log(parsedUserID)
+            AccessTokens.findOneAndUpdate(
+                {ownerUserID: parsedUserID},
+                {$push:
+                    {tokens:
+                        {service: 'github', value: accessToken}
+                    }
+                }, function (error, success) {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        console.log(success);
+                    }
+                });
         })
         .catch(error => {
             console.error(error);

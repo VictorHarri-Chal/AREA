@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const accessTokensSchema = new mongoose.Schema({
-  _userID: String,
+  ownerUserID: String,
   tokens:
   [
     {
@@ -11,4 +11,4 @@ const accessTokensSchema = new mongoose.Schema({
   ]
 });
 
-module.exports = mongoose.model('AccessTokens', accessTokensSchema);
+module.exports = mongoose.model('AccessTokens', accessTokensSchema, 'accesstokens');

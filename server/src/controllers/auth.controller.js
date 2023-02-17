@@ -12,6 +12,7 @@ exports.signup = (req, res) => {
     if (!req.body.passwordSignUp) {
         res.status(500).send({message: "No password provided"});
     }
+    var currentuserID = '';
 
     const user = new User({
         username: req.body.usernameSignUp,
@@ -65,6 +66,14 @@ exports.signup = (req, res) => {
             });
         }
     });
+
+    // console.log('userID found: ' + User.findOne({username: user.username})._id);
+    const setupTokens = new AccessTokens({
+        ownerUserID: user.username,
+        tokens: []
+    });
+
+    setupTokens.save(function(error){console.log(error)});
 };
 
 exports.signin = (req, res) => {
@@ -94,8 +103,11 @@ exports.signin = (req, res) => {
         }
 
         var authorities = [];
-        var token = jwt.sign(user.id);
+        console.log('a');
+        var token = jwt.sign(user.id, config.secret);
+        console.log('b');
         res.cookie('jwtToken', token, { httpOnly: true });
+        console.log('c');
 
         for (let i = 0; i < user.roles.length; i++) {
             authorities.push("role_permissions_" + user.roles[i].name);
@@ -110,11 +122,4 @@ exports.signin = (req, res) => {
             accessToken: token
         });
     });
-    // zzz ici
-    // const setupTokens = new AccessTokens({
-    //     _userID: User.findOne(req.body.usernameSignUp)._id,
-    //     tokens: []
-    // });
-
-    // AccessTokens.save(setupTokens);
 };
