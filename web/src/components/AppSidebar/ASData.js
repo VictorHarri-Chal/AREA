@@ -72,13 +72,21 @@ export const ASData = [
             {
                 key : 'spotify_newStream',
                 title: 'New stream',
+            },
+            {
+                key : 'spotify_newPlaylist',
+                title: 'New playlist',
             }
         ],
         reaction_blocs : [
             {
                 key : 'spotify_createPlaylist',
                 title: 'Create a playlist',
-            }
+            },
+            {
+                key : 'spotify_pausePlayblack',
+                title: 'Pause playback',
+            },
         ]
     },
     {
