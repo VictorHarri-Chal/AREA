@@ -8,7 +8,7 @@ var bcrypt = require("bcryptjs");
 var jwt = require("jsonwebtoken");
 var bodyParser = require('body-parser');
 
-exports.signup = (req, res) => {
+exports.signup = async (req, res) => {
     if (!req.body.passwordSignUp) {
         res.status(500).send({message: "No password provided"});
     }
@@ -21,7 +21,7 @@ exports.signup = (req, res) => {
     });
 
     //Créer un nouveau User
-    user.save((err, user) => {
+    await user.save((err, user) => {
         if (err) {
             res.status(501).send({ message: "1: " + err });
             return;
@@ -67,13 +67,13 @@ exports.signup = (req, res) => {
         }
     });
 
-    // console.log('userID found: ' + User.findOne({username: user.username})._id);
-    const setupTokens = new AccessTokens({
-        ownerUserID: user.username,
-        tokens: []
+    User.findOne({username: req.body.usernameSignUp}, function (err, docs) {
+        if (err){
+            console.log(err)
+        } else {
+            console.log("Result : ", docs);
+        }
     });
-
-    setupTokens.save(function(error){console.log(error)});
 };
 
 exports.signin = (req, res) => {

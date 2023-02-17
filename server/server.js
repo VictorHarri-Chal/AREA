@@ -53,25 +53,24 @@ app.get("/callback", (req, res) => {
     console.log()
     const code = req.query.code;
     getGitHubAuthToken("498e03f921f50999dbb4", "ef1c8f0525c5239d4635e3e5023ad4b6eb6929ed", code)
-        .then(accessToken => {
+        .then(async accessToken => {
             console.log('access token: ', accessToken);
             githubConnected = true;
             githubAccessToken = accessToken;
             var parsedUserID = cookies.parseJwt(req.cookies.jwtToken)
             console.log(parsedUserID)
-            AccessTokens.findOneAndUpdate(
-                {ownerUserID: parsedUserID},
-                {$push:
-                    {tokens:
-                        {service: 'github', value: accessToken}
-                    }
-                }, function (error, success) {
-                    if (error) {
-                        console.log(error + 'zzz');
-                    } else {
-                        console.log(success + '???');
-                    }
-                });
+            var newTokenGithub = {service: 'github', value: accessToken}
+            var tmpTokensList = await AccessTokens.findOne({ownerUserID: await User.findOne({username: p})})
+
+            console.log('iii' + tmpTokensList);
+
+            tmpTokensList.tokens.push(newTokenGithub);
+            tmpTokensList.save(done);
+                // if (error) {
+                //     console.log(error + 'zzz');
+                // } else {
+                //     console.log(success + '???');
+                // }
         })
         .catch(error => {
             console.error(error);
