@@ -225,7 +225,7 @@ app.get("/spotify-auth", (req, res) => {
     console.log('spotify auth here');
 
     var state = generateRandomString(16);
-    var scope = 'user-read-private user-read-email user-read-currently-playing user-read-playback-state playlist-modify-private';
+    var scope = 'user-read-private user-read-email user-read-currently-playing user-read-playback-state playlist-modify-private playlist-read-private';
 
     res.redirect('https://accounts.spotify.com/authorize?' +
         queryString.stringify({
@@ -283,7 +283,7 @@ function serverProcess() {
     //             },
     //             reaction: {
     //                 service: 'spotify',
-    //                 trigger: 'newPlaylist',
+    //                 trigger: 'createPlaylist',
     //                 token: spotifyAccessToken,
     //                 data: '',
     //             }

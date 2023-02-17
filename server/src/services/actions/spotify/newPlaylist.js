@@ -1,4 +1,13 @@
 const SpotifyWebApi = require('spotify-web-api-node');
+const mongoose = require('mongoose');
+
+const newPlaylistSchema = new mongoose.Schema({
+    name : String,
+    id : String,
+    date : Date,
+})
+
+const newPlaylist = mongoose.model('newPlaylist', newPlaylistSchema);
 
 async function newPlaylistFunc(token) {
     const spotifyApi = new SpotifyWebApi({
@@ -9,12 +18,36 @@ async function newPlaylistFunc(token) {
 
     spotifyApi.setAccessToken(token);
 
-    spotifyApi.createPlaylist('test', { 'description': 'test', 'public': false })
-        .then(function (data) {
-        }
-        , function (err) {
-            console.log('Something went wrong!', err);
-        });
+    const username = (await spotifyApi.getMe()).body.id
+
+    const playlists = (await spotifyApi.getUserPlaylists(username)).body.items
+
+    const lastPlaylist = await newPlaylist.findOne({}).sort({date: -1})
+
+
+    if (lastPlaylist === null) {
+        const newPlaylistToStore = new newPlaylist({
+            name: playlists[0].name,
+            id: playlists[0].id,
+            date: Date.now()
+        })
+        await newPlaylistToStore.save();
+        return false
+    } else {
+        if (playlists[0].id !== lastPlaylist.id) {
+            newPlaylist.deleteMany({}, function (err) {
+                if (err) console.log(err);
+            });
+            const newPlaylistToStore = new newPlaylist({
+                name: playlists[0].name,
+                id: playlists[0].id,
+                date: Date.now()
+            })
+            await newPlaylistToStore.save();
+            return true
+        } else
+            return false
+    }
 
 }
 
