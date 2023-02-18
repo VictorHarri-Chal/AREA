@@ -1,12 +1,22 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import Rectangle from '../../components/Draggable/Draggable.js';
 
 const Dashboard = () => {
   const [menuVisible, setMenuVisible] = useState(false);
   const [selectedButton, setSelectedButton] = useState(null);
   const [currentBlocType, setCurrentBlocType] = useState("action_blocs");
-
+  const [boxes, setBoxes] = useState([]);
+  const [finalSchema, setFinalSchema] = useState([]);
+  const [listSlot, setListSlot] = useState([
+    { name: 1, top: 100, },
+    { name: 2, top: 210, },
+    { name: 3, top: 320, },
+    { name: 4, top: 430, },
+    { name: 5, top: 540, },
+    { name: 6, top: 650, },
+  ]);
   const [menuButtons, setMenuButtons] = useState([
     {
       name: "Discord",
@@ -67,11 +77,38 @@ const Dashboard = () => {
     return null;
   }
 
+  const validateButton = () => {
+    console.log(boxes)
+  }
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => setMenuVisible(true)}>
-        <Text style={styles.openMenuButton}>Open Menu</Text>
-      </TouchableOpacity>
+      <>
+        <TouchableOpacity onPress={() => {
+          setMenuVisible(true)}}>
+          <View style={styles.openMenuButton}>
+            <Icon name={"bars"} size={19} color={"black"}/>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {validateButton()}}>
+          <View style={styles.validateMenuButton}>
+            <Icon name={"play"} size={19} color={"red"}/>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {
+          setBoxes([]);
+        }}>
+          <View style={styles.binMenuButton}>
+            <Icon name={"trash"} size={19} color={"black"}/>
+          </View>
+        </TouchableOpacity>
+        {boxes.map(box => (
+          <Rectangle key={box.key} title={box.title} color={box.color} listSlot={listSlot} box={box} boxes={boxes} setBoxes={setBoxes}></Rectangle>
+          ))}
+        {listSlot.map(slot => (
+          <View key={slot.name} style={[styles.slotDelimiter, {top: slot.top}]}></View>
+        ))}
+      </>
       {menuVisible && (
         <View style={styles.menuContainer}>
           <View style={styles.menuLeft}>
@@ -85,10 +122,15 @@ const Dashboard = () => {
                 onPress={() => setSelectedButton(button.name)}
               >
                 <Icon name={button.icon} size={30} color={button.color} />
-                {console.log(menuButtons)}
                 <View style={[styles.buttonIndicator, { backgroundColor: button.login ? 'green' : 'red' }]} />
               </TouchableOpacity>
             ))}
+            <TouchableOpacity onPress={() => {
+              setMenuVisible(false)}}>
+              <View style={styles.closeMenuButton}>
+              <Icon name={"times"} size={19} color={"black"}/>
+              </View>
+            </TouchableOpacity>
           </View>
           <View style={styles.menuRight}>
             {selectedButton ? (
@@ -109,7 +151,7 @@ const Dashboard = () => {
                   ) : (
                     <>
                       <TouchableOpacity class="actionButton"
-                      style={styles.actionButton}
+                      style={[styles.actionButton, { backgroundColor: currentBlocType === "action_blocs" ? 'white' : 'lightgray'}]}
                       onPress={() => {
                         setCurrentBlocType("action_blocs");
                       }}
@@ -117,7 +159,7 @@ const Dashboard = () => {
                         <Text style={styles.actionReactionButtonText} >Action</Text>
                       </TouchableOpacity>
                       <TouchableOpacity class="reactionButton"
-                      style={styles.reactionButton}
+                      style={[styles.reactionButton, { backgroundColor: currentBlocType === "reaction_blocs" ? 'white' : 'lightgray'}]}
                       onPress={() => {
                         setCurrentBlocType("reaction_blocs");
                       }}
@@ -128,6 +170,7 @@ const Dashboard = () => {
                       style={[styles.rectangleButton, { backgroundColor: menuButtons.find(button => button.name === selectedButton).color}]}
                       onPress={() => {
                         setMenuVisible(false);
+                        setBoxes(boxes => [...boxes, {key: boxes.length+1, title: defineBlocType(), color: menuButtons.find(button => button.name === selectedButton).color, x: 0, y: 0}])
                       }}
                       >
                         <Text style={styles.actionReactionButtonText}>{defineBlocType()}</Text>
@@ -152,9 +195,43 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     openMenuButton: {
+      position: 'absolute',
+      top: 315,
+      left: -180,
       padding: 10,
       backgroundColor: 'lightgray',
       borderRadius: 5,
+    },
+    closeMenuButton: {
+      position: 'absolute',
+      top: 231,
+      left: 6,
+      padding: 10,
+      backgroundColor: 'white',
+      borderRadius: 5,
+    },
+    validateMenuButton: {
+      position: 'absolute',
+      top: 315,
+      left: -20,
+      padding: 10,
+      backgroundColor: 'lightgray',
+      borderRadius: 5,
+    },
+    binMenuButton: {
+      position: 'absolute',
+      top: 315,
+      left: 140,
+      padding: 10,
+      backgroundColor: 'lightgray',
+      borderRadius: 5,
+    },
+    slotDelimiter: {
+      position: 'absolute',
+      width: Dimensions.get('window').width,
+      height: 8,
+      left: 0,
+      backgroundColor: 'black',
     },
     menuContainer: {
       position: 'absolute',
@@ -197,6 +274,7 @@ const styles = StyleSheet.create({
     menuButtonText: {
       color: 'black',
       fontSize: 20,
+      fontWeight: 'bold',
     },
     iconeMenuRight: {
         marginTop: 1,
@@ -214,7 +292,6 @@ const styles = StyleSheet.create({
       top: 90,
       left: 40,
       padding: 7,
-      backgroundColor: 'lightgray',
       borderRadius: 6,
     },
     reactionButton: {

@@ -78,6 +78,7 @@ const getGitHubAuthCode = (res, clientId) => {
 };
 
 app.post("/flow", (req, res) => {
+    console.log("spotify token: ", spotifyAccessToken);
     genSchema(req.body);
 });
 
@@ -224,7 +225,7 @@ app.get("/spotify-auth", (req, res) => {
     console.log('spotify auth here');
 
     var state = generateRandomString(16);
-    var scope = 'user-read-private user-read-email';
+    var scope = 'user-read-private user-read-email user-read-currently-playing user-read-playback-state playlist-modify-private playlist-read-private user-modify-playback-state';
 
     res.redirect('https://accounts.spotify.com/authorize?' +
         queryString.stringify({
@@ -254,6 +255,8 @@ app.get("/spotifycallback", (req, res) => {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
     }).then((response) => {
+        // console.log("\n\n\n\n\n\n\n")
+        // console.log(response.data);
         spotifyConnected = true;
         spotifyAccessToken = response.data.access_token;
     }).catch((error) => {
@@ -268,36 +271,35 @@ app.get("/spotifycallback", (req, res) => {
 
 function serverProcess() {
 
-    setInterval(() => {
-        // if (githubConnected) {
-        //     testZZZZZ = true;
-        //     console.log('Launch Action');
-        //     const area = new Area({
-        //         action: {
-        //             service: 'github',
-        //             trigger: 'push',
-        //             token: githubAccessToken,
-        //             data: 'VictorHarri-Chal/AREA',
-        //         },
-        //         reaction: {
-        //             service: 'github',
-        //             trigger: 'issue',
-        //             token: githubAccessToken,
-        //             data: 'VictorHarri-Chal/AREA',
-        //         }
-        //     });
-        //     area.save((err, area) => {
-        //         console.log('save..');
-        //         if (err) {
-        //             console.log('ERRRRRR');
-        //             console.log(err);
-        //         } else {
-        //             // console.log(`Successfully saved area: ${area}`);
-        //             console.log(`Successfully saved area`);
-        //         }
-        //     });
-        // }
-    }, 15000);
+    // setInterval(() => {
+    //     if (spotifyConnected) {
+    //         console.log('Launch Action');
+    //         const area = new Area({
+    //             action: {
+    //                 service: 'spotify',
+    //                 trigger: 'newStream',
+    //                 token: spotifyAccessToken,
+    //                 data: '',
+    //             },
+    //             reaction: {
+    //                 service: 'spotify',
+    //                 trigger: 'createPlaylist',
+    //                 token: spotifyAccessToken,
+    //                 data: '',
+    //             }
+    //         });
+    //         area.save((err, area) => {
+    //             console.log('save..');
+    //             if (err) {
+    //                 console.log('ERRRRRR');
+    //                 console.log(err);
+    //             } else {
+    //                 // console.log(`Successfully saved area: ${area}`);
+    //                 console.log(`Successfully saved area`);
+    //             }
+    //         });
+    //     }
+    // }, 15000);
 
     setInterval(() => {
         console.log('Check...');
