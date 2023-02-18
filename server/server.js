@@ -53,7 +53,7 @@ app.get("/callback", (req, res) => {
     console.log('callback here');
     res.header("Access-Control-Allow-Origin", "*");
     const code = req.query.code;
-    getGitHubAuthToken("498e03f921f50999dbb4", "ef1c8f0525c5239d4635e3e5023ad4b6eb6929ed", code)
+    getGitHubAuthToken("ffd70e614dd0cd62f19e", "d5ee3ec76613a1c842150f956ec2a8ec7f3ed28f", code)
         .then(accessToken => {
             console.log('access token: ', accessToken);
             githubConnected = true;
@@ -68,12 +68,12 @@ app.get("/callback", (req, res) => {
 });
 
 app.get("/githubauth", (req, res) => {
-    getGitHubAuthCode(res, "498e03f921f50999dbb4");
+    getGitHubAuthCode(res, "ffd70e614dd0cd62f19e");
 });
 
 const getGitHubAuthCode = (res, clientId) => {
     const redirectUri = encodeURIComponent(`http://localhost:8080/callback`);
-    const authorizationUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=read:user&state=random_string`;
+    const authorizationUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=repo%20read:user&state=random_string`;
     res.redirect(authorizationUrl);
 };
 
