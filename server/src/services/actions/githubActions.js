@@ -11,75 +11,81 @@ const githubTrigger = {
                 return await this.checkNewCommits(ownerName, repoName, action.token);
             case "issue":
                 return await this.checkNewIssues(ownerName, repoName, action.token);
-            case "pull_request":
-                return await this.checkNewPullRequests(ownerName, repoName, action.token);
+            // case "pull_request":
+            //     return await this.checkNewPullRequests(ownerName, repoName, action.token);
             default:
                 console.log(`Unsupported trigger type: ${action.trigger}`);
                 return false;
         }
     },
 
-    async checkNewPullRequests(ownerName, repoName, token) {
-        return await this.checkNewEvents("PullRequestEvent", ownerName, repoName, token, (event) => {
-            console.log(`Pull Request: ${event.payload.pull_request.title}`);
-        });
-    },
-
     async checkNewCommits(ownerName, repoName, token) {
-        return await this.checkNewEvents("PushEvent", ownerName, repoName, token, (event) => {
-            console.log(`Last push event detected: ${event.payload.commits[0].message}`);
-        });
-    },
-
-    async checkNewIssues(ownerName, repoName, token) {
-        return await this.checkNewEvents("IssuesEvent", ownerName, repoName, token, (event) => {
-            console.log(`Last issue detected: ${event.title}`);
-        });
-    },
-
-    async checkNewEvents(eventType, ownerName, repoName, token, callback, reverse = false) {
         const octokit = new Octokit({ auth: token });
         const requestOptions = {
             owner: ownerName,
             repo: repoName,
-            per_page: 100,
+            per_page: 1,
             page: 1,
-            headers: { "If-None-Match": lastETags[eventType] },
+            headers: { "If-None-Match": lastETags["PushEvent"] },
         };
 
         try {
             const response = await octokit.activity.listRepoEvents(requestOptions);
+            lastETags["PushEvent"] = response.headers.etag;
+            const event = response.data[0];
 
-            lastETags[eventType] = response.headers.etag;
-            const events = response.data.filter((event) => event.type === eventType);
-
-            if (events.length > 0) {
-                if (isFirstCheck) {
-                    isFirstCheck = false;
-                    console.log(`No new ${eventType} events since last request.`);
-                    return false;
-                }
-
-                console.log(`New ${eventType} events detected:`);
-                if (reverse) {
-                    callback(events[0]);
-                } else {
-                    events.forEach(callback);
-                }
+            if (isFirstCheck) {
+                isFirstCheck = false;
+                // console.log(`No new PushEvent events since last request.`);
+                return false;
+            }
+            if (event) {
+                console.log(`Last push event detected: ${event.payload.commits[0].message}`);
                 return true;
             } else {
-                if (isFirstCheck) {
-                    isFirstCheck = false;
-                    console.log(`No new ${eventType} events since last request.`);
-                    return false;
-                }
-
-                console.log(`No new ${eventType} events since last request.`);
+                // console.log(`No new PushEvent events since last request.`);
                 return false;
             }
         } catch (error) {
             if (error.status === 304) {
-                console.log(`No new ${eventType} events since last request.`);
+                // console.log(`No new PushEvent events since last request.`);
+                return false;
+            } else {
+                throw error;
+            }
+        }
+    },
+
+    async checkNewIssues(ownerName, repoName, token) {
+        const octokit = new Octokit({ auth: token });
+        const requestOptions = {
+            owner: ownerName,
+            repo: repoName,
+            per_page: 1,
+            page: 1,
+            headers: { "If-None-Match": lastETags["IssuesEvent"] },
+        };
+
+        try {
+            const response = await octokit.issues.listForRepo(requestOptions);
+            lastETags["IssuesEvent"] = response.headers.etag;
+            const issue = response.data[0];
+
+            if (isFirstCheck) {
+                isFirstCheck = false;
+                // console.log(`No new IssuesEvent events since last request.`);
+                return false;
+            }
+            if (issue) {
+                console.log(`Last issue detected: ${issue.title}`);
+                return true;
+            } else {
+                // console.log(`No new IssuesEvent events since last request.`);
+                return false;
+            }
+        } catch (error) {
+            if (error.status === 304) {
+                // console.log(`No new IssuesEvent events since last request.`);
                 return false;
             } else {
                 throw error;
