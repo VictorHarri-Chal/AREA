@@ -8,11 +8,7 @@ var bcrypt = require("bcryptjs");
 var jwt = require("jsonwebtoken");
 var bodyParser = require('body-parser');
 
-exports.signup = async (req, res) => {
-    if (!req.body.passwordSignUp) {
-        res.status(500).send({message: "No password provided"});
-    }
-    var currentuserID = '';
+async function saveNewUser(req, res) {
 
     const user = new User({
         username: req.body.usernameSignUp,
@@ -20,8 +16,7 @@ exports.signup = async (req, res) => {
         password: bcrypt.hashSync(req.body.passwordSignUp)
     });
 
-    //Créer un nouveau User
-    await user.save((err, user) => {
+    user.save((err, user) => {
         if (err) {
             res.status(501).send({ message: "1: " + err });
             return;
@@ -67,13 +62,23 @@ exports.signup = async (req, res) => {
         }
     });
 
-    User.findOne({username: req.body.usernameSignUp}, function (err, docs) {
-        if (err){
-            console.log(err)
-        } else {
-            console.log("Result : ", docs);
-        }
-    });
+    const newUserAccessTokens = new AccessTokens({
+        ownerUserID: user.id,
+        tokens: []
+    })
+
+    newUserAccessTokens.save();
+
+    return;
+}
+
+exports.signup = async (req, res) => {
+    if (!req.body.passwordSignUp) {
+        res.status(500).send({message: "No password provided"});
+    }
+
+    //Créer un nouveau User
+    await saveNewUser(req, res);
 };
 
 exports.signin = (req, res) => {
