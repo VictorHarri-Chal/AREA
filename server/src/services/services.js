@@ -16,7 +16,7 @@ const services = {
     spotify: {
         checkTrigger: async function(action) {
             console.log('[Spotify] - Action');
-            return await spotifyTrigger.checkSpotifyAction(action);
+            // return await spotifyTrigger.checkSpotifyAction(action);
 
         },
         startReaction: function(reaction) {

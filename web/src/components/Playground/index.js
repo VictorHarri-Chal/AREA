@@ -297,6 +297,13 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
             }
         }
         if (blocRect.x + 200 > bin.x && blocRect.x < bin.x + 200 && blocRect.y + 100 > bin.y && blocRect.y < bin.y + 100) {
+            console.log('toDelete', currBox);
+
+            if (currBox.linkFrom !=='0' && currBox.linkFrom !== null) {
+                let tmpBox = boxes.find(box => box.id === currBox.linkFrom);
+                tmpBox.linkTo = '0';
+            }
+
             setArrows(arrows.filter(arrow => arrow.to !== blocSelected && arrow.from !== blocSelected));
             if(currBox.startOfFlow === true) {
                 let foundBox = findFreeBloc("start");
