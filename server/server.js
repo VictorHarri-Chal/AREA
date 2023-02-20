@@ -60,17 +60,12 @@ app.get("/callback", (req, res) => {
             var parsedUserID = cookies.parseJwt(req.cookies.jwtToken)
             console.log(parsedUserID)
             var newTokenGithub = {service: 'github', value: accessToken}
-            var tmpTokensList = await AccessTokens.findOne({ownerUserID: await User.findOne({username: p})})
+            var tmpTokensList = await AccessTokens.findOne({ownerUserID: parsedUserID})
 
             console.log('iii' + tmpTokensList);
 
             tmpTokensList.tokens.push(newTokenGithub);
-            tmpTokensList.save(done);
-                // if (error) {
-                //     console.log(error + 'zzz');
-                // } else {
-                //     console.log(success + '???');
-                // }
+            tmpTokensList.save();
         })
         .catch(error => {
             console.error(error);

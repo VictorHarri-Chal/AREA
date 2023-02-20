@@ -67,7 +67,7 @@ async function saveNewUser(req, res) {
         tokens: []
     })
 
-    newUserAccessTokens.save();Y
+    newUserAccessTokens.save();
 
     return;
 }
