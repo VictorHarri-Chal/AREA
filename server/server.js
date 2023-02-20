@@ -15,11 +15,6 @@ const cors = require('cors');
 const trigger = require('./src/services/checkTriggers');
 const cookies = require('./src/utils/getCookie');
 
-const newUser = new User({
-    username: "example_username",
-    email: "example@email.com"
-});
-
 app.use(cors());
 
 app.use(express.json());
@@ -30,17 +25,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 require('./src/routes/auth.routes.js')(app);
 require('./src/routes/user.routes.js')(app);
 
-var githubConnected = false;
-//declare a global variable to store the github access token
-var githubAccessToken = "";
-//same for discord
 var discordAccessToken = "";
 
 var discordConnected = false;
-
-app.get('/', (req, res) => {
-    res.json({ msg: 'Hello World!' });
-});
 
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
@@ -48,22 +35,19 @@ app.listen(port, () => {
 
 
 app.get("/callback", (req, res) => {
-    console.log('callback here');
     res.header("Access-Control-Allow-Origin", "*");
-    console.log()
     const code = req.query.code;
     getGitHubAuthToken("498e03f921f50999dbb4", "ef1c8f0525c5239d4635e3e5023ad4b6eb6929ed", code)
         .then(async accessToken => {
-            githubConnected = true;
-            githubAccessToken = accessToken;
             var parsedUserID = cookies.parseJwt(req.cookies.jwtToken)
             var newTokenGithub = {service: 'github', value: accessToken}
             var tmpTokensList = await AccessTokens.findOne({ownerUserID: parsedUserID})
 
-            let isEmpty = true;
-            for (let i = 0; i < tmpTokensList.tokens.length; i = i + 1) {
-                if (tmpTokensList.tokens[i].service === 'github')
+            var isEmpty = true;
+            for (var i = 0; i < tmpTokensList.tokens.length; i = i + 1) {
+                if (tmpTokensList.tokens[i].service === 'github') {
                     isEmpty = false;
+                }
             }
             if (isEmpty) {
                 tmpTokensList.tokens.push(newTokenGithub);
@@ -168,16 +152,24 @@ const getGitHubAuthToken = (clientId, clientSecret, code) => {
 
 
 app.get("/discordcallback", (req, res) => {
-    console.log("discord-callback here");
     res.header("Access-Control-Allow-Origin", "*");
     const code = req.query.code;
-    console.log("Code: ", code);
     getDiscordAccessToken("1063054273946058833", "Ie8_A2L-lNSnKFvjiXXQFfwX9Wwb2w_-", code)
-        .then((accessToken) => {
-            console.log("access token: ", accessToken);
-            discordConnected = true;
-            discordAccessToken = accessToken;
-            accessToken.save();
+        .then(async (accessToken) => {
+            var parsedUserID = cookies.parseJwt(req.cookies.jwtToken)
+            var newTokenDiscord = {service: 'discord', value: accessToken}
+            var tmpTokensList = await AccessTokens.findOne({ownerUserID: parsedUserID})
+
+            var isEmpty = true;
+            for (var i = 0; i < tmpTokensList.tokens.length; i = i + 1) {
+                if (tmpTokensList.tokens[i].service === 'discord') {
+                    isEmpty = false;
+                }
+            }
+            if (isEmpty) {
+                tmpTokensList.tokens.push(newTokenDiscord);
+                tmpTokensList.save();
+            }
         })
         .catch((error) => {
             console.error(error);
