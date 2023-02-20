@@ -7,13 +7,13 @@ export const menuButtons = [
       login: false,
       action_blocs : [
         {
-            key : 'discord_receivePrivateMessage',
+            id : 'discord_receivePrivateMessage',
             title: 'Get a PM',
         }
       ],
       reaction_blocs : [
         {
-            key : 'discord_sendPrivateMessage',
+            id : 'discord_sendPrivateMessage',
             title: 'Send a PM',
         }
       ]
@@ -25,13 +25,13 @@ export const menuButtons = [
       login: false,
       action_blocs : [
         {
-            key : 'github_newCommit',
+            id : 'github_newCommit',
             title: 'New commit',
         },
       ],
       reaction_blocs : [
           {
-              key : 'github_createIssue',
+              id : 'github_createIssue',
               title: 'Create an issue',
           }
       ]
@@ -43,13 +43,13 @@ export const menuButtons = [
       login: false,
       action_blocs : [
         {
-            key : 'twitter_newTweet',
+            id : 'twitter_newTweet',
             title: 'New tweet',
         },
       ],
       reaction_blocs : [
           {
-              key : 'twitter_sendTweet',
+              id : 'twitter_sendTweet',
               title: 'Send a tweet',
           }
       ]
@@ -61,13 +61,13 @@ export const menuButtons = [
       login: false,
       action_blocs : [
         {
-            key : 'spotify_newStream',
+            id : 'spotify_newStream',
             title: 'New stream',
         },
       ],
       reaction_blocs : [
         {
-            key : 'spotify_createPlaylist',
+            id : 'spotify_createPlaylist',
             title: 'Create a playlist',
         },
       ]
@@ -79,13 +79,13 @@ export const menuButtons = [
       login: false,
       action_blocs : [
         {
-            key : 'youtube_newVideo',
+            id : 'youtube_newVideo',
             title: 'New video',
         },
       ],
       reaction_blocs : [
         {
-            key : 'youtube_sendComment',
+            id : 'youtube_sendComment',
             title: 'Send a comment',
         },
       ]
@@ -97,13 +97,13 @@ export const menuButtons = [
       login: false,
       action_blocs : [
         {
-            key : 'twitch_newStream',
-            title: 'New stream',
+            id : 'twitch_newLivestream',
+            title: 'New livestream',
         },
       ],
       reaction_blocs : [
         {
-            key : 'twitch_sendMessage',
+            id : 'twitch_sendMessage',
             title: 'Send a message',
         },
       ]

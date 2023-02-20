@@ -3,10 +3,10 @@ import { View, Text, PanResponder, StyleSheet, Dimensions } from 'react-native';
 
 class Rectangle extends Component {
     state = {
-        x: 0,
-        y: 0,
-        initialX: 0,
-        initialY: 0,
+        x: 70,
+        y: 20 + (this.props.boxes.length - 1) * 110,
+        initialX: 70,
+        initialY: 20 + (this.props.boxes.length - 1) * 110,
         color: this.props.color,
         title: this.props.title,
     };
@@ -35,15 +35,15 @@ class Rectangle extends Component {
                     y: this.state.initialY + gestureState.dy
                 });
             }
-            this.props.box.x = this.state.initialX;
-            this.props.box.y = this.state.initialY;
-            this.props.setBoxes([...this.props.boxes]);
         },
         onPanResponderRelease: (evt, gestureState) => {
             this.setState({
                 initialX: this.state.x,
                 initialY: this.state.y
             });
+            this.props.box.x = this.state.x;
+            this.props.box.y = this.state.y;
+            this.props.setBoxes([...this.props.boxes]);
         },
         onPanResponderTerminate: (evt, gestureState) => {
             this.setState({
@@ -70,7 +70,7 @@ class Rectangle extends Component {
 
 const styles = StyleSheet.create({
     rectangle: {
-        width: 150,
+        width: 250,
         height: 70,
         borderRadius: 5,
         position: 'absolute',

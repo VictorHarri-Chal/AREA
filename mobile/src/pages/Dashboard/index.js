@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Rectangle from '../../components/Draggable/Draggable.js';
 import { menuButtons } from './blocData.js';
+import { styles } from './styles.js';
 
 const Dashboard = () => {
   const [menuVisible, setMenuVisible] = useState(false);
@@ -19,17 +20,48 @@ const Dashboard = () => {
     { name: 6, top: 650, },
   ]);
  
-  const defineBlocType = () => {
-    if (currentBlocType === "action_blocs") {
-      return menuButtons.find(button => button.name === selectedButton).action_blocs.find(item => item.title).title;
-    } else if (currentBlocType === "reaction_blocs") {
-      return menuButtons.find(button => button.name === selectedButton).reaction_blocs.find(item => item.title).title;
+  const defineBlocType = (type) => {
+    if (type === "title") {
+      if (currentBlocType === "action_blocs") {
+        return menuButtons.find(button => button.name === selectedButton).action_blocs.find(item => item.title).title;
+      } else if (currentBlocType === "reaction_blocs") {
+        return menuButtons.find(button => button.name === selectedButton).reaction_blocs.find(item => item.title).title;
+      }
+    } else if (type === "id") {
+      if (currentBlocType === "action_blocs") {
+        return menuButtons.find(button => button.name === selectedButton).action_blocs.find(item => item.id).id;
+      } else if (currentBlocType === "reaction_blocs") {
+        return menuButtons.find(button => button.name === selectedButton).reaction_blocs.find(item => item.id).id;
+      }
     }
     return null;
   }
 
+  const checkSlot = (coord1, coord2, slot) => {
+    let isSolo = false;
+    boxes.forEach(box => {
+      if (box.y > coord1 && box.y < coord2) {
+        if (isSolo === true) {
+          console.log("Wrong schema : 2 blocs in the same slot")
+          setFinalSchema([]);
+          return false;
+        } else {
+          setFinalSchema(finalSchema => [...finalSchema, {id: box.id, slot: slot}])
+          isSolo = true;
+        }
+      }
+    })
+    return true;
+  }
+
   const validateButton = () => {
-    console.log(boxes)
+    setFinalSchema([]);
+    checkSlot(0, 100, 1);
+    checkSlot(100, 210, 2);
+    checkSlot(210, 320, 3);
+    checkSlot(320, 430, 4);
+    checkSlot(430, 540, 5);
+    checkSlot(540, 650, 6);
   }
 
   return (
@@ -38,27 +70,30 @@ const Dashboard = () => {
         <TouchableOpacity onPress={() => {
           setMenuVisible(true)}}>
           <View style={styles.openMenuButton}>
-            <Icon name={"bars"} size={19} color={"black"}/>
+            <Icon name={"bars"} size={25} color={"black"}/>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {validateButton()}}>
+        <TouchableOpacity onPress={() => {validateButton()
+        console.log(finalSchema)}}>
           <View style={styles.validateMenuButton}>
-            <Icon name={"play"} size={19} color={"red"}/>
+            <Icon name={"play"} size={25} color={"red"}/>
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {
           setBoxes([]);
         }}>
           <View style={styles.binMenuButton}>
-            <Icon name={"trash"} size={19} color={"black"}/>
+            <Icon name={"trash"} size={25} color={"black"}/>
           </View>
         </TouchableOpacity>
         {boxes.map(box => (
           <Rectangle key={box.key} title={box.title} color={box.color} listSlot={listSlot} box={box} boxes={boxes} setBoxes={setBoxes}></Rectangle>
           ))}
         {listSlot.map(slot => (
-          <View key={slot.name} style={[styles.slotDelimiter, {top: slot.top}]}></View>
-        ))}
+            <View key={slot.name} style={[styles.slotDelimiter, {top: slot.top}]}></View>
+          ))}
+        <Icon name={"flag-checkered"} size={30} color={"lightgreen"} style={[styles.flag, {top: 40}]}/>
+        <Icon name={"flag-checkered"} size={30} color={"red"} style={[styles.flag, {top: 590}]}/>
       </>
       {menuVisible && (
         <View style={styles.menuContainer}>
@@ -79,7 +114,7 @@ const Dashboard = () => {
             <TouchableOpacity onPress={() => {
               setMenuVisible(false)}}>
               <View style={styles.closeMenuButton}>
-              <Icon name={"times"} size={19} color={"black"}/>
+              <Icon name={"times"} size={25} color={"black"}/>
               </View>
             </TouchableOpacity>
           </View>
@@ -120,10 +155,10 @@ const Dashboard = () => {
                       style={[styles.rectangleButton, { backgroundColor: menuButtons.find(button => button.name === selectedButton).color}]}
                       onPress={() => {
                         setMenuVisible(false);
-                        setBoxes(boxes => [...boxes, {key: boxes.length+1, title: defineBlocType(), color: menuButtons.find(button => button.name === selectedButton).color, x: 0, y: 0}])
+                        setBoxes(boxes => [...boxes, {key: boxes.length+1, title: defineBlocType("title"), id: defineBlocType("id"), color: menuButtons.find(button => button.name === selectedButton).color, x: 0, y: 0}])
                       }}
                       >
-                        <Text style={styles.actionReactionButtonText}>{defineBlocType()}</Text>
+                        <Text style={styles.actionReactionButtonText}>{defineBlocType("title")}</Text>
                       </TouchableOpacity>
                     </>
                   )}
@@ -138,131 +173,4 @@ const Dashboard = () => {
   );
 };
 
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    openMenuButton: {
-      position: 'absolute',
-      top: 315,
-      left: -180,
-      padding: 10,
-      backgroundColor: 'lightgray',
-      borderRadius: 5,
-    },
-    closeMenuButton: {
-      position: 'absolute',
-      top: 231,
-      left: 6,
-      padding: 10,
-      backgroundColor: 'white',
-      borderRadius: 5,
-    },
-    validateMenuButton: {
-      position: 'absolute',
-      top: 315,
-      left: -20,
-      padding: 10,
-      backgroundColor: 'lightgray',
-      borderRadius: 5,
-    },
-    binMenuButton: {
-      position: 'absolute',
-      top: 315,
-      left: 140,
-      padding: 10,
-      backgroundColor: 'lightgray',
-      borderRadius: 5,
-    },
-    slotDelimiter: {
-      position: 'absolute',
-      width: Dimensions.get('window').width,
-      height: 8,
-      left: 0,
-      backgroundColor: 'black',
-    },
-    menuContainer: {
-      position: 'absolute',
-      top: 0,
-      bottom: 0,
-      left: 0,
-      right: 0,
-      flexDirection: 'row',
-      backgroundColor: 'transparent',
-    },
-    menuLeft: {
-      width: '30%',
-      backgroundColor: 'lightgray',
-      padding: 10,
-    },
-    menuRight: {
-      width: '70%',
-      backgroundColor: 'black',
-      padding: 20,
-      //justifyContent: 'center',
-      alignItems: 'center',
-    },
-    menuButtonContainer: {
-      marginVertical: 10,
-      padding: 10,
-      backgroundColor: 'white',
-      borderRadius: 5,
-      alignItems: 'center',
-    },
-    menuText: {
-      color: '#fff',
-      fontSize: 20,
-      marginBottom: 20,
-    },
-    menuButton: {
-      padding: 10,
-      backgroundColor: 'lightgray',
-      borderRadius: 5,
-    },
-    menuButtonText: {
-      color: 'black',
-      fontSize: 20,
-      fontWeight: 'bold',
-    },
-    iconeMenuRight: {
-        marginTop: 1,
-    },
-    buttonIndicator: {
-        position: 'absolute',
-        top: 5,
-        right: 5,
-        width: 10,
-        height: 10,
-        borderRadius: 5,
-      },
-    actionButton: {
-      position: 'absolute',
-      top: 90,
-      left: 40,
-      padding: 7,
-      borderRadius: 6,
-    },
-    reactionButton: {
-      position: 'absolute',
-      top: 90,
-      left: 150,
-      padding: 7,
-      backgroundColor: 'lightgray',
-      borderRadius: 6,
-    },
-    actionReactionButtonText: {
-      color: 'black',
-      fontSize: 20,
-    },
-    rectangleButton: {
-      position: 'absolute',
-      alignItems: 'center',
-      top: 150,
-      padding: 7,
-      borderRadius: 4,
-    },
-  });
-
-  export default Dashboard;
+export default Dashboard;
