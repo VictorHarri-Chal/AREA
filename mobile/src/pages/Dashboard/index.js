@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Rectangle from '../../components/Draggable/Draggable.js';
+import { menuButtons } from './blocData.js';
 
 const Dashboard = () => {
   const [menuVisible, setMenuVisible] = useState(false);
@@ -17,62 +18,12 @@ const Dashboard = () => {
     { name: 5, top: 540, },
     { name: 6, top: 650, },
   ]);
-  const [menuButtons, setMenuButtons] = useState([
-    {
-      name: "Discord",
-      icon: "discord",
-      color: "#7289da",
-      login: false,
-      action_blocs : "Get a private message",
-      reaction_blocs : "Send a private message"
-    },
-    {
-      name: "Github",
-      icon: "github",
-      color: "#99aab5",
-      login: false,
-      action_blocs : "New commit",
-      reaction_blocs : "Create an issue"
-    },
-    {
-      name: "Twitter",
-      icon: "twitter",
-      color: "#00acee",
-      login: false,
-      action_blocs : "New tweet",
-      reaction_blocs : "Send a tweet"
-    },
-    {
-      name: "Spotify",
-      icon: "spotify",
-      color: "#1ed760",
-      login: false,
-      action_blocs : "New stream",
-      reaction_blocs : "Create a playlist"
-    },
-    {
-      name: "Youtube",
-      icon: "youtube",
-      color: "#fe0000",
-      login: false,
-      action_blocs : "New youtube video",
-      reaction_blocs : "Post a commentary"
-    },
-    {
-      name: "Twitch",
-      icon: "twitch",
-      color: "#6441a5",
-      login: false,
-      action_blocs : "New stream on Twitch",
-      reaction_blocs : "Post a commentary"
-    },
-  ]);
-
+ 
   const defineBlocType = () => {
     if (currentBlocType === "action_blocs") {
-      return menuButtons.find(button => button.name === selectedButton).action_blocs;
+      return menuButtons.find(button => button.name === selectedButton).action_blocs.find(item => item.title).title;
     } else if (currentBlocType === "reaction_blocs") {
-      return menuButtons.find(button => button.name === selectedButton).reaction_blocs;
+      return menuButtons.find(button => button.name === selectedButton).reaction_blocs.find(item => item.title).title;
     }
     return null;
   }
@@ -143,7 +94,6 @@ const Dashboard = () => {
                   onPress={() => {
                     setSelectedButton(null);
                     menuButtons.find(button => button.name === selectedButton).login = true;
-                    setMenuButtons(menuButtons);
                   }}
                   >
                     <Text style={styles.menuButtonText}>Connect</Text>
