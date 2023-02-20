@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const express = require('express');
-const request = require("request");
 const Area = require('./src/models/ar.model');
 var bodyParser = require('body-parser');
 const utils = require('./src/utils/utils.js');
@@ -28,16 +27,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 require('./src/routes/auth.routes.js')(app);
 require('./src/routes/user.routes.js')(app);
-
-var githubConnected = false;
-//declare a global variable to store the github access token
-var githubAccessToken = "";
-//same for discord
-var discordAccessToken = "";
-
-var discordConnected = false;
-
-var spotifyConnected = false;
+require('./src/routes/services.routes.js')(app);
 
 var spotifyAccessToken = "";
 
@@ -48,34 +38,6 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
 });
-
-app.get("/callback", (req, res) => {
-    console.log('callback here');
-    res.header("Access-Control-Allow-Origin", "*");
-    const code = req.query.code;
-    getGitHubAuthToken("ffd70e614dd0cd62f19e", "d5ee3ec76613a1c842150f956ec2a8ec7f3ed28f", code)
-        .then(accessToken => {
-            console.log('access token: ', accessToken);
-            githubConnected = true;
-            githubAccessToken = accessToken;
-        })
-        .catch(error => {
-            console.error(error);
-        });
-    res.statusCode = 302;
-    res.setHeader("Location", "http://localhost:8081/dashboard");
-    res.end();
-});
-
-app.get("/githubauth", (req, res) => {
-    getGitHubAuthCode(res, "ffd70e614dd0cd62f19e");
-});
-
-const getGitHubAuthCode = (res, clientId) => {
-    const redirectUri = encodeURIComponent(`http://localhost:8080/callback`);
-    const authorizationUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=repo%20read:user&state=random_string`;
-    res.redirect(authorizationUrl);
-};
 
 app.post("/flow", (req, res) => {
     console.log("spotify token: ", spotifyAccessToken);
@@ -138,74 +100,6 @@ app.post("/isConnect", (req, res) => {
     // if (req.body.key === 'github')
     res.status(200).send('Connected');
 });
-
-const getGitHubAuthToken = (clientId, clientSecret, code) => {
-    return new Promise((resolve, reject) => {
-        request.post({
-            url: `https://github.com/login/oauth/access_token?client_id=${clientId}&client_secret=${clientSecret}&code=${code}`,
-            headers: {
-                Accept: "application/json"
-            }
-        }, (err, response, body) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(JSON.parse(body).access_token);
-            }
-        });
-    });
-};
-
-
-app.get("/discordcallback", (req, res) => {
-    console.log("discord-callback here");
-    res.header("Access-Control-Allow-Origin", "*");
-    const code = req.query.code;
-    console.log("Code: ", code);
-    getDiscordAccessToken("1063054273946058833", "Ie8_A2L-lNSnKFvjiXXQFfwX9Wwb2w_-", code)
-        .then((accessToken) => {
-            console.log("access token: ", accessToken);
-            discordConnected = true;
-            discordAccessToken = accessToken;
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-    res.statusCode = 302;
-    res.setHeader("Location", "http://localhost:8081/dashboard");
-    res.end();
-});
-
-app.get("/discord-auth", (req, res) => {
-    console.log('discord auth here');
-    getDiscordAuthCode(res, "1063054273946058833");
-});
-
-const getDiscordAuthCode = (res, clientId) => {
-    console.log('discord authcode here');
-    const redirectUri = encodeURIComponent(`http://localhost:8080/discordcallback`);
-    const authorizationUrl = `https://discord.com/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=email%20guilds%20connections%20messages.read%20identify%20gdm.join`;
-    console.log("discord auth URL: ", authorizationUrl);
-    res.redirect(authorizationUrl);
-};
-
-
-async function getDiscordAccessToken(clientId, secret, code) {
-    const response = await fetch('https://discord.com/api/oauth2/token', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: `client_id=${clientId}&client_secret=${secret}&grant_type=authorization_code&code=${code}&redirect_uri=http://localhost:8080/discordcallback`
-    });
-
-    if (response.ok) {
-        const json = await response.json();
-        return json.access_token;
-    } else {
-        return null;
-    }
-}
 
 const generateRandomString = (length) => {
     var text = '';
@@ -270,45 +164,10 @@ app.get("/spotifycallback", (req, res) => {
 });
 
 function serverProcess() {
-
-    // setInterval(() => {
-    //     if (spotifyConnected) {
-    //         console.log('Launch Action');
-    //         const area = new Area({
-    //             action: {
-    //                 service: 'spotify',
-    //                 trigger: 'newStream',
-    //                 token: spotifyAccessToken,
-    //                 data: '',
-    //             },
-    //             reaction: {
-    //                 service: 'spotify',
-    //                 trigger: 'createPlaylist',
-    //                 token: spotifyAccessToken,
-    //                 data: '',
-    //             }
-    //         });
-    //         area.save((err, area) => {
-    //             console.log('save..');
-    //             if (err) {
-    //                 console.log('ERRRRRR');
-    //                 console.log(err);
-    //             } else {
-    //                 // console.log(`Successfully saved area: ${area}`);
-    //                 console.log(`Successfully saved area`);
-    //             }
-    //         });
-    //     }
-    // }, 15000);
-
     setInterval(() => {
         console.log('Check...');
         trigger.checkTriggers();
     }, 5000);
-
-    // utils.deleteUsers();
-    // utils.addUser(newUser.username, newUser.email);
-    // utils.displayUsers();
 }
 
 function initRoles() {
