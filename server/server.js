@@ -10,9 +10,7 @@ const app = express();
 const port = 8080;
 const cors = require('cors');
 const trigger = require('./src/services/checkTriggers');
-const Math = require('mathjs');
-const queryString = require('querystring');
-const axios = require('axios');
+
 
 const newUser = new User({
     username: "example_username",
