@@ -9,17 +9,26 @@ services:
     ports:
       - "8080:8080"
 
+  client_mobile:
+    build:
+      context: ./mobile
+      dockerfile: Dockerfile
+    depends_on:
+      - server
+    volumes:
+      - apk:/usr/src/app/android/app/build/outputs/apk/:rw
+  
   client_web:
     build:
       context: ./web
     environment:
       - WEB_CLIENT_PORT=8081
     depends_on:
-      - server
+      - client_mobile
     volumes:
-      - commun:/apk
+      - apk:/var/www/:ro
     ports:
       - "8081:3000"
 
 volumes:
-  commun:
+  apk:
