@@ -5,7 +5,6 @@ exports.githubAuth = (req, res) => {
 }
 
 exports.githubCallback = (req, res) => {
-    console.log('callback here');
     res.header("Access-Control-Allow-Origin", "*");
     const code = req.query.code;
     getGitHubAuthToken("ffd70e614dd0cd62f19e", "d5ee3ec76613a1c842150f956ec2a8ec7f3ed28f", code)

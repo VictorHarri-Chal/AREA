@@ -1,6 +1,6 @@
 const githubTrigger = require('./actions/githubActions');
 const discordTrigger = require('./actions/discordActions');
-const spotifyTrigger = require('./actions/spotify/spotifyActions') 
+const spotifyTrigger = require('./actions/spotify/spotifyActions')
 
 const services = {
     github: {
@@ -16,12 +16,12 @@ const services = {
     spotify: {
         checkTrigger: async function(action) {
             console.log('[Spotify] - Action');
-            return await spotifyTrigger.checkSpotifyAction(action);
+            // return await spotifyTrigger.checkSpotifyAction(action);
 
         },
         startReaction: function(reaction) {
             console.log('[Spotify] - Reaction');
-            return spotifyTrigger.checkSpotifyReaction(reaction);
+            // return spotifyTrigger.checkSpotifyReaction(reaction);
         }
     },
     discord: {
