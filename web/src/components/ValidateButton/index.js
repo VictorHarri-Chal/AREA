@@ -51,15 +51,92 @@ async function genFlow(data) {
     }
 }
 
-function ValidateButton( {data} ) {
+function verifNextBox(data, box) {
+    if (box.linkTo === '0') {
+        if (box.startOfFlow === true)
+            return false;
+        if (box.endOfFlow === true)
+            return true;
+    }
+    const nextBox = data.find((newBox) => {
+        if (newBox.id === box.linkTo) {
+            return true;
+        }
+    });
+
+    if (nextBox.startOfFlow === true)
+        return false;
+    if (nextBox.endOfFlow === true)
+        return true;
+
+    return verifNextBox(data, nextBox);
+}
+
+function schemaIsCorrect(data) {
+    const firstBox = data.find((box) => {
+        if (box.startOfFlow === true) {
+            return true;
+        }
+    });
+
+    return verifNextBox(data, firstBox);
+}
+
+function ValidateButton({ data }) {
+
+    const State = {
+        CANT: 0,
+        CAN: 1,
+        IS: 2,
+    };
+
+    const [state, setState] = React.useState(State.CANT);
+    const [icon, setIcon] = React.useState("mdi:close-thick");
+
+    const [oldBoxes, setOldBoxes] = React.useState(data);
 
     const handleClick = () => {
-        genFlow(data)
-    }
+        if (state === State.CAN) {
+            setState(State.IS);
+            genFlow(data);
+        } else if (state === State.IS) {
+            setState(State.CAN);
+        }
+    };
+
+    React.useEffect(() => {
+        const interval = setInterval(() => {
+
+            if (state === State.IS && schemaIsCorrect(data) && JSON.stringify(data) === JSON.stringify(oldBoxes)) {
+                return;
+            }
+
+            if (JSON.stringify(data) !== JSON.stringify(oldBoxes)) {
+                setOldBoxes(data);
+                setState(State.CANT);
+                setIcon("mdi:close-thick");
+                return;
+            }
+
+            if (schemaIsCorrect(data) && state === State.CANT) {
+                setState(State.CAN);
+                setIcon("mdi:check-bold");
+            } else if (!schemaIsCorrect(data) && state !== State.CANT) {
+                setState(State.CANT);
+                setIcon("mdi:close-thick");
+            }
+
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [data, state, oldBoxes]);
 
     return (
-        <ValidateButtonStyle onClick={handleClick} ><Icon icon="material-symbols:play-arrow-rounded" /></ValidateButtonStyle>
+        <ValidateButtonStyle onClick={handleClick} state={state}>
+            <Icon icon={icon} />
+        </ValidateButtonStyle>
     );
 }
+
 
 export default ValidateButton;
