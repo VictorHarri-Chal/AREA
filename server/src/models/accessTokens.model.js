@@ -6,7 +6,8 @@ const accessTokensSchema = new mongoose.Schema({
   [
     {
         service: String,
-        value: String
+        value: String,
+        refresh: String
     }
   ]
 });

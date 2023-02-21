@@ -41,6 +41,37 @@ const Login = () => {
         }
     };
 
+    async function loadLoggedServices(jsonAccessTokens) {
+        for (var i = 0; i < jsonAccessTokens.length; i = i + 1) {
+            console.log('b - service: ' + JSON.stringify(jsonAccessTokens[i].service));
+            if (jsonAccessTokens[i].service === 'discord') {
+                console.log('Discord');
+                console.log('Refresh token in discord: ' + JSON.stringify(jsonAccessTokens[i].refresh))
+
+                const params = new URLSearchParams();
+                params.append('client_id', '1063054273946058833');
+                params.append('client_secret', 'Ie8_A2L-lNSnKFvjiXXQFfwX9Wwb2w_-');
+                params.append('grant_type', 'refresh_token');
+                params.append('refresh_token', JSON.stringify(jsonAccessTokens[i].refresh));
+
+                await fetch('https://discord.com/api/oauth2/token', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: params
+                }).then((response) => response.json())
+                .then((jsonResponse) => {
+                    console.log('refresh json zzz: ' + JSON.stringify(jsonResponse))
+                    sessionStorage.setItem("connectTodiscord", true);
+                })
+            } else {
+                sessionStorage.setItem("connectTodiscord", false);
+            }
+        }
+        sessionStorage.setItem("connectTogithub", false);
+    }
+
     const handleSubmitSignIn = async (event) => {
         event.preventDefault();
         try {
@@ -54,8 +85,7 @@ const Login = () => {
             }).then((response) => response.json())
                 .then((user) => {
                     if (user) {
-                        document.cookie = "jwtToken=" + user.accessToken;
-                        console.log('logged in. . .');
+                        document.cookie = "jwtToken=" + user.jwtToken;
                         fetch('http://localhost:8080/dashboard', {
                             method: 'GET',
                             headers: {
@@ -63,7 +93,6 @@ const Login = () => {
                             }
                         }).then(function (responseGet) {
                             if (responseGet.status === 200) {
-                                console.log('redirecting. . .');
                                 window.location.href = 'http://localhost:8081/dashboard';
                             } else {
                                 console.log('response: ' + responseGet)
@@ -73,8 +102,7 @@ const Login = () => {
                             console.log(e);
                             return;
                         });
-                        sessionStorage.setItem("connectTogithub", false);
-                        sessionStorage.setItem("connectTodiscord", false);
+                        loadLoggedServices(user.userAccessTokens);
                         alert('Logged in successfully!');
                     } else {
                         console.log('error on submit ');

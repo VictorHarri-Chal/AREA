@@ -25,10 +25,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 require('./src/routes/auth.routes.js')(app);
 require('./src/routes/user.routes.js')(app);
 
-var discordAccessToken = "";
-
-var discordConnected = false;
-
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
 });
@@ -104,9 +100,6 @@ const genSchema = (data) => {
     const firstBox = getFirstBox(data);
     const endBox = getLastBox(data);
 
-    // console.log(firstBox);
-    // console.log(endBox);
-
     const area = new Area({
         action: {
             service: getService(firstBox.key),
@@ -155,9 +148,12 @@ app.get("/discordcallback", (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
     const code = req.query.code;
     getDiscordAccessToken("1063054273946058833", "Ie8_A2L-lNSnKFvjiXXQFfwX9Wwb2w_-", code)
-        .then(async (accessToken) => {
+        .then(async (tokensInfo) => {
+            var accessToken = tokensInfo.access_token
+            var refreshToken = tokensInfo.refresh_token
+            console.log('TOKENS: Access - ' + accessToken + '   Refresh - ' + refreshToken)
             var parsedUserID = cookies.parseJwt(req.cookies.jwtToken)
-            var newTokenDiscord = {service: 'discord', value: accessToken}
+            var newTokenDiscord = {service: 'discord', value: accessToken, refresh: refreshToken}
             var tmpTokensList = await AccessTokens.findOne({ownerUserID: parsedUserID})
 
             var isEmpty = true;
@@ -167,6 +163,7 @@ app.get("/discordcallback", (req, res) => {
                 }
             }
             if (isEmpty) {
+                console.log('added refresh roken as well!' + refreshToken)
                 tmpTokensList.tokens.push(newTokenDiscord);
                 tmpTokensList.save();
             }
@@ -203,7 +200,7 @@ async function getDiscordAccessToken(clientId, secret, code) {
 
     if (response.ok) {
         const json = await response.json();
-        return json.access_token;
+        return json;
     } else {
         return null;
     }

@@ -64,7 +64,7 @@ async function saveNewUser(req, res) {
 
     const newUserAccessTokens = new AccessTokens({
         ownerUserID: user.id,
-        tokens: []
+        tokens: [],
     })
 
     newUserAccessTokens.save();
@@ -85,7 +85,7 @@ exports.signin = (req, res) => {
     User.findOne({
       username: req.body.usernameSignIn
     }).populate("roles", "-__v")
-      .exec((err, user) => {
+      .exec(async (err, user) => {
         if (err) {
             res.status(500).send({ message: err });
             return;
@@ -118,13 +118,15 @@ exports.signin = (req, res) => {
             authorities.push("role_permissions_" + user.roles[i].name);
         }
 
-        console.log('200 responding succesfully. . .');
+        var accessTokensSchema = await AccessTokens.findOne({ownerUserID: user._id});
+
         res.status(200).send({
             id: user._id,
             username: user.username,
             email: user.email,
             roles: authorities,
-            accessToken: token
+            jwtToken: token,
+            userAccessTokens: accessTokensSchema.tokens
         });
     });
 };
