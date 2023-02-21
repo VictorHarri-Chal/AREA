@@ -79,6 +79,7 @@ const Login = () => {
                         sessionStorage.setItem("connectTodiscord", false);
                         sessionStorage.setItem("connectTospotify", false);
                         sessionStorage.setItem("connectToyoutube", false);
+                        sessionStorage.setItem("connectTotwitch", false);
                         alert('Logged in successfully!');
                     } else {
                         console.log('error on submit ');
