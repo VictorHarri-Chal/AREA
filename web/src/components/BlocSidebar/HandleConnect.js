@@ -14,6 +14,11 @@ const services = {
             window.location.href = `http://localhost:8080/spotifyauth`;
         },
     },
+    youtube: {
+        handleConnection: async function () {
+            window.location.href = `http://localhost:8080/youtubeauth`;
+        },
+    },
 };
 
 module.exports = services;
