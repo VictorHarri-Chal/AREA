@@ -22,10 +22,8 @@ exports.spotifyCallback = (req, res) => {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
     }).then((response) => {
-        console.log("\n\n\n\n\n\n\n")
-        console.log(response.data);
-        spotifyConnected = true;
-        spotifyAccessToken = response.data.access_token;
+        // console.log("\n\n\n\n\n\n\n")
+        // console.log(response.data);
     }).catch((error) => {
         console.log(error);
     });
