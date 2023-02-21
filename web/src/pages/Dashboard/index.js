@@ -34,6 +34,11 @@ const Dashboard = () => {
                     item.login = true
                 }
             }
+            if (sessionStorage.connectToyoutube === 'true') {
+                if (item.key === 'youtube') {
+                    item.login = true
+                }
+            }
         })
     }
 
