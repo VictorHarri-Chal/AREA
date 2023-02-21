@@ -14,6 +14,11 @@ const services = {
             window.location.href = `http://localhost:8080/spotifyauth`;
         },
     },
+    twitch: {
+        handleConnection: async function () {
+            window.location.href = `http://localhost:8080/twitchauth`;
+        },
+    },
 };
 
 module.exports = services;

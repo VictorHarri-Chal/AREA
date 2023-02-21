@@ -78,6 +78,7 @@ const Login = () => {
                         sessionStorage.setItem("connectTogithub", false);
                         sessionStorage.setItem("connectTodiscord", false);
                         sessionStorage.setItem("connectTospotify", false);
+                        sessionStorage.setItem("connectTotwitch", false);
                         alert('Logged in successfully!');
                     } else {
                         console.log('error on submit ');
