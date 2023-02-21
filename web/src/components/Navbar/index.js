@@ -9,7 +9,6 @@ const Navbar = ({toggleSideBar, isInDashboard}) => {
     const [profileOpen, setProfileOpen] = React.useState(false)
     const profileLinkRef = useRef(null)
     const profileLinkPos = profileLinkRef.current ? profileLinkRef.current.getBoundingClientRect() : {};
-    const userData = { initials: "GC", username: "GuyClaude", email: "guyfraude@gerking.fr" }
     const [position, setPosition] = React.useState({x: profileLinkPos.x, y: profileLinkPos.y})
 
     useEffect(() => {
@@ -34,10 +33,10 @@ const Navbar = ({toggleSideBar, isInDashboard}) => {
                 <Nav>
                     <NavbarContainer>
                         <NavLogo to="/">{appName}</NavLogo>
-                        <ProfileLink onClick={toggleProfile} ref={profileLinkRef}>{userData.initials}</ProfileLink>
+                        <ProfileLink onClick={toggleProfile} ref={profileLinkRef}>{sessionStorage.initials}</ProfileLink>
                     </NavbarContainer>
                 </Nav>
-                <ProfileDDM profileOpen={profileOpen} toggleProfile={toggleProfile} x={profileLinkPos.x} y={profileLinkPos.y} userData={userData}/>
+                <ProfileDDM profileOpen={profileOpen} toggleProfile={toggleProfile} x={profileLinkPos.x} y={profileLinkPos.y}/>
             </>
         )
     } else {

@@ -230,6 +230,12 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         arrows.forEach(arrow => {
             if (!found && arrow.exists && arrow.from === id) {
                 found = true;
+
+                let blocFrom = boxes.find(box => box.id === arrow.from);
+                let blocTo = boxes.find(box => box.id === arrow.to);
+                blocFrom.linkTo = '0';
+                blocTo.linkFrom = '0';
+
                 setArrows(arrows.filter(arrow => arrow.from !== id));
             }
         });
@@ -297,7 +303,20 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
             }
         }
         if (blocRect.x + 200 > bin.x && blocRect.x < bin.x + 200 && blocRect.y + 100 > bin.y && blocRect.y < bin.y + 100) {
+            console.log('toDelete', currBox);
+
+            if (currBox.linkFrom !=='0' && currBox.linkFrom !== null) {
+                let tmpBox = boxes.find(box => box.id === currBox.linkFrom);
+                tmpBox.linkTo = '0';
+            }
+
+            if (currBox.linkTo !== '0' && currBox.linkTo !== null) {
+                let tmpBox = boxes.find(box => box.id === currBox.linkTo);
+                tmpBox.linkFrom = '0';
+            }
+
             setArrows(arrows.filter(arrow => arrow.to !== blocSelected && arrow.from !== blocSelected));
+
             if(currBox.startOfFlow === true) {
                 let foundBox = findFreeBloc("start");
                 if (foundBox != null)

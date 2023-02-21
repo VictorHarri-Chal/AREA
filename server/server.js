@@ -1,19 +1,13 @@
 const mongoose = require('mongoose');
 const express = require('express');
-const request = require("request");
 const Area = require('./src/models/ar.model');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
-const utils = require('./src/utils/utils.js');
-const db = require('./src/models')
-const User = db.user;
-const Role = db.role;
-const AccessTokens = db.accessTokens;
+const db = require('./src/models');
 const app = express();
 const port = 8080;
 const cors = require('cors');
 const trigger = require('./src/services/checkTriggers');
-const cookies = require('./src/utils/getCookie');
 
 app.use(cors());
 
@@ -24,51 +18,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 require('./src/routes/auth.routes.js')(app);
 require('./src/routes/user.routes.js')(app);
+require('./src/routes/services.routes.js')(app);
+
+var spotifyAccessToken = "";
 
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
 });
 
-
-app.get("/callback", (req, res) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    const code = req.query.code;
-    getGitHubAuthToken("498e03f921f50999dbb4", "ef1c8f0525c5239d4635e3e5023ad4b6eb6929ed", code)
-        .then(async accessToken => {
-            var parsedUserID = cookies.parseJwt(req.cookies.jwtToken)
-            var newTokenGithub = {service: 'github', value: accessToken}
-            var tmpTokensList = await AccessTokens.findOne({ownerUserID: parsedUserID})
-
-            var isEmpty = true;
-            for (var i = 0; i < tmpTokensList.tokens.length; i = i + 1) {
-                if (tmpTokensList.tokens[i].service === 'github') {
-                    isEmpty = false;
-                }
-            }
-            if (isEmpty) {
-                tmpTokensList.tokens.push(newTokenGithub);
-                tmpTokensList.save();
-            }
-        })
-        .catch(error => {
-            console.error(error);
-        });
-    res.statusCode = 302;
-    res.setHeader("Location", "http://localhost:8081/dashboard");
-    res.end();
-});
-
-app.get("/githubauth", (req, res) => {
-    getGitHubAuthCode(res, "498e03f921f50999dbb4");
-});
-
-const getGitHubAuthCode = (res, clientId) => {
-    const redirectUri = encodeURIComponent(`http://localhost:8080/callback`);
-    const authorizationUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=read:user&state=random_string`;
-    res.redirect(authorizationUrl);
-};
-
 app.post("/flow", (req, res) => {
+    console.log("spotify token: ", spotifyAccessToken);
     genSchema(req.body);
 });
 
@@ -126,151 +85,35 @@ app.post("/isConnect", (req, res) => {
     res.status(200).send('Connected');
 });
 
-const getGitHubAuthToken = (clientId, clientSecret, code) => {
-    return new Promise((resolve, reject) => {
-        request.post({
-            url: `https://github.com/login/oauth/access_token?client_id=${clientId}&client_secret=${clientSecret}&code=${code}`,
-            headers: {
-                Accept: "application/json"
-            }
-        }, (err, response, body) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(JSON.parse(body).access_token);
-            }
-        });
-    });
-};
-
-
-app.get("/discordcallback", (req, res) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    const code = req.query.code;
-    getDiscordAccessToken("1063054273946058833", "Ie8_A2L-lNSnKFvjiXXQFfwX9Wwb2w_-", code)
-        .then(async (tokensInfo) => {
-            var accessToken = tokensInfo.access_token
-            var refreshToken = tokensInfo.refresh_token
-            console.log('TOKENS: Access - ' + accessToken + '   Refresh - ' + refreshToken)
-            var parsedUserID = cookies.parseJwt(req.cookies.jwtToken)
-            var newTokenDiscord = {service: 'discord', value: accessToken, refresh: refreshToken}
-            var tmpTokensList = await AccessTokens.findOne({ownerUserID: parsedUserID})
-
-            var isEmpty = true;
-            for (var i = 0; i < tmpTokensList.tokens.length; i = i + 1) {
-                if (tmpTokensList.tokens[i].service === 'discord') {
-                    isEmpty = false;
-                }
-            }
-            if (isEmpty) {
-                console.log('added refresh roken as well!' + refreshToken)
-                tmpTokensList.tokens.push(newTokenDiscord);
-                tmpTokensList.save();
-            }
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-    res.statusCode = 302;
-    res.setHeader("Location", "http://localhost:8081/dashboard");
-    res.end();
-});
-
-app.get("/discord-auth", (req, res) => {
-    console.log('discord auth here');
-    getDiscordAuthCode(res, "1063054273946058833");
-});
-
-const getDiscordAuthCode = (res, clientId) => {
-    console.log('discord authcode here');
-    const redirectUri = encodeURIComponent(`http://localhost:8080/discordcallback`);
-    const authorizationUrl = `https://discord.com/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=email%20guilds%20connections%20messages.read%20identify%20gdm.join`;
-    console.log("discord auth URL: ", authorizationUrl);
-    res.redirect(authorizationUrl);
-};
-
-async function getDiscordAccessToken(clientId, secret, code) {
-    const response = await fetch('https://discord.com/api/oauth2/token', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: `client_id=${clientId}&client_secret=${secret}&grant_type=authorization_code&code=${code}&redirect_uri=http://localhost:8080/discordcallback`
-    });
-
-    if (response.ok) {
-        const json = await response.json();
-        return json;
-    } else {
-        return null;
-    }
-}
-
 function serverProcess() {
-
-    setInterval(() => {
-        // if (githubConnected && discordConnected) {
-        //     testZZZZZ = true;
-        //     console.log('Launch Action');
-            // const area = new Area({
-        //         action: {
-        //             service: 'github',
-        //             trigger: 'issue',
-        //             token: githubAccessToken,
-        //             data: 'VictorHarri-Chal/AREA',
-        //         },
-        //         reaction: {
-        //             service: 'github',
-        //             trigger: 'send_Private_Message',
-        //             token: discordAccessToken,
-        //             data: 'VictorHarri-Chal/AREA',
-        //         }
-        //     });
-        //     area.save((err, area) => {
-        //         console.log('save..');
-        //         if (err) {
-        //             console.log('ERRRRRR');
-        //             console.log(err);
-        //         } else {
-        //             // console.log(`Successfully saved area: ${area}`);
-        //             console.log(`Successfully saved area`);
-        //         }
-            // });
-        // }
-    }, 15000);
-
     setInterval(() => {
         console.log('Check...');
         trigger.checkTriggers();
     }, 5000);
-
-    // utils.deleteUsers();
-    // utils.addUser(newUser.username, newUser.email);
-    // utils.displayUsers();
 }
 
-function initRoles() {
-    Role.estimatedDocumentCount((err, count) => {
-        if (!err && count === 0) {
-            new Role({
-                name: 'user'
-            }).save(err => {
-                if (err) {
-                    console.log("error", err);
-                }
-                console.log("added 'user' to roles collection");
-            });
-            new Role({
-                name: 'admin'
-            }).save(err => {
-                if (err) {
-                    console.log("error", err);
-                }
-                console.log("added 'admin' to roles collection");
-            });
-        }
-    });
-}
+// function initRoles() {
+//     Role.estimatedDocumentCount((err, count) => {
+//         if (!err && count === 0) {
+//             new Role({
+//                 name: 'user'
+//             }).save(err => {
+//                 if (err) {
+//                     console.log("error", err);
+//                 }
+//                 console.log("added 'user' to roles collection");
+//             });
+//             new Role({
+//                 name: 'admin'
+//             }).save(err => {
+//                 if (err) {
+//                     console.log("error", err);
+//                 }
+//                 console.log("added 'admin' to roles collection");
+//             });
+//         }
+//     });
+// }
 
 function initDatabase() {
     mongoose.set('strictQuery', false);
@@ -280,7 +123,7 @@ function initDatabase() {
         useUnifiedTopology: true
     }).then(() => {
         console.log("Successfully connect to MongoDB.");
-        initRoles();
+        // initRoles();
     });
     serverProcess();
 }

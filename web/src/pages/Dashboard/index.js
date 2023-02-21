@@ -30,6 +30,11 @@ const Dashboard = () => {
                     item.login = true
                 }
             }
+            if (sessionStorage.connectTospotify === 'true') {
+                if (item.key === 'spotify') {
+                    item.login = true
+                }
+            }
         })
     }
 
