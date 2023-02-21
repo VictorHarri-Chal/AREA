@@ -82,55 +82,59 @@ function schemaIsCorrect(data) {
     return verifNextBox(data, firstBox);
 }
 
-function ValidateButton( {data} ) {
+function ValidateButton({ data }) {
 
     const State = {
-        CANT : 0,
-        CAN : 1,
-        IS : 2
-    }
+        CANT: 0,
+        CAN: 1,
+        IS: 2,
+    };
 
-    const [state, setState] = React.useState(State.CANT)
-    const [icon, setIcon] = React.useState("mdi:close-thick")
+    const [state, setState] = React.useState(State.CANT);
+    const [icon, setIcon] = React.useState("mdi:close-thick");
 
-    const [oldBoxes, setOldBoxes] = React.useRef(data);
+    const [oldBoxes, setOldBoxes] = React.useState(data);
 
     const handleClick = () => {
         if (state === State.CAN) {
-            console.log("click can to is")
             setState(State.IS);
-        }
-        else if (state === State.IS) {
-            console.log("click is to can")
+            genFlow(data);
+        } else if (state === State.IS) {
             setState(State.CAN);
         }
-    }
+    };
 
     React.useEffect(() => {
         const interval = setInterval(() => {
+
+            if (state === State.IS && schemaIsCorrect(data) && JSON.stringify(data) === JSON.stringify(oldBoxes)) {
+                return;
+            }
+
+            if (JSON.stringify(data) !== JSON.stringify(oldBoxes)) {
+                setOldBoxes(data);
+                setState(State.CANT);
+                setIcon("mdi:close-thick");
+                return;
+            }
+
             if (schemaIsCorrect(data) && state === State.CANT) {
                 setState(State.CAN);
                 setIcon("mdi:check-bold");
-            } else if (state !== State.IS) {
+            } else if (!schemaIsCorrect(data) && state !== State.CANT) {
                 setState(State.CANT);
                 setIcon("mdi:close-thick");
-            }
-
-            if (state == State.IS && data !== oldBoxes) {
-                setState(State.CAN);
-                setOldBoxes(data);
-                //genFlow(data);
             }
 
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [data]);
-
-    console.log(state)
+    }, [data, state, oldBoxes]);
 
     return (
-        <ValidateButtonStyle onClick={handleClick} state={state} ><Icon icon={icon}/></ValidateButtonStyle>
+        <ValidateButtonStyle onClick={handleClick} state={state}>
+            <Icon icon={icon} />
+        </ValidateButtonStyle>
     );
 }
 

@@ -304,7 +304,13 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                 tmpBox.linkTo = '0';
             }
 
+            if (currBox.linkTo !== '0' && currBox.linkTo !== null) {
+                let tmpBox = boxes.find(box => box.id === currBox.linkTo);
+                tmpBox.linkFrom = '0';
+            }
+
             setArrows(arrows.filter(arrow => arrow.to !== blocSelected && arrow.from !== blocSelected));
+
             if(currBox.startOfFlow === true) {
                 let foundBox = findFreeBloc("start");
                 if (foundBox != null)
