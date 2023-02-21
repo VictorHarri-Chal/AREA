@@ -64,12 +64,24 @@ export const menuButtons = [
             id : 'spotify_newStream',
             title: 'New stream',
         },
+        {
+            id : 'spotify_newPlaylist',
+            title: 'New playlist',
+        }
       ],
       reaction_blocs : [
         {
             id : 'spotify_createPlaylist',
             title: 'Create a playlist',
         },
+        {
+            id : 'spotify_pausePlayblack',
+            title: 'Pause playback',
+        },
+        {
+            id : 'spotify_randomTrack',
+            title: 'Random track to queue',
+        }
       ]
     },
     {
