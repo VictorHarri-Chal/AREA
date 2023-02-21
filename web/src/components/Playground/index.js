@@ -230,6 +230,12 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         arrows.forEach(arrow => {
             if (!found && arrow.exists && arrow.from === id) {
                 found = true;
+
+                let blocFrom = boxes.find(box => box.id === arrow.from);
+                let blocTo = boxes.find(box => box.id === arrow.to);
+                blocFrom.linkTo = '0';
+                blocTo.linkFrom = '0';
+
                 setArrows(arrows.filter(arrow => arrow.from !== id));
             }
         });
