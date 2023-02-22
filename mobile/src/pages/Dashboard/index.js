@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import Rectangle from '../../components/Draggable/Draggable.js';
+import Rectangle from '../../components/Draggable/index.js';
 import { menuButtons } from './blocData.js';
 import { styles } from './styles.js';
 
@@ -151,29 +151,27 @@ const Dashboard = () => {
                       >
                         <Text style={styles.actionReactionButtonText} >Reaction</Text>
                       </TouchableOpacity>
-                      {currentBlocType === "action_blocs" && menuButtons.find(button => button.name === selectedButton).action_blocs.forEach(item => (
-                        // <TouchableOpacity class="rectangleButton"
-                        // style={[styles.rectangleButton, { backgroundColor: menuButtons.find(button => button.name === selectedButton).color, top: 150 + menuButtons.find(button => button.name === selectedButton).action_blocs.length * 100}]}
-                        // onPress={() => {
-                        //   setMenuVisible(false);
-                        //   setBoxes(boxes => [...boxes, {key: boxes.length+1, title: defineBlocType("title"), id: defineBlocType("id"), color: menuButtons.find(button => button.name === selectedButton).color, x: 0, y: 0}])
-                        // }}
-                        // >
-                        //   <Text style={styles.actionReactionButtonText}>{defineBlocType("title")}</Text>
-                        // </TouchableOpacity>
-                        console.log("action")
+                      {currentBlocType === "action_blocs" && menuButtons.find(button => button.name === selectedButton).action_blocs.map(item => (
+                        <TouchableOpacity key={item.slot}
+                        style={[styles.rectangleButton, { backgroundColor: menuButtons.find(button => button.name === selectedButton).color, top: 160 + item.slot * 70}]}
+                        onPress={() => {
+                          setMenuVisible(false);
+                          setBoxes(boxes => [...boxes, {key: boxes.length+1, title: item.title, id: item.id, color: menuButtons.find(button => button.name === selectedButton).color, x: 0, y: 0}])
+                        }}
+                        >
+                          <Text style={styles.actionReactionButtonText}>{item.title}</Text>
+                        </TouchableOpacity>
                       ))}
-                      {currentBlocType === "reaction_blocs" && menuButtons.find(button => button.name === selectedButton).reaction_blocs.forEach(item => (
-                        // <TouchableOpacity class="rectangleButton"
-                        // style={[styles.rectangleButton, { backgroundColor: menuButtons.find(button => button.name === selectedButton).color, top: 150 + menuButtons.find(button => button.name === selectedButton).action_blocs.length * 100}]}
-                        // onPress={() => {
-                        //   setMenuVisible(false);
-                        //   setBoxes(boxes => [...boxes, {key: boxes.length+1, title: defineBlocType("title"), id: defineBlocType("id"), color: menuButtons.find(button => button.name === selectedButton).color, x: 0, y: 0}])
-                        // }}
-                        // >
-                        //   <Text style={styles.actionReactionButtonText}>{defineBlocType("title")}</Text>
-                        // </TouchableOpacity>
-                        console.log("reaction")
+                      {currentBlocType === "reaction_blocs" && menuButtons.find(button => button.name === selectedButton).reaction_blocs.map(item => (
+                        <TouchableOpacity key={item.slot}
+                        style={[styles.rectangleButton, { backgroundColor: menuButtons.find(button => button.name === selectedButton).color, top: 160 + item.slot * 70}]}
+                        onPress={() => {
+                          setMenuVisible(false);
+                          setBoxes(boxes => [...boxes, {key: boxes.length+1, title: item.title, id: item.id, color: menuButtons.find(button => button.name === selectedButton).color, x: 0, y: 0}])
+                        }}
+                        >
+                          <Text style={styles.actionReactionButtonText}>{item.title}</Text>
+                        </TouchableOpacity>
                       ))}
                     </>
                   )}

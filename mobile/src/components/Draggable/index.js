@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, PanResponder, StyleSheet, Dimensions } from 'react-native';
+import DropdownList from '../DropdownList';
 
 class Rectangle extends Component {
     state = {
@@ -62,6 +63,7 @@ class Rectangle extends Component {
                     style={[styles.rectangle, { left: this.state.x, top: this.state.y, backgroundColor: this.state.color}]}
                 >
                     <Text style={styles.rectangleText}>{this.state.title}</Text>
+                    <DropdownList></DropdownList>
                 </View>
             </>
         );
@@ -70,7 +72,7 @@ class Rectangle extends Component {
 
 const styles = StyleSheet.create({
     rectangle: {
-        width: 250,
+        width: 290,
         height: 70,
         borderRadius: 5,
         position: 'absolute',
@@ -78,9 +80,9 @@ const styles = StyleSheet.create({
     },
     rectangleText: {
         color: 'white',
-        fontSize: 15,
-        padding: 5,
-        textAlign: 'center'
+        fontWeight: 'bold',
+        fontSize: 14,
+        padding: 8,
     }
 });
 
