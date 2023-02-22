@@ -1,6 +1,7 @@
 const isOnStream = require('./isOnStream')
+const banRandom = require('./banRandom')
 
-let token = "ibtan6rohhysuw9e3qohuvwq4egsd9"
+let token = "w68jwrqzit07nzuwt07hkshhedotl5"
 
 const twitchTrigger = {
     checkTwitchAction : async function checkTwitchAction(action) {
@@ -12,9 +13,9 @@ const twitchTrigger = {
     },
 
     checkTwitchReaction : async function checkTwitchReaction(reaction) {
-        // if (reaction.trigger === 'createPlaylist') {
-        //     return createPlaylistFunc(token)
-        // }
+        if (reaction.trigger === 'banRandom') {
+            return banRandom(token)
+        }
     }
 
 }

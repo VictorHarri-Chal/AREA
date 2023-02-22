@@ -113,7 +113,10 @@ export const ASData = [
             }
         ],
         reaction_blocs : [
-
+            {
+                key : 'twitch_banRandom',
+                title: 'Ban a random',
+            }
         ]
     },
     {

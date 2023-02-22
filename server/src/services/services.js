@@ -22,7 +22,7 @@ const services = {
         },
         startReaction: function(reaction) {
             console.log('[Spotify] - Reaction');
-            return spotifyTrigger.checkSpotifyReaction(reaction);
+            // return spotifyTrigger.checkSpotifyReaction(reaction);
         }
     },
     discord: {
@@ -43,6 +43,14 @@ const services = {
         startReaction: async function(reaction) {
             console.log('[Twitch] - Reaction');
             return await twitchTrigger.checkTwitchReaction(reaction);
+        }
+    },
+    youtube: {
+        checkTrigger: async function(action) {
+            console.log('[Youtube] - Action');
+        },
+        startReaction: async function(reaction) {
+            console.log('[Youtube] - Reaction');
         }
     }
 };
