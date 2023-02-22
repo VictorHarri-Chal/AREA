@@ -55,8 +55,10 @@ async function getDiscordAccessToken(clientId, secret, code) {
 
     if (response.ok) {
         const json = await response.json();
+        console.log('Discord infos: ' + JSON.stringify(json))
         return json;
     } else {
+        console.log('error: ' + response.status + ' _ ' + response.statusText)
         return null;
     }
 }
