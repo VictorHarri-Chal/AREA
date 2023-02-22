@@ -32,7 +32,7 @@ exports.twitchAuth = (req, res) => {
         '?response_type=code' +
         '&client_id=' + '24gzvb0o12bsdlj7qqe016eapnfisc' +
         '&redirect_uri=' + 'http://localhost:8080/twitchcallback' +
-        '&scope=' + 'user:read:email' +
+        '&scope=' + 'moderator:manage:banned_users' +
         '&state=' + '9fusiuye96sab8bvhcx4xnd8wnig9r'
     )
 
