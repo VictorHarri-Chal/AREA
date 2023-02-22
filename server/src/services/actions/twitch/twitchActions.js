@@ -1,8 +1,14 @@
+const isOnStream = require('./isOnStream')
+
+let token = "ibtan6rohhysuw9e3qohuvwq4egsd9"
+
 const twitchTrigger = {
     checkTwitchAction : async function checkTwitchAction(action) {
-        // if (action.trigger === 'newStream') {
-        //     return lastStreamFunc(token)
-        // }
+
+        if (action.trigger === 'onStream') {
+            return isOnStream(token)
+        }
+
     },
 
     checkTwitchReaction : async function checkTwitchReaction(reaction) {
@@ -12,3 +18,5 @@ const twitchTrigger = {
     }
 
 }
+
+module.exports = twitchTrigger;
