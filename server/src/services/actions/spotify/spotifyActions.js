@@ -4,7 +4,7 @@ const newPlaylistFunc = require('./newPlaylist');
 const pausePlaybackFunc = require('./pausePlayback');
 const randomTrackFunc = require('./randomTrack');
 
-var token = 'BQAkATAxw3CSi5IQvMh0pHjHQgwNkGQgLOZxwToZV02TENLGgdiu6wY8PpiP65wqaTfApHSnwjQtc-alcKIOndpSCjY8l07b-PU82gN31dgCbFGUL3ulZBfWI4glkRdxirEfHmhoic6LChBV0XmgdygF7tJJQvw5EDu95q3tky-GXgss4JqsAKajvhCfAC6C_-xTwgLpZcy0gCqoMvIuLUQB85-_1qlylLPO0nWW5BQ74WYoCg';
+var token = 'BQACJsEB-zgjaZJmEcnXeVaYQL5na0C-3T56wkrWVWaR6T_gxRxe19Cls6qV1aNgBRhRv1_ylyMjyc-st8xmJagKAq7VrjlBeymSOcxykIJcNvUQiXsAEl0HnpZrjGBXE37wjaHTJMS93Yh9_DXne0yWUgRspLhzBHg2t1OZD0vU3z0LqfeAwGJo6Yjib7bY80KBdkH5rHUWRa49J23zzOHzQs9PUjrd8tDNPmtFuUsyxXEeMw';
 
 const spotifyTrigger = {
     checkSpotifyAction: async function checkSpotifyAction(action) {

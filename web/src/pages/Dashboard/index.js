@@ -19,7 +19,7 @@ const Dashboard = () => {
     }
 
     const verifyLogin = () => {
-        ASData.map((item, index) => {
+        ASData.map((item) => {
             if (sessionStorage.connectTogithub === 'true') {
                 if (item.key === 'github') {
                     item.login = true
@@ -32,6 +32,16 @@ const Dashboard = () => {
             }
             if (sessionStorage.connectTospotify === 'true') {
                 if (item.key === 'spotify') {
+                    item.login = true
+                }
+            }
+            if (sessionStorage.connectToyoutube === 'true') {
+                if (item.key === 'youtube') {
+                    item.login = true
+                }
+            }
+            if (sessionStorage.connectTotwitch === 'true') {
+                if (item.key === 'twitch') {
                     item.login = true
                 }
             }

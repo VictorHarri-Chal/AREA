@@ -105,7 +105,19 @@ export const ASData = [
         title: 'Twitch',
         icon : <Icon icon="mdi:twitch" />,
         login : false,
-        color : "#6441a5"
+        color : "#6441a5",
+        action_blocs : [
+            {
+                key : 'twitch_onStream',
+                title: 'On stream',
+            }
+        ],
+        reaction_blocs : [
+            {
+                key : 'twitch_banRandom',
+                title: 'Ban a random',
+            }
+        ]
     },
     {
         key : 'tools',
