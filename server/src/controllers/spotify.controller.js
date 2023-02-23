@@ -1,7 +1,9 @@
-const request = require("request");
 const queryString = require('querystring');
 const Math = require('mathjs');
 const axios = require('axios');
+const db = require('../models');
+const AccessTokens = db.accessTokens;
+const cookies = require('../utils/getCookie');
 
 var client_id = '7e1049e74b76497a9c192fcf08c9a279'; // Your client id spotify
 var client_secret = '331c1bb09e3042f9b06a9302dc01a74c'; // Your secret spotify
@@ -21,9 +23,23 @@ exports.spotifyCallback = (req, res) => {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
-    }).then((response) => {
-        // console.log("\n\n\n\n\n\n\n")
-        // console.log(response.data);
+    }).then(async (response) => {
+        var accessToken = response.data.access_token;
+        var refreshToken = response.data.refresh_token;
+        var parsedUserID = cookies.parseJwt(req.cookies.jwtToken)
+        var newTokenSpotify = {service: 'spotify', value: accessToken, refresh: refreshToken}
+        var tmpTokensList = await AccessTokens.findOne({ownerUserID: parsedUserID})
+
+        var isEmpty = true;
+        for (var i = 0; i < tmpTokensList.tokens.length; i = i + 1) {
+            if (tmpTokensList.tokens[i].service === 'spotify') {
+                isEmpty = false;
+            }
+        }
+        if (isEmpty) {
+            tmpTokensList.tokens.push(newTokenSpotify);
+            tmpTokensList.save();
+        }
     }).catch((error) => {
         console.log(error);
     });

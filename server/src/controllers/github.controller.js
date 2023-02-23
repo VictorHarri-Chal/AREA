@@ -1,4 +1,7 @@
 const request = require("request");
+const db = require('../models');
+const AccessTokens = db.accessTokens;
+const cookies = require('../utils/getCookie');
 
 exports.githubAuth = (req, res) => {
     getGitHubAuthCode(res, "ffd70e614dd0cd62f19e");
@@ -7,11 +10,22 @@ exports.githubAuth = (req, res) => {
 exports.githubCallback = (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
     const code = req.query.code;
-    getGitHubAuthToken("ffd70e614dd0cd62f19e", "d5ee3ec76613a1c842150f956ec2a8ec7f3ed28f", code)
-        .then(accessToken => {
-            console.log('access token: ', accessToken);
-            githubConnected = true;
-            githubAccessToken = accessToken;
+    getGitHubAuthToken("498e03f921f50999dbb4", "ef1c8f0525c5239d4635e3e5023ad4b6eb6929ed", code)
+        .then(async accessToken => {
+            var parsedUserID = cookies.parseJwt(req.cookies.jwtToken)
+            var newTokenGithub = {service: 'github', value: accessToken}
+            var tmpTokensList = await AccessTokens.findOne({ownerUserID: parsedUserID})
+
+            var isEmpty = true;
+            for (var i = 0; i < tmpTokensList.tokens.length; i = i + 1) {
+                if (tmpTokensList.tokens[i].service === 'github') {
+                    isEmpty = false;
+                }
+            }
+            if (isEmpty) {
+                tmpTokensList.tokens.push(newTokenGithub);
+                tmpTokensList.save();
+            }
         })
         .catch(error => {
             console.error(error);
