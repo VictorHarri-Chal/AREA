@@ -8,6 +8,7 @@ const app = express();
 const port = 8080;
 const cors = require('cors');
 const trigger = require('./src/services/checkTriggers');
+const cookies = require('./src/utils/getCookie.js');
 
 app.use(cors());
 
@@ -27,8 +28,7 @@ app.listen(port, () => {
 });
 
 app.post("/flow", (req, res) => {
-    console.log("spotify token: ", spotifyAccessToken);
-    genSchema(req.body);
+    genSchema(req.body, req);
 });
 
 const getService = (key) => {
@@ -55,12 +55,14 @@ const getLastBox = (data) => {
     });
 };
 
-const genSchema = (data) => {
+const genSchema = (data, req) => {
     const firstBox = getFirstBox(data);
     const endBox = getLastBox(data);
+    let token = req.headers["x-access-token"];
+    const userID =  cookies.parseJwt(token) // here
 
     const area = new Area({
-        userId : '123456789',
+        userId : userID,
         action: {
             service: getService(firstBox.key),
             trigger : getTrigger(firstBox.key),
@@ -81,13 +83,14 @@ const genSchema = (data) => {
 
     console.log(area);
 
-    // area.save((err, area) => {
-    //     if (err) {
-    //         console.log(err);
-    //         return;
-    //     }
-    //     console.log(area);
-    // });
+
+    area.save((err, area) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        console.log(area);
+    });
 
 };
 

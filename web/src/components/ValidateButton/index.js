@@ -1,6 +1,7 @@
 import React from 'react';
 import { ValidateButtonStyle } from './ValidateButtonElements';
 import { Icon } from '@iconify/react';
+const cookies = require('../../utils/getCookie.js');
 
 function findFirstBox(data, sendData) {
     const firstBox = data.find((box) => {
@@ -40,6 +41,7 @@ async function genFlow(data) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'x-access-token': cookies.getCookie('jwtToken')
             },
             body: JSON.stringify(sendData),
         });
