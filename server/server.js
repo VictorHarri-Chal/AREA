@@ -74,6 +74,7 @@ const genSchema = (data) => {
     // console.log(endBox);
 
     const area = new Area({
+        userId : '123456789',
         action: {
             service: getService(firstBox.key),
             trigger : getTrigger(firstBox.key),
@@ -91,7 +92,17 @@ const genSchema = (data) => {
             }
         }
     });
-    // console.log(area);
+
+    console.log(area);
+
+    // area.save((err, area) => {
+    //     if (err) {
+    //         console.log(err);
+    //         return;
+    //     }
+    //     console.log(area);
+    // });
+
 };
 
 app.post("/isConnect", (req, res) => {

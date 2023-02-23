@@ -68,9 +68,9 @@ exports.signup = (req, res) => {
 
 exports.signin = (req, res) => {
     User.findOne({
-      username: req.body.usernameSignIn
+        username: req.body.usernameSignIn
     }).populate("roles", "-__v")
-      .exec((err, user) => {
+    .exec((err, user) => {
         if (err) {
             res.status(500).send({ message: err });
             return;
