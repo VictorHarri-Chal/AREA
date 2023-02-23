@@ -90,25 +90,25 @@ const Login = () => {
                 }
             }
 
-            //SPOTIFY
-            // if (jsonAccessTokens[i].service === 'spotify') {
-            //     console.log('Spotify');
-            //     console.log('Refresh token in github: ' + JSON.stringify(jsonAccessTokens[i].refresh))
+            SPOTIFY
+            if (jsonAccessTokens[i].service === 'spotify') {
+                console.log('Spotify');
+                console.log('Refresh token in github: ' + JSON.stringify(jsonAccessTokens[i].refresh))
 
-            //     const params = new URLSearchParams();
-            //     params.append('refresh_token', JSON.stringify(jsonAccessTokens[i].refresh));
+                const params = new URLSearchParams();
+                params.append('refresh_token', JSON.stringify(jsonAccessTokens[i].refresh));
 
-            //     Axios.post('https://discord.com/api/oauth2/token', params, {
-            //         headers: {
-            //             'Content-Type': 'application/x-www-form-urlencoded'
-            //         }
-            //     }).then((response) => response.json())
-            //     .then((jsonResponse) => {
-            //         console.log('refresh json zzz: ' + JSON.stringify(jsonResponse))
-            //         sessionStorage.setItem("connectTospotify", true);
-            //     })
-            // } else {
-            // }
+                Axios.post('https://discord.com/api/oauth2/token', params, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).then((response) => response.json())
+                .then((jsonResponse) => {
+                    console.log('refresh json zzz: ' + JSON.stringify(jsonResponse))
+                    sessionStorage.setItem("connectTospotify", true);
+                })
+            } else {
+            }
         }
         sessionStorage.setItem("connectTogithub", false);
     }
@@ -134,7 +134,7 @@ const Login = () => {
                             }
                         }).then(function (responseGet) {
                             if (responseGet.status === 200) {
-                                // window.location.href = 'http://localhost:8081/dashboard';
+                                window.location.href = 'http://localhost:8081/dashboard';
                             } else {
                                 console.log('response: ' + responseGet)
                                 console.log('Code: ' + responseGet.status);
@@ -143,7 +143,10 @@ const Login = () => {
                             console.log(e);
                             return;
                         });
-                        loadLoggedServices(user.userAccessTokens);
+                        // loadLoggedServices(user.userAccessTokens);
+                        sessionStorage.setItem("connectTodiscord", false);
+                        sessionStorage.setItem("connectTospotify", false);
+                        sessionStorage.setItem("connectTogithub", false);
                         alert('Logged in successfully!');
                     } else {
                         console.log('error on submit ');

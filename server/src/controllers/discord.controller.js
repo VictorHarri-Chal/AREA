@@ -20,7 +20,6 @@ exports.discordCallback = (req, res) => {
                 }
             }
             if (isEmpty) {
-                console.log('added refresh roken as well!' + refreshToken)
                 tmpTokensList.tokens.push(newTokenDiscord);
                 tmpTokensList.save();
             }
@@ -55,10 +54,10 @@ async function getDiscordAccessToken(clientId, secret, code) {
 
     if (response.ok) {
         const json = await response.json();
-        console.log('Discord infos: ' + JSON.stringify(json))
+        // console.log('Discord infos: ' + JSON.stringify(json))
         return json;
     } else {
-        console.log('error: ' + response.status + ' _ ' + response.statusText)
+        // console.log('error: ' + response.status + ' _ ' + response.statusText)
         return null;
     }
 }

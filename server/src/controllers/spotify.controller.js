@@ -24,10 +24,8 @@ exports.spotifyCallback = (req, res) => {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
     }).then(async (response) => {
-        console.log('Total data: -------- \n' + response.data);
         var accessToken = response.data.access_token;
         var refreshToken = response.data.refresh_token;
-        console.log('TOKENS: Access - ' + accessToken + '   Refresh - ' + refreshToken)
         var parsedUserID = cookies.parseJwt(req.cookies.jwtToken)
         var newTokenSpotify = {service: 'spotify', value: accessToken, refresh: refreshToken}
         var tmpTokensList = await AccessTokens.findOne({ownerUserID: parsedUserID})
@@ -39,7 +37,6 @@ exports.spotifyCallback = (req, res) => {
             }
         }
         if (isEmpty) {
-            console.log('added refresh roken as well!' + refreshToken)
             tmpTokensList.tokens.push(newTokenSpotify);
             tmpTokensList.save();
         }
