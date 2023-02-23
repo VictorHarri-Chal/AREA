@@ -2,24 +2,17 @@ const mongoose = require('mongoose');
 const express = require('express');
 const Area = require('./src/models/ar.model');
 var bodyParser = require('body-parser');
-const utils = require('./src/utils/utils.js');
-const db = require('./src/models')
-const User = db.user;
-const Role = db.role;
+var cookieParser = require('cookie-parser');
+const db = require('./src/models');
 const app = express();
 const port = 8080;
 const cors = require('cors');
 const trigger = require('./src/services/checkTriggers');
 
-
-const newUser = new User({
-    username: "example_username",
-    email: "example@email.com"
-});
-
 app.use(cors());
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -28,10 +21,6 @@ require('./src/routes/user.routes.js')(app);
 require('./src/routes/services.routes.js')(app);
 
 var spotifyAccessToken = "";
-
-app.get('/', (req, res) => {
-    res.json({ msg: 'Hello World!' });
-});
 
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
@@ -69,9 +58,6 @@ const getLastBox = (data) => {
 const genSchema = (data) => {
     const firstBox = getFirstBox(data);
     const endBox = getLastBox(data);
-
-    // console.log(firstBox);
-    // console.log(endBox);
 
     const area = new Area({
         userId : '123456789',
@@ -117,28 +103,28 @@ function serverProcess() {
     }, 5000);
 }
 
-function initRoles() {
-    Role.estimatedDocumentCount((err, count) => {
-        if (!err && count === 0) {
-            new Role({
-                name: 'user'
-            }).save(err => {
-                if (err) {
-                    console.log("error", err);
-                }
-                console.log("added 'user' to roles collection");
-            });
-            new Role({
-                name: 'admin'
-            }).save(err => {
-                if (err) {
-                    console.log("error", err);
-                }
-                console.log("added 'admin' to roles collection");
-            });
-        }
-    });
-}
+// function initRoles() {
+//     Role.estimatedDocumentCount((err, count) => {
+//         if (!err && count === 0) {
+//             new Role({
+//                 name: 'user'
+//             }).save(err => {
+//                 if (err) {
+//                     console.log("error", err);
+//                 }
+//                 console.log("added 'user' to roles collection");
+//             });
+//             new Role({
+//                 name: 'admin'
+//             }).save(err => {
+//                 if (err) {
+//                     console.log("error", err);
+//                 }
+//                 console.log("added 'admin' to roles collection");
+//             });
+//         }
+//     });
+// }
 
 function initDatabase() {
     mongoose.set('strictQuery', false);
@@ -148,7 +134,7 @@ function initDatabase() {
         useUnifiedTopology: true
     }).then(() => {
         console.log("Successfully connect to MongoDB.");
-        initRoles();
+        // initRoles();
     });
     serverProcess();
 }

@@ -3,14 +3,12 @@ const config = require("../config/auth.config");
 const db = require("../models");
 const User = db.user;
 const Role = db.role;
+const AccessTokens = db.accessTokens;
 var bcrypt = require("bcryptjs");
 var jwt = require("jsonwebtoken");
 var bodyParser = require('body-parser');
 
-exports.signup = (req, res) => {
-    if (!req.body.passwordSignUp) {
-        res.status(500).send({message: "No password provided"});
-    }
+async function saveNewUser(req, res) {
 
     const user = new User({
         username: req.body.usernameSignUp,
@@ -18,7 +16,6 @@ exports.signup = (req, res) => {
         password: bcrypt.hashSync(req.body.passwordSignUp)
     });
 
-    //Créer un nouveau User
     user.save((err, user) => {
         if (err) {
             res.status(501).send({ message: "1: " + err });
@@ -64,6 +61,24 @@ exports.signup = (req, res) => {
             });
         }
     });
+
+    const newUserAccessTokens = new AccessTokens({
+        ownerUserID: user.id,
+        tokens: [],
+    })
+
+    newUserAccessTokens.save();
+
+    return;
+}
+
+exports.signup = async (req, res) => {
+    if (!req.body.passwordSignUp) {
+        res.status(500).send({message: "No password provided"});
+    }
+
+    //Créer un nouveau User
+    await saveNewUser(req, res);
 };
 
 exports.signin = (req, res) => {
@@ -93,21 +108,25 @@ exports.signin = (req, res) => {
         }
 
         var authorities = [];
-        var token = jwt.sign({ id: user.id }, config.secret, {
-            expiresIn: 86400 // L'équivalent d'un jour en secondes
-        });
+        var payload = {
+            userID: user.id,
+        }
+        var token = jwt.sign(payload, config.secret);
+        res.cookie('jwtToken', token);
 
         for (let i = 0; i < user.roles.length; i++) {
             authorities.push("role_permissions_" + user.roles[i].name);
         }
 
-        console.log('200 responding succesfully. . .');
+        var accessTokensSchema = await AccessTokens.findOne({ownerUserID: user._id});
+
         res.status(200).send({
             id: user._id,
             username: user.username,
             email: user.email,
             roles: authorities,
-            accessToken: token
+            jwtToken: token,
+            userAccessTokens: accessTokensSchema.tokens
         });
     });
 };

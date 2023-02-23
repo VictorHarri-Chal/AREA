@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import * as Comp from './LoginElements';
+import Axios from "axios";
+const cookies = require('../../utils/getCookie.js');
+const queryString = require('querystring');
 
 const Login = () => {
 
@@ -40,6 +43,76 @@ const Login = () => {
         }
     };
 
+    async function loadLoggedServices(jsonAccessTokens) {
+        sessionStorage.setItem("connectTodiscord", false);
+        sessionStorage.setItem("connectTospotify", false);
+        for (var i = 0; i < jsonAccessTokens.length; i = i + 1) {
+            console.log('b - service: ' + JSON.stringify(jsonAccessTokens[i].service));
+            if (jsonAccessTokens[i].service === 'discord') {
+                var bibibi = JSON.stringify(jsonAccessTokens[i].refresh);
+                var formatedRefresh = bibibi.slice(1, bibibi.length - 1);
+                console.log(bibibi);
+                console.log('Discord');
+                console.log('Refresh token in discord: ' + formatedRefresh)
+
+                const refreshBody = new URLSearchParams();
+                refreshBody.append('client_id', '1063054273946058833');
+                refreshBody.append('client_secret', 'Ie8_A2L-lNSnKFvjiXXQFfwX9Wwb2w_-');
+                refreshBody.append('grant_type', 'refresh_token');
+                refreshBody.append('refresh_token', formatedRefresh);
+
+                console.log(refreshBody);
+
+                // const refreshBody = {
+                //     client_id: '1063054273946058833',
+                //     client_secret: 'Ie8_A2L-lNSnKFvjiXXQFfwX9Wwb2w_-',
+                //     grant_type: 'refresh_token',
+                //     refresh_token: formatedRefresh
+                // };
+
+                // console.log(JSON.stringify(refreshBody));
+
+                //`client_id=${refreshBody.client_id}&client_secret=${refreshBody.client_secret}&grant_type=refresh_token&refresh_token=${refreshBody.refresh_token}`
+
+                var response = await fetch('https://discord.com/api/oauth2/token', {
+                    method: 'POST',
+                    // mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: refreshBody,
+                })
+                if (response.ok) {
+                    console.log('refresh json zzz: ' + response)
+                    sessionStorage.setItem("connectTodiscord", true);
+                } else {
+                    sessionStorage.setItem("connectTodiscord", false);
+                }
+            }
+
+            SPOTIFY
+            if (jsonAccessTokens[i].service === 'spotify') {
+                console.log('Spotify');
+                console.log('Refresh token in github: ' + JSON.stringify(jsonAccessTokens[i].refresh))
+
+                const params = new URLSearchParams();
+                params.append('refresh_token', JSON.stringify(jsonAccessTokens[i].refresh));
+
+                Axios.post('https://discord.com/api/oauth2/token', params, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).then((response) => response.json())
+                .then((jsonResponse) => {
+                    console.log('refresh json zzz: ' + JSON.stringify(jsonResponse))
+                    sessionStorage.setItem("connectTospotify", true);
+                })
+            } else {
+            }
+        }
+        sessionStorage.setItem("connectTogithub", false);
+    }
+
     const handleSubmitSignIn = async (event) => {
         event.preventDefault();
         try {
@@ -53,19 +126,14 @@ const Login = () => {
             }).then((response) => response.json())
                 .then((user) => {
                     if (user) {
-                        sessionStorage.setItem("accessToken", user.accessToken)
-                        sessionStorage.setItem("username", user.username)
-                        sessionStorage.setItem("email", user.email)
-                        sessionStorage.setItem("initials", user.username.charAt(0).toUpperCase() + user.username.charAt(1).toUpperCase())
-                        console.log('logged in. . .');
+                        document.cookie = "jwtToken=" + user.jwtToken;
                         fetch('http://localhost:8080/dashboard', {
                             method: 'GET',
                             headers: {
-                                'x-access-token': sessionStorage.accessToken
+                                'x-access-token': cookies.getCookie('jwtToken')
                             }
                         }).then(function (responseGet) {
                             if (responseGet.status === 200) {
-                                console.log('redirecting. . .');
                                 window.location.href = 'http://localhost:8081/dashboard';
                             } else {
                                 console.log('response: ' + responseGet)
@@ -75,9 +143,10 @@ const Login = () => {
                             console.log(e);
                             return;
                         });
-                        sessionStorage.setItem("connectTogithub", false);
+                        // loadLoggedServices(user.userAccessTokens);
                         sessionStorage.setItem("connectTodiscord", false);
                         sessionStorage.setItem("connectTospotify", false);
+                        sessionStorage.setItem("connectTogithub", false);
                         sessionStorage.setItem("connectToyoutube", false);
                         sessionStorage.setItem("connectTotwitch", false);
                         alert('Logged in successfully!');
