@@ -5,6 +5,7 @@ import Rectangle from '../../components/Draggable/index.js';
 import { menuButtons } from './blocData.js';
 import { styles } from './styles.js';
 
+
 const Dashboard = () => {
   const [menuVisible, setMenuVisible] = useState(false);
   const [selectedButton, setSelectedButton] = useState(null);
@@ -19,23 +20,6 @@ const Dashboard = () => {
     { name: 5, top: 540, },
     { name: 6, top: 650, },
   ]);
- 
-  const defineBlocType = (type) => {
-    if (type === "title") {
-      if (currentBlocType === "action_blocs") {
-        return menuButtons.find(button => button.name === selectedButton).action_blocs.find(item => item.title).title;
-      } else if (currentBlocType === "reaction_blocs") {
-        return menuButtons.find(button => button.name === selectedButton).reaction_blocs.find(item => item.title).title;
-      }
-    } else if (type === "id") {
-      if (currentBlocType === "action_blocs") {
-        return menuButtons.find(button => button.name === selectedButton).action_blocs.find(item => item.id).id;
-      } else if (currentBlocType === "reaction_blocs") {
-        return menuButtons.find(button => button.name === selectedButton).reaction_blocs.find(item => item.id).id;
-      }
-    }
-    return null;
-  }
 
   const checkSlot = (coord1, coord2, slot) => {
     let isSolo = false;

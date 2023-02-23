@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, PanResponder, StyleSheet, Dimensions } from 'react-native';
-import DropdownList from '../DropdownList';
+import DropdownList from '../DropdownList/index.js';
 
 class Rectangle extends Component {
     state = {
@@ -63,7 +63,6 @@ class Rectangle extends Component {
                     style={[styles.rectangle, { left: this.state.x, top: this.state.y, backgroundColor: this.state.color}]}
                 >
                     <Text style={styles.rectangleText}>{this.state.title}</Text>
-                    <DropdownList></DropdownList>
                 </View>
             </>
         );

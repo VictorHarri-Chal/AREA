@@ -1,23 +1,36 @@
 import React, { Component } from 'react';
-import { Dropdown } from 'react-native-material-dropdown';
+import { View, Text } from "react-native";
 
-class DropdownList extends Component {
+export default class DropdownList extends Component {
+    constructor(props) {
+    super(props);
+    this.state = {
+        text: ''
+        };
+    }
+
     render() {
-        let data = [{
-            value: "Banana",
-        }, {
-            value: "Mango",
-        }, {
-            value: "Pear",
-        }];
-
         return (
-            <Dropdown
-                label="Favorite Fruit"
-                data={data}
-            />
+            <View style={{flex: 1}}>
+
+            </View>
         );
     }
 }
 
-export default DropdownList;
+const styles = StyleSheet.create({
+    rectangle: {
+        width: 290,
+        height: 70,
+        borderRadius: 5,
+        backgroundColor: 'white',
+        position: 'absolute',
+        justifyContent: 'center'
+    },
+    rectangleText: {
+        color: 'black',
+        fontWeight: 'bold',
+        fontSize: 14,
+        padding: 8,
+    }
+});
