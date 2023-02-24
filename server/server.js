@@ -9,6 +9,8 @@ const port = 8080;
 const cors = require('cors');
 const trigger = require('./src/services/checkTriggers');
 const cookies = require('./src/utils/getCookie.js');
+const twitchTrigger = require('./src/services/actions/twitch/twitchActions');
+
 
 app.use(cors());
 
@@ -118,10 +120,24 @@ function serverProcess() {
     }, 5000);
 }
 
+async function askDMData(key) {
 
-app.post("/askDMData", (req, res) => {
-    console.log(req.body);
-    res.status(200).send('Data received');
+
+}
+
+app.post("/askDMData", async (req, res) => {
+    let key = req.body.key;
+    let service = key.split('_')[0];
+    let trigger = key.split('_')[1];
+    let follows = [];
+
+    if (service === 'twitch') {
+        follows = await twitchTrigger.getTwitchData(trigger);
+    }
+
+    console.log(follows);
+
+    res.status(200).send(follows);
 });
 
 
