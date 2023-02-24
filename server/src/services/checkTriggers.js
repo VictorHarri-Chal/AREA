@@ -8,8 +8,9 @@ const trigger = {
             const areas = await Area.find();
             for (const area of areas) {
                 const serviceFunction = Services[area.action.service];
+                const reactionFunction = Services[area.reaction.service];
                 if (await serviceFunction.checkTrigger(area.action)) {
-                    serviceFunction.startReaction(area.reaction);
+                    reactionFunction.startReaction(area.reaction);
                 }
             }
             //TODO Delete l'area après execution

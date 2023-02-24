@@ -2,6 +2,7 @@ const githubTrigger = require('./actions/githubActions');
 const discordTrigger = require('./actions/discordActions');
 const spotifyTrigger = require('./actions/spotify/spotifyActions')
 const youtubeTrigger = require('./actions/youtube/youtubeActions')
+const twitchTrigger = require('./actions/twitch/twitchActions')
 
 const services = {
     github: {
@@ -17,7 +18,7 @@ const services = {
     spotify: {
         checkTrigger: async function(action) {
             console.log('[Spotify] - Action');
-            // return await spotifyTrigger.checkSpotifyAction(action);
+            return await spotifyTrigger.checkSpotifyAction(action);
 
         },
         startReaction: function(reaction) {
@@ -38,11 +39,11 @@ const services = {
     twitch: {
         checkTrigger: async function(action) {
             console.log('[Twitch] - Action');
-            // return await youtubeTrigger.youtubeAction(action);
+            return await twitchTrigger.checkTwitchAction(action);
         },
         startReaction: async function(reaction) {
             console.log('[Twitch] - Reaction');
-            // return await youtubeTrigger.youtubeReaction(reaction);
+            return await twitchTrigger.checkTwitchReaction(reaction);
         }
     },
     youtube: {
