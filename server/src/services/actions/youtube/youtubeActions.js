@@ -1,40 +1,15 @@
-//ça fonctionne!
 const { google } = require('googleapis');
+
 const youtube = google.youtube({
     version: 'v3',
     auth: 'AIzaSyBmfluQjyzUt-YO_6hixPN1rMs6SxEnONE'
 });
 
-const auth2 = new google.auth.OAuth2(
-    '987523785191-8shg0ut9g9olugvsu2bs3os9cqo4d8d1.apps.googleusercontent.com',
-    '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',
-);
-
-// Set the access token to the OAuth2 client
-auth2.setCredentials({
-    access_token: 'ya29.a0AVvZVsoplMqX43KkwMWFrAMlPBWb1fL_nasDBBx7DLF2G9gFvCjGVml03Ibpuy4dGUkRCGzmlivrHf34TI3lLDrU_tOCWLcoZ9AqeKxg8XdQe75bGHkSF9GgodznW2xkC5vAJmRJdQESPTOxdVvPC4zmbEFFaCgYKAQ8SARASFQGbdwaIH6dtjwtXJX65iEDUzdsOPg0163',
-});
-
-const youtube2 = google.youtube({
-    version: 'v3',
-    auth: auth2
-});
-
-async function getChannelId() {
-    try {
-        const response = await youtube2.channels.list({
-            part: 'id',
-            mine: true
-        });
-        console.log('Channel ID:', response.data.items[0].id);
-    } catch (error) {
-        console.log('Error:', error.message);
-    }
-}
+let lastLikedVideoId = null;
 
 const youtubeTrigger = {
     checkYoutubeAction: async function checkYoutubeAction(action) {
-        const accessToken = 'ya29.a0AVvZVsoplMqX43KkwMWFrAMlPBWb1fL_nasDBBx7DLF2G9gFvCjGVml03Ibpuy4dGUkRCGzmlivrHf34TI3lLDrU_tOCWLcoZ9AqeKxg8XdQe75bGHkSF9GgodznW2xkC5vAJmRJdQESPTOxdVvPC4zmbEFFaCgYKAQ8SARASFQGbdwaIH6dtjwtXJX65iEDUzdsOPg0163';
+        const accessToken = 'ya29.a0AVvZVsrcOs75fc0ENHx7eecpWx2_mkK9QJyeu47tvkw_V5r21Yx7yhw6bBhg7T0pFuIcnkHN2HBE9_eS2e0VGCTfc5IWArtw6qDg-UW9nXEpnPWwUvZAd77V19GP8OdQFd3904fJVrfEXLkI_wgsOi5iXu_oaCgYKAe8SARASFQGbdwaILCl0ZTHiEr6I-a9PJD4myg0163';
         const trigger = action.trigger;
 
         switch (trigger) {
@@ -47,13 +22,16 @@ const youtubeTrigger = {
                     access_token: accessToken
                 });
                 if (response.status === 200 && response.data.items.length > 0) {
+                    const videoId = response.data.items[0].id;
                     const videoTitle = response.data.items[0].snippet.title;
-                    console.log(`User liked the video: ${videoTitle}`);
-                    return true;
-                } else {
-                    console.log("User did not like a video.");
-                    return false;
+
+                    if (videoId !== lastLikedVideoId) {
+                        console.log(`User liked the video: ${videoTitle}`);
+                        lastLikedVideoId = videoId;
+                        return true;
+                    }
                 }
+                return false;
             } catch (error) {
                 console.log("Error: ", error);
                 if (error.response && error.response.status === 403) {
