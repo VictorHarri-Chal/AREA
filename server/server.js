@@ -55,6 +55,8 @@ const getLastBox = (data) => {
     });
 };
 
+// SI PLUSIEURS DU MEME UTILISATEURS
+
 const genSchema = (data, req) => {
     const firstBox = getFirstBox(data);
     const endBox = getLastBox(data);
@@ -81,18 +83,28 @@ const genSchema = (data, req) => {
         }
     });
 
-    console.log(area);
+    saveToDatabase(area);
+};
 
+async function saveToDatabase(newArea) {
 
-    area.save((err, area) => {
+    const areas = await Area.find();
+    for (const area of areas) {
+        if (area.userId === newArea.userId) {
+            Area.findByIdAndRemove(area._id, function (err) {
+                if (err) return next(err);
+                console.log('Deleted successfully!');
+            });
+        }
+    }
+
+    newArea.save((err, newArea) => {
         if (err) {
             console.log(err);
             return;
         }
-        console.log(area);
     });
-
-};
+}
 
 app.post("/isConnect", (req, res) => {
     // if (req.body.key === 'github')
