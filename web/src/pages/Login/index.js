@@ -90,7 +90,6 @@ const Login = () => {
                 }
             }
 
-            SPOTIFY
             if (jsonAccessTokens[i].service === 'spotify') {
                 console.log('Spotify');
                 console.log('Refresh token in github: ' + JSON.stringify(jsonAccessTokens[i].refresh))
@@ -149,7 +148,6 @@ const Login = () => {
                         sessionStorage.setItem("connectTogithub", false);
                         sessionStorage.setItem("connectToyoutube", false);
                         sessionStorage.setItem("connectTotwitch", false);
-                        alert('Logged in successfully!');
                     } else {
                         console.log('error on submit ');
                         throw new Error('Something went wrong');

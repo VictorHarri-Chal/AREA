@@ -8,6 +8,7 @@ const app = express();
 const port = 8080;
 const cors = require('cors');
 const trigger = require('./src/services/checkTriggers');
+const cookies = require('./src/utils/getCookie.js');
 
 app.use(cors());
 
@@ -27,8 +28,7 @@ app.listen(port, () => {
 });
 
 app.post("/flow", (req, res) => {
-    console.log("spotify token: ", spotifyAccessToken);
-    genSchema(req.body);
+    genSchema(req.body, req);
 });
 
 const getService = (key) => {
@@ -55,11 +55,16 @@ const getLastBox = (data) => {
     });
 };
 
-const genSchema = (data) => {
+// SI PLUSIEURS DU MEME UTILISATEURS
+
+const genSchema = (data, req) => {
     const firstBox = getFirstBox(data);
     const endBox = getLastBox(data);
+    let token = req.headers["x-access-token"];
+    const userID =  cookies.parseJwt(token) // here
 
     const area = new Area({
+        userId : userID,
         action: {
             service: getService(firstBox.key),
             trigger : getTrigger(firstBox.key),
@@ -77,8 +82,29 @@ const genSchema = (data) => {
             }
         }
     });
-    // console.log(area);
+
+    saveToDatabase(area);
 };
+
+async function saveToDatabase(newArea) {
+
+    const areas = await Area.find();
+    for (const area of areas) {
+        if (area.userId === newArea.userId) {
+            Area.findByIdAndRemove(area._id, function (err) {
+                if (err) return next(err);
+                console.log('Deleted successfully!');
+            });
+        }
+    }
+
+    newArea.save((err, newArea) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+    });
+}
 
 app.post("/isConnect", (req, res) => {
     // if (req.body.key === 'github')

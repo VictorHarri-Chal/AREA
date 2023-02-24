@@ -83,9 +83,9 @@ exports.signup = async (req, res) => {
 
 exports.signin = (req, res) => {
     User.findOne({
-      username: req.body.usernameSignIn
+        username: req.body.usernameSignIn
     }).populate("roles", "-__v")
-      .exec(async (err, user) => {
+    .exec(async (err, user) => {
         if (err) {
             res.status(500).send({ message: err });
             return;

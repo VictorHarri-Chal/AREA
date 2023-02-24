@@ -9,12 +9,9 @@ const actionSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    token: {
-        type: String,
-        required: true
-    },
     data: {
-        type: String,
+        type: Object,
+        required: true
     },
     date: {
         type: Date,
@@ -31,12 +28,9 @@ const reactionSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    token: {
-        type: String,
-        required: true
-    },
     data: {
-        type: String,
+        type: Object,
+        required : true
     },
     date: {
         type: Date,
@@ -45,6 +39,10 @@ const reactionSchema = new mongoose.Schema({
 });
 
 const areaSchema = new mongoose.Schema({
+    userId : {
+        type: String,
+        required: true
+    },
     action: {
         type: actionSchema
     },
