@@ -65,29 +65,51 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                 body: JSON.stringify(sendData),
             });
             if (response.ok) {
-                console.log(response)
+                const data = await response.json();
+                const follows = data.follows;
+                return follows;
             }
         } catch (error) {
             console.error(error);
         }
     }
 
-    const initDM = (key) => {
+    async function initDM(key) {
 
-        ASData.forEach(data => {
+        ASData.forEach(async (data) => {
 
-            data.action_blocs.forEach(AB => {
+            data.action_blocs.forEach(async (AB) => {
                 if (AB.key === key) {
                     if (AB.getADM === true) {
-                        askDMData(AB.key);
+                        let follows = await askDMData(AB.key);
+                        let tmp = [];
+
+                        for(let i = 0; i < follows.length; i++) {
+                            let tmpObj = {
+                                key: follows[i],
+                            }
+                            tmp.push(tmpObj);
+                        }
+
+                        AB.DM = tmp;
                     }
                 }
             });
 
-            data.reaction_blocs.forEach(RB => {
+            data.reaction_blocs.forEach(async (RB) => {
                 if (RB.key === key) {
                     if (RB.getADM === true) {
-                        askDMData(RB.key);
+                        let follows = await askDMData(RB.key);
+                        let tmp = [];
+
+                        for(let i = 0; i < follows.length; i++) {
+                            let tmpObj = {
+                                key: follows[i],
+                            }
+                            tmp.push(tmpObj);
+                        }
+
+                        RB.DM = tmp;
                     }
                 }
             });

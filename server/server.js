@@ -135,9 +135,7 @@ app.post("/askDMData", async (req, res) => {
         follows = await twitchTrigger.getTwitchData(trigger);
     }
 
-    console.log(follows);
-
-    res.status(200).send(follows);
+    res.json({ follows })
 });
 
 
