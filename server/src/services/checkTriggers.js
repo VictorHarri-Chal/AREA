@@ -13,7 +13,6 @@ const trigger = {
                     reactionFunction.startReaction(area.reaction);
                 }
             }
-            //TODO Delete l'area après execution
         } catch (err) {
             console.log(err);
         }

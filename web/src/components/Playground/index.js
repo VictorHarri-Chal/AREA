@@ -6,6 +6,8 @@ import ValidateButton from '../ValidateButton'
 import { Icon } from '@iconify/react';
 import DropdownMenu from '../../components/DropdownMenu'
 import { v4 as uuidv4 } from 'uuid';
+const cookies = require('../../utils/getCookie.js');
+
 
 const Playground = ({ newRectangle, setNewRectangle }) => {
     const [isDragging, setIsDragging] = useState(false);
@@ -34,6 +36,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         }
         if (newRectangle.isNewRect === true) {
             if (newRectangle.x > containerPosition.x && newRectangle.x < containerPosition.x + containerPosition.width && newRectangle.y > containerPosition.y && newRectangle.y < containerPosition.y + containerPosition.height) {
+                initDM(newRectangle.key);
                 setBoxes(boxes => [...boxes, { id: uuidv4(), x: newRectangle.x - 475, y: newRectangle.y - 110, key: newRectangle.key, linkTo: '0', linkFrom: '0', startOfFlow: (boxes.length === 0) ? true : false, endOfFlow: (boxes.length === 1) ? true : false, chosenItem : ''}]);
             }
             setNewRectangle({ isNewRect: false, x: 0, y: 0, key: '' });
@@ -44,6 +47,53 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
             window.removeEventListener("resize", handleResize);
         };
     }, [newRectangle, setNewRectangle, containerPosition, isContainerInitialised]);
+
+
+    async function askDMData(key) {
+
+        const sendData = {
+            key: key
+        };
+
+        try {
+            const response = await fetch('http://localhost:8080/askDMData', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': cookies.getCookie('jwtToken')
+                },
+                body: JSON.stringify(sendData),
+            });
+            if (response.ok) {
+                console.log(response)
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const initDM = (key) => {
+
+        ASData.forEach(data => {
+
+            data.action_blocs.forEach(AB => {
+                if (AB.key === key) {
+                    if (AB.getADM === true) {
+                        askDMData(AB.key);
+                    }
+                }
+            });
+
+            data.reaction_blocs.forEach(RB => {
+                if (RB.key === key) {
+                    if (RB.getADM === true) {
+                        askDMData(RB.key);
+                    }
+                }
+            });
+
+        });
+    }
 
 
     const handleMouseDown = (id) => (e) => {

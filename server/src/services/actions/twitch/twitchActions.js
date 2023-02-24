@@ -1,7 +1,7 @@
 const isOnStream = require('./isOnStream')
 const banRandom = require('./banRandom')
 
-let token = "w68jwrqzit07nzuwt07hkshhedotl5"
+let token = "7ew6koqbte939qle693ogjurzoczkl"
 
 const twitchTrigger = {
     checkTwitchAction : async function checkTwitchAction(action) {

@@ -118,6 +118,13 @@ function serverProcess() {
     }, 5000);
 }
 
+
+app.post("/askDMData", (req, res) => {
+    console.log(req.body);
+    res.status(200).send('Data received');
+});
+
+
 // function initRoles() {
 //     Role.estimatedDocumentCount((err, count) => {
 //         if (!err && count === 0) {
