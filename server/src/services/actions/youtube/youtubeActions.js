@@ -5,6 +5,7 @@ const youtube = google.youtube({
     auth: 'AIzaSyBmfluQjyzUt-YO_6hixPN1rMs6SxEnONE'
 });
 
+let lastPublishedVideoId = null;
 let lastLikedVideoId = null;
 
 async function checkNewLike(accessToken) {
@@ -35,14 +36,45 @@ async function checkNewLike(accessToken) {
     }
 }
 
+
+async function checkNewVideo(channelName) {
+    try {
+        const response = await youtube.search.list({
+            part: 'snippet',
+            channelId: "UCVLz2YXk7drrX02TSXPmg2w",
+            maxResults: 1,
+            order: 'date'
+        });
+        if (response.status === 200 && response.data.items.length > 0) {
+            const videoId = response.data.items[0].id.videoId;
+            const videoTitle = response.data.items[0].snippet.title;
+
+            if (videoId !== lastPublishedVideoId) {
+                console.log(`New video published by ${channelName}: ${videoTitle}`);
+                lastPublishedVideoId = videoId;
+                return true;
+            }
+        }
+        return false;
+    } catch (error) {
+        console.log("Error: ", error);
+        if (error.response && error.response.status === 403) {
+            console.log("API key does not have permission to access channel's videos.");
+        }
+        return false;
+    }
+}
+
 const youtubeTrigger = {
     checkYoutubeAction: async function checkYoutubeAction(action) {
-        const accessToken = 'ya29.a0AVvZVsrcOs75fc0ENHx7eecpWx2_mkK9QJyeu47tvkw_V5r21Yx7yhw6bBhg7T0pFuIcnkHN2HBE9_eS2e0VGCTfc5IWArtw6qDg-UW9nXEpnPWwUvZAd77V19GP8OdQFd3904fJVrfEXLkI_wgsOi5iXu_oaCgYKAe8SARASFQGbdwaILCl0ZTHiEr6I-a9PJD4myg0163';
+        const accessToken = 'ya29.a0AVvZVsoA_W-5cUjMNTUfAF_-L0Ty2GlEME209STPVkBQZc8f-ihi3uVzNml3hJuVbiFYWEq37Ev-msE97kVlyMQ2kyJ_jnbwDPUCBfYIcm5K83Qd6wdrTAuq2ivLjREArD_T60AQf9KUWY1_eA3Lg3oJtwomaCgYKAe0SARASFQGbdwaIDIybBV1Rqt3NWkFH80U1GA0163';
         const trigger = action.trigger;
 
         switch (trigger) {
             case "newLike":
-                checkNewLike(accessToken);
+                return await checkNewLike(accessToken);
+            case "newVideo":
+                return await checkNewVideo(action.channelName);
             default:
                 console.log(`Unsupported trigger type: ${action.trigger}`);
                 return false;
