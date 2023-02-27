@@ -32,19 +32,7 @@ export const ASData = [
                 title: 'New commit [GNC_DM]',
                 placeHolder : 'Select a repository',
                 getADM : true,
-                DM : [
-                    {
-                        key : '208_terminator',
-                        text: '208_terminator',
-                        value: '208_terminator',
-
-                    },
-                    {
-                        key : '209_teriaki',
-                        text: '209_teriaki',
-                        value: '209_teriaki',
-                    }
-                ]
+                DM : []
             },
         ],
         reaction_blocs : [
@@ -60,7 +48,9 @@ export const ASData = [
         title: 'Twitter',
         icon : <Icon icon="mdi:twitter" />,
         login : false,
-        color : "#00acee"
+        color : "#00acee",
+        action_blocs : [],
+        reaction_blocs : []
     },
     {
         key : 'spotify',
@@ -98,7 +88,9 @@ export const ASData = [
         title: 'Youtube',
         icon : <Icon icon="mdi:youtube" />,
         login : false,
-        color : "#fe0000"
+        color : "#fe0000",
+        action_blocs : [],
+        reaction_blocs : []
     },
     {
         key : 'twitch',
@@ -110,6 +102,9 @@ export const ASData = [
             {
                 key : 'twitch_onStream',
                 title: 'On stream',
+                getADM : true,
+                placeHolder : 'Select a streamer',
+                DM : []
             }
         ],
         reaction_blocs : [

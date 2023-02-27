@@ -2,7 +2,7 @@ const axios = require('axios');
 
 async function isOnStream(token) {
     const clientID = '24gzvb0o12bsdlj7qqe016eapnfisc';
-    const twitchUsername = 'yassencore';
+    const twitchUsername = 'kamet0';
     let ret = false;
 
     try {
