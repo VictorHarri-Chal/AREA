@@ -6,6 +6,8 @@ import ValidateButton from '../ValidateButton'
 import { Icon } from '@iconify/react';
 import DropdownMenu from '../../components/DropdownMenu'
 import { v4 as uuidv4 } from 'uuid';
+const cookies = require('../../utils/getCookie.js');
+
 
 const Playground = ({ newRectangle, setNewRectangle }) => {
     const [isDragging, setIsDragging] = useState(false);
@@ -34,6 +36,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         }
         if (newRectangle.isNewRect === true) {
             if (newRectangle.x > containerPosition.x && newRectangle.x < containerPosition.x + containerPosition.width && newRectangle.y > containerPosition.y && newRectangle.y < containerPosition.y + containerPosition.height) {
+                initDM(newRectangle.key);
                 setBoxes(boxes => [...boxes, { id: uuidv4(), x: newRectangle.x - 475, y: newRectangle.y - 110, key: newRectangle.key, linkTo: '0', linkFrom: '0', startOfFlow: (boxes.length === 0) ? true : false, endOfFlow: (boxes.length === 1) ? true : false, chosenItem : ''}]);
             }
             setNewRectangle({ isNewRect: false, x: 0, y: 0, key: '' });
@@ -44,6 +47,75 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
             window.removeEventListener("resize", handleResize);
         };
     }, [newRectangle, setNewRectangle, containerPosition, isContainerInitialised]);
+
+
+    async function askDMData(key) {
+
+        const sendData = {
+            key: key
+        };
+
+        try {
+            const response = await fetch('http://localhost:8080/askDMData', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': cookies.getCookie('jwtToken')
+                },
+                body: JSON.stringify(sendData),
+            });
+            if (response.ok) {
+                const data = await response.json();
+                const follows = data.follows;
+                return follows;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async function initDM(key) {
+
+        ASData.forEach(async (data) => {
+
+            data.action_blocs.forEach(async (AB) => {
+                if (AB.key === key) {
+                    if (AB.getADM === true) {
+                        let follows = await askDMData(AB.key);
+                        let tmp = [];
+
+                        for(let i = 0; i < follows.length; i++) {
+                            let tmpObj = {
+                                key: follows[i],
+                            }
+                            tmp.push(tmpObj);
+                        }
+
+                        AB.DM = tmp;
+                    }
+                }
+            });
+
+            data.reaction_blocs.forEach(async (RB) => {
+                if (RB.key === key) {
+                    if (RB.getADM === true) {
+                        let follows = await askDMData(RB.key);
+                        let tmp = [];
+
+                        for(let i = 0; i < follows.length; i++) {
+                            let tmpObj = {
+                                key: follows[i],
+                            }
+                            tmp.push(tmpObj);
+                        }
+
+                        RB.DM = tmp;
+                    }
+                }
+            });
+
+        });
+    }
 
 
     const handleMouseDown = (id) => (e) => {
@@ -230,6 +302,12 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         arrows.forEach(arrow => {
             if (!found && arrow.exists && arrow.from === id) {
                 found = true;
+
+                let blocFrom = boxes.find(box => box.id === arrow.from);
+                let blocTo = boxes.find(box => box.id === arrow.to);
+                blocFrom.linkTo = '0';
+                blocTo.linkFrom = '0';
+
                 setArrows(arrows.filter(arrow => arrow.from !== id));
             }
         });
@@ -297,7 +375,20 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
             }
         }
         if (blocRect.x + 200 > bin.x && blocRect.x < bin.x + 200 && blocRect.y + 100 > bin.y && blocRect.y < bin.y + 100) {
+            console.log('toDelete', currBox);
+
+            if (currBox.linkFrom !=='0' && currBox.linkFrom !== null) {
+                let tmpBox = boxes.find(box => box.id === currBox.linkFrom);
+                tmpBox.linkTo = '0';
+            }
+
+            if (currBox.linkTo !== '0' && currBox.linkTo !== null) {
+                let tmpBox = boxes.find(box => box.id === currBox.linkTo);
+                tmpBox.linkFrom = '0';
+            }
+
             setArrows(arrows.filter(arrow => arrow.to !== blocSelected && arrow.from !== blocSelected));
+
             if(currBox.startOfFlow === true) {
                 let foundBox = findFreeBloc("start");
                 if (foundBox != null)

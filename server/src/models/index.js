@@ -6,6 +6,7 @@ models.mongoose = mongoose;
 
 models.user = require('./user.model');
 models.role = require('./role.model');
+models.accessTokens = require('./accessTokens.model');
 
 models.ROLES = ["user", "admin"];
 

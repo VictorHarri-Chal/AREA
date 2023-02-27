@@ -4,6 +4,7 @@ import AppSidebar from '../../components/AppSidebar'
 import BlocSidebar from '../../components/BlocSidebar'
 import Playground from '../../components/Playground'
 import {ASData} from './../../components/AppSidebar/ASData'
+const cookies = require('../../utils/getCookie.js');
 
 const Dashboard = () => {
 
@@ -18,7 +19,7 @@ const Dashboard = () => {
     }
 
     const verifyLogin = () => {
-        ASData.map((item, index) => {
+        ASData.map((item) => {
             if (sessionStorage.connectTogithub === 'true') {
                 if (item.key === 'github') {
                     item.login = true
@@ -34,10 +35,20 @@ const Dashboard = () => {
                     item.login = true
                 }
             }
+            if (sessionStorage.connectToyoutube === 'true') {
+                if (item.key === 'youtube') {
+                    item.login = true
+                }
+            }
+            if (sessionStorage.connectTotwitch === 'true') {
+                if (item.key === 'twitch') {
+                    item.login = true
+                }
+            }
         })
     }
 
-    if (!sessionStorage.accessToken) {
+    if (cookies.getCookie('jwtToken') === '') {
         alert('Please connect as User to access Dashboard');
         window.location.href = 'http://localhost:8081/login';
     }
