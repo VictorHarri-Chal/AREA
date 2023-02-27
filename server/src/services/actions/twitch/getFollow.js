@@ -36,7 +36,7 @@ async function getFollow(token) {
 
     try {
         const response = await axios.get(url, { headers });
-        follows = response.data.data.map((follow) => follow.broadcaster_name);
+        follows = response.data.data.map((follow) => follow.broadcaster_login);
     } catch (error) {
         console.error(error);
     }

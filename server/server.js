@@ -120,10 +120,6 @@ function serverProcess() {
     }, 5000);
 }
 
-async function askDMData(key) {
-
-
-}
 
 app.post("/askDMData", async (req, res) => {
     let key = req.body.key;
