@@ -13,4 +13,6 @@ module.exports = function handleUserRoutes(app) {
     app.get("/", controller.allAccess);
     app.get("/dashboard", [authJwt.verifyTokenValidity] , controller.userAccess);
     app.get("/adminPage", [authJwt.verifyTokenValidity, authJwt.isUserAdmin], controller.adminAccess);
+    app.get("/about.json", controller.about);
+    app.get("/jwtRequest", controller.getJwt);
 }

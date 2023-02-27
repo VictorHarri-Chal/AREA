@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "animejs": "^3.2.1",
+    "react-spring": "^9.6.1"
+  }
+}

@@ -7,12 +7,13 @@ const trigger = {
         try {
             const areas = await Area.find();
             for (const area of areas) {
-                const actionServiceFunction = Services[area.action.service];
-                const reactionServiceFunction = Services[area.reaction.service];
-                if (await actionServiceFunction.checkTrigger(area.action)) {
-                    reactionServiceFunction.startReaction(area.reaction);
+                const serviceFunction = Services[area.action.service];
+                const reactionFunction = Services[area.reaction.service];
+                if (await serviceFunction.checkTrigger(area.action)) {
+                    reactionFunction.startReaction(area.reaction);
                 }
             }
+            //TODO Delete l'area après execution
         } catch (err) {
             console.log(err);
         }

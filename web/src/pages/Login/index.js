@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import * as Comp from './LoginElements';
+const cookies = require('../../utils/getCookie.js');
 
 const Login = () => {
 
@@ -40,6 +41,92 @@ const Login = () => {
         }
     };
 
+    async function loadLoggedServices(jsonAccessTokens) {
+        var clientID = '1063054273946058833'
+        var clientSECRET = 'Ie8_A2L-lNSnKFvjiXXQFfwX9Wwb2w_-'
+        sessionStorage.setItem("connectTogithub", false);
+        sessionStorage.setItem("connectTodiscord", false);
+        sessionStorage.setItem("connectTospotify", false);
+        for (var i = 0; i < jsonAccessTokens.length; i = i + 1) {
+            console.log('b - service: ' + JSON.stringify(jsonAccessTokens[i].service));
+            if (jsonAccessTokens[i].service === 'discord') {
+                var bibibi = JSON.stringify(jsonAccessTokens[i].refresh);
+                var formatedRefresh = bibibi.slice(1, bibibi.length - 1);
+                console.log(bibibi);
+                console.log('Discord');
+                console.log('Refresh token in discord: ' + formatedRefresh)
+                console.log('Access: ' + jsonAccessTokens[i].value)
+
+                const revokePayload = {
+                    token: jsonAccessTokens[i].value,
+                    client_id: clientID,
+                    client_secret: clientSECRET,
+                };
+
+                await fetch('https://discord.com/api/oauth2/token/revoke', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams(revokePayload),
+                }).then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to revoke access token: ' + response.statusText);
+                    }
+                })
+
+                const refreshPayload = {
+                    client_id: clientID,
+                    client_secret: clientSECRET,
+                    grant_type: 'refresh_token',
+                    refresh_token: formatedRefresh,
+                };
+
+                fetch('https://discord.com/api/oauth2/token', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams(refreshPayload),
+                }).then(response => {
+                    if (!response.ok) {
+                        sessionStorage.setItem("connectTodiscord", false);
+                        throw new Error('Failed to obtain new access token');
+                    } else {
+                        sessionStorage.setItem("connectTodiscord", true);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('New access token:', data.access_token);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+
+            // SPOTIFY
+            // if (jsonAccessTokens[i].service === 'spotify') {
+            //     console.log('Spotify');
+            //     console.log('Refresh token in github: ' + JSON.stringify(jsonAccessTokens[i].refresh))
+
+            //     const params = new URLSearchParams();
+            //     params.append('refresh_token', JSON.stringify(jsonAccessTokens[i].refresh));
+
+            //     Axios.post('https://discord.com/api/oauth2/token', params, {
+            //         headers: {
+            //             'Content-Type': 'application/x-www-form-urlencoded'
+            //         }
+            //     }).then((response) => response.json())
+            //     .then((jsonResponse) => {
+            //         console.log('refresh json zzz: ' + JSON.stringify(jsonResponse))
+            //         sessionStorage.setItem("connectTospotify", true);
+            //     })
+            // } else {
+            // }
+        }
+    }
+
     const handleSubmitSignIn = async (event) => {
         event.preventDefault();
         try {
@@ -53,17 +140,15 @@ const Login = () => {
             }).then((response) => response.json())
                 .then((user) => {
                     if (user) {
-                        sessionStorage.setItem("accessToken", user.accessToken)
-                        console.log('logged in. . .');
+                        document.cookie = "jwtToken=" + user.jwtToken;
                         fetch('http://localhost:8080/dashboard', {
                             method: 'GET',
                             headers: {
-                                'x-access-token': sessionStorage.accessToken
+                                'x-access-token': cookies.getCookie('jwtToken')
                             }
                         }).then(function (responseGet) {
                             if (responseGet.status === 200) {
-                                console.log('redirecting. . .');
-                                window.location.href = 'http://localhost:8081/dashboard';
+                                // window.location.href = 'http://localhost:8081/dashboard';
                             } else {
                                 console.log('response: ' + responseGet)
                                 console.log('Code: ' + responseGet.status);
@@ -72,8 +157,12 @@ const Login = () => {
                             console.log(e);
                             return;
                         });
-                        sessionStorage.setItem("connectTogithub", false);
-                        sessionStorage.setItem("connectTodiscord", false);
+                        loadLoggedServices(user.userAccessTokens);
+                        // sessionStorage.setItem("connectTodiscord", false);
+                        // sessionStorage.setItem("connectTospotify", false);
+                        // sessionStorage.setItem("connectTogithub", false);
+                        // sessionStorage.setItem("connectToyoutube", false);
+                        // sessionStorage.setItem("connectTotwitch", false);
                         alert('Logged in successfully!');
                     } else {
                         console.log('error on submit ');
