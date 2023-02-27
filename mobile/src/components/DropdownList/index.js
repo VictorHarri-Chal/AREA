@@ -1,18 +1,38 @@
 import React, { Component } from 'react';
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet, PanResponder } from "react-native";
 
 export default class DropdownList extends Component {
-    constructor(props) {
-    super(props);
-    this.state = {
-        text: ''
-        };
-    }
+    state = {
+        text: this.props.text,
+        isOpen: false
+    };
+
+    panResponder = PanResponder.create({
+        onMoveShouldSetPanResponder: (evt, gestureState) => {
+            return true;
+        },
+        onPanResponderGrant: (evt, gestureState) => {
+            if (this.state.isOpen) {
+                this.setState({ isOpen: false });
+            } else if (!this.state.isOpen) {
+                this.setState({ isOpen: true });
+            }
+        },
+        onPanResponderMove: (evt, gestureState) => {
+
+        },
+        onPanResponderRelease: (evt, gestureState) => {
+
+        },
+        onPanResponderTerminate: (evt, gestureState) => {
+
+        },
+    });
 
     render() {
         return (
-            <View style={{flex: 1}}>
-
+            <View {...this.panResponder.panHandlers} style={[styles.rectangle, { height: this.state.isOpen ? 90 : 45 }]}>
+                <Text style={[styles.rectangleText]}>{this.state.text}</Text>
             </View>
         );
     }
@@ -20,15 +40,16 @@ export default class DropdownList extends Component {
 
 const styles = StyleSheet.create({
     rectangle: {
-        width: 290,
-        height: 70,
+        width: 180,
+        height: 45,
+        left: 100,
+        top: 12,
         borderRadius: 5,
-        backgroundColor: 'white',
+        backgroundColor: 'grey',
         position: 'absolute',
-        justifyContent: 'center'
     },
     rectangleText: {
-        color: 'black',
+        color: 'white',
         fontWeight: 'bold',
         fontSize: 14,
         padding: 8,

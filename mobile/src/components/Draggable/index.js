@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, PanResponder, StyleSheet, Dimensions } from 'react-native';
 import DropdownList from '../DropdownList/index.js';
+import FreeTextInput from '../FreeTextInput/index.js';
 
 class Rectangle extends Component {
     state = {
@@ -10,6 +11,9 @@ class Rectangle extends Component {
         initialY: 20 + (this.props.boxes.length - 1) * 110,
         color: this.props.color,
         title: this.props.title,
+        getADM: this.props.getADM,
+        getFTI: this.props.getFTI,
+        textInput: "",
     };
 
     panResponder = PanResponder.create({
@@ -62,7 +66,10 @@ class Rectangle extends Component {
                     {...this.panResponder.panHandlers}
                     style={[styles.rectangle, { left: this.state.x, top: this.state.y, backgroundColor: this.state.color}]}
                 >
-                    <Text style={styles.rectangleText}>{this.state.title}</Text>
+                    {this.state.getADM && <DropdownList text={"Placeholder"}/>}
+                    {this.state.getFTI && <FreeTextInput textInput={this.state.textInput} title={this.state.title}/>}
+                    {this.state.getFTI && <Text style={[styles.rectangleText, { width: this.state.getADM ? 110 : 290 }]}></Text>}
+                    {!this.state.getFTI && <Text style={[styles.rectangleText, { width: this.state.getADM ? 110 : 290 }]}>{this.state.title}</Text>}
                 </View>
             </>
         );
@@ -75,7 +82,7 @@ const styles = StyleSheet.create({
         height: 70,
         borderRadius: 5,
         position: 'absolute',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     rectangleText: {
         color: 'white',
