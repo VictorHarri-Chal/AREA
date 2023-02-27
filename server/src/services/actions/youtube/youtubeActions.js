@@ -9,7 +9,7 @@ let lastLikedVideoId = null;
 
 const youtubeTrigger = {
     checkYoutubeAction: async function checkYoutubeAction(action) {
-        const accessToken = 'ya29.a0AVvZVsrcOs75fc0ENHx7eecpWx2_mkK9QJyeu47tvkw_V5r21Yx7yhw6bBhg7T0pFuIcnkHN2HBE9_eS2e0VGCTfc5IWArtw6qDg-UW9nXEpnPWwUvZAd77V19GP8OdQFd3904fJVrfEXLkI_wgsOi5iXu_oaCgYKAe8SARASFQGbdwaILCl0ZTHiEr6I-a9PJD4myg0163';
+        const accessToken = action.token;
         const trigger = action.trigger;
 
         switch (trigger) {
