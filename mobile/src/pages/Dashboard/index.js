@@ -44,7 +44,7 @@ const Dashboard = () => {
     checkSlot(210, 320, 3);
     checkSlot(320, 430, 4);
     checkSlot(430, 540, 5);
-    checkSlot(540, 650, 6);
+  //  checkSlot(540, 650, 6);
   }
 
   return (

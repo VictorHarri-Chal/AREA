@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     },
     openMenuButton: {
       position: 'absolute',
-      top: 305,
+      top: 248,
       left: -180,
       padding: 10,
       backgroundColor: 'lightgray',
@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
     },
     validateMenuButton: {
       position: 'absolute',
-      top: 305,
+      top: 248,
       left: -20,
       padding: 10,
       backgroundColor: 'lightgray',
@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
     },
     binMenuButton: {
       position: 'absolute',
-      top: 305,
+      top: 248,
       left: 140,
       padding: 10,
       backgroundColor: 'lightgray',
