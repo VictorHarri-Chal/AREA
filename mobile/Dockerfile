@@ -23,4 +23,4 @@ WORKDIR /usr/app
 
 COPY . .
 
-CMD ["./gradlew", "assembleRelease"]
+CMD ["npm", "install", "&&", "./gradlew", "assembleRelease"]
