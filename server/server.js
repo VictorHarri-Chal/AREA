@@ -9,6 +9,8 @@ const port = 8080;
 const cors = require('cors');
 const trigger = require('./src/services/checkTriggers');
 const cookies = require('./src/utils/getCookie.js');
+const twitchTrigger = require('./src/services/actions/twitch/twitchActions');
+
 
 app.use(cors());
 
@@ -117,6 +119,25 @@ function serverProcess() {
         trigger.checkTriggers();
     }, 5000);
 }
+
+async function askDMData(key) {
+
+
+}
+
+app.post("/askDMData", async (req, res) => {
+    let key = req.body.key;
+    let service = key.split('_')[0];
+    let trigger = key.split('_')[1];
+    let follows = [];
+
+    if (service === 'twitch') {
+        follows = await twitchTrigger.getTwitchData(trigger);
+    }
+
+    res.json({ follows })
+});
+
 
 // function initRoles() {
 //     Role.estimatedDocumentCount((err, count) => {
