@@ -3,6 +3,7 @@ const discordController = require('../controllers/discord.controller');
 const spotifyController = require('../controllers/spotify.controller');
 const youtubeController = require('../controllers/youtube.controller');
 const twitchController = require('../controllers/twitch.controller');
+const twitterController = require('../controllers/twitter.controller');
 
 module.exports = function handleServicesRoutes(app) {
 
@@ -21,4 +22,6 @@ module.exports = function handleServicesRoutes(app) {
     app.get("/twitchauth", twitchController.twitchAuth);
     app.get("/twitchcallback", twitchController.twitchCallback);
 
+    app.get("/twitterauth", twitterController.twitterAuth);
+    app.get("/twittercallback", twitterController.twitterCallback);
 }

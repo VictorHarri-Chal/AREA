@@ -117,7 +117,7 @@ function serverProcess() {
     setInterval(() => {
         console.log('Check...');
         trigger.checkTriggers();
-    }, 5000);
+    }, 10000);
 }
 
 
