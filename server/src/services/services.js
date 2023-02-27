@@ -49,7 +49,7 @@ const services = {
     youtube: {
         checkTrigger: async function(action) {
             console.log('[Youtube] - Action');
-            return await youtubeTrigger.checkYoutubeAction(action);
+            // return await youtubeTrigger.checkYoutubeAction(action);
         },
         startReaction: async function(reaction) {
             console.log('[Youtube] - Reaction');
