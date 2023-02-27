@@ -15,7 +15,6 @@ exports.twitchCallback = (req, res) => {
             redirect_uri: redirectUri,
         },
     }).then(async (response) => {
-        console.log('Twitch => ' + JSON.stringify(response));
         var accessToken = response.data.access_token;
         var refreshToken = response.data.refresh_token;
         var parsedUserID = cookies.parseJwt(req.cookies.jwtToken)

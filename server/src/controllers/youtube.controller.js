@@ -35,7 +35,6 @@ exports.youtubeCallback = (req, res) => {
             return;
         }
         console.log('access token:', tokens.access_token); // Add this line to print the access token
-        console.log('Youtube => ' + JSON.stringify(response));
 
         var parsedUserID = cookies.parseJwt(req.cookies.jwtToken)
         var newTokenYoutube = {service: 'youtube', value: tokens.access_token, refresh: tokens.refresh_token}
