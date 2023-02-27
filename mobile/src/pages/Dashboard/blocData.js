@@ -9,12 +9,18 @@ export const menuButtons = [
         {
             id : 'discord_receivePrivateMessage',
             title: 'Get a PM',
+            getADM: true,
+            getFTI: false,
+            slot: 0,
         }
       ],
       reaction_blocs : [
         {
             id : 'discord_sendPrivateMessage',
             title: 'Send a PM',
+            getADM: true,
+            getFTI: false,
+            slot: 0,
         }
       ]
     },
@@ -27,12 +33,18 @@ export const menuButtons = [
         {
             id : 'github_newCommit',
             title: 'New commit',
+            getADM: true,
+            getFTI: false,
+            slot: 0,
         },
       ],
       reaction_blocs : [
           {
               id : 'github_createIssue',
               title: 'Create an issue',
+              getADM: true,
+              getFTI: false,
+              slot: 0,
           }
       ]
     },
@@ -45,13 +57,19 @@ export const menuButtons = [
         {
             id : 'twitter_newTweet',
             title: 'New tweet',
+            getADM: true,
+            getFTI: false,
+            slot: 0,
         },
       ],
       reaction_blocs : [
-          {
-              id : 'twitter_sendTweet',
-              title: 'Send a tweet',
-          }
+        {
+            id : 'twitter_sendTweet',
+            title: 'Send a tweet',
+            getADM: false,
+            getFTI: true,
+            slot: 0,
+        }
       ]
     },
     {
@@ -63,13 +81,40 @@ export const menuButtons = [
         {
             id : 'spotify_newStream',
             title: 'New stream',
+            getADM: false,
+            getFTI: false,
+            slot: 0,
         },
+        {
+            id : 'spotify_newPlaylist',
+            title: 'New playlist',
+            getADM: false,
+            getFTI: false,
+            slot: 1,
+        }
       ],
       reaction_blocs : [
         {
             id : 'spotify_createPlaylist',
             title: 'Create a playlist',
+            getADM: true,
+            getFTI: false,
+            slot: 0,
         },
+        {
+            id : 'spotify_pausePlayblack',
+            title: 'Pause playback',
+            getADM: false,
+            getFTI: false,
+            slot: 1,
+        },
+        {
+            id : 'spotify_randomTrack',
+            title: 'Random track to queue',
+            getADM: false,
+            getFTI: false,
+            slot: 2,
+        }
       ]
     },
     {
@@ -81,12 +126,18 @@ export const menuButtons = [
         {
             id : 'youtube_newVideo',
             title: 'New video',
+            getADM: true,
+            getFTI: false,
+            slot: 0,
         },
       ],
       reaction_blocs : [
         {
             id : 'youtube_sendComment',
             title: 'Send a comment',
+            getADM: true,
+            getFTI: false,
+            slot: 0,
         },
       ]
     },
@@ -99,12 +150,18 @@ export const menuButtons = [
         {
             id : 'twitch_newLivestream',
             title: 'New livestream',
+            getADM: true,
+            getFTI: false,
+            slot: 0,
         },
       ],
       reaction_blocs : [
         {
             id : 'twitch_sendMessage',
             title: 'Send a message',
+            getADM: true,
+            getFTI: false,
+            slot: 0,
         },
       ]
     },

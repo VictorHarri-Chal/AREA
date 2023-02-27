@@ -1,8 +1,7 @@
 const axios = require('axios');
 
-async function isOnStream(token) {
+async function isOnStream(token, twitchUsername) {
     const clientID = '24gzvb0o12bsdlj7qqe016eapnfisc';
-    const twitchUsername = 'yassencore';
 
     try {
         const response = await axios.get(`https://api.twitch.tv/helix/streams?user_login=${twitchUsername}`, {

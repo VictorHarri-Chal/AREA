@@ -1,6 +1,15 @@
 version: "3"
 
 services:
+  client_mobile:
+    build:
+      context: ./mobile/
+      dockerfile: Dockerfile
+    command: bash -c "cp ./android/app/build/outputs/apk/release/app-release.apk /usr/apkBuild/client.apk"
+    volumes:
+      - ./mobile/:/usr/app
+      - apk-volume:/usr/apkBuild
+
   server:
     build:
       context: ./server
@@ -8,18 +17,16 @@ services:
       - SERVER_PORT=8080
     ports:
       - "8080:8080"
-
+  
   client_web:
     build:
       context: ./web
     environment:
       - WEB_CLIENT_PORT=8081
     depends_on:
-      - server
-    volumes:
-      - commun:/apk
+      - client_mobile
     ports:
       - "8081:3000"
 
 volumes:
-  commun:
+  apk-volume :
