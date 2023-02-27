@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import Rectangle from '../../components/Draggable/Draggable.js';
+import Rectangle from '../../components/Draggable/index.js';
 import { menuButtons } from './blocData.js';
 import { styles } from './styles.js';
 
@@ -19,23 +19,6 @@ const Dashboard = () => {
     { name: 5, top: 540, },
     { name: 6, top: 650, },
   ]);
- 
-  const defineBlocType = (type) => {
-    if (type === "title") {
-      if (currentBlocType === "action_blocs") {
-        return menuButtons.find(button => button.name === selectedButton).action_blocs.find(item => item.title).title;
-      } else if (currentBlocType === "reaction_blocs") {
-        return menuButtons.find(button => button.name === selectedButton).reaction_blocs.find(item => item.title).title;
-      }
-    } else if (type === "id") {
-      if (currentBlocType === "action_blocs") {
-        return menuButtons.find(button => button.name === selectedButton).action_blocs.find(item => item.id).id;
-      } else if (currentBlocType === "reaction_blocs") {
-        return menuButtons.find(button => button.name === selectedButton).reaction_blocs.find(item => item.id).id;
-      }
-    }
-    return null;
-  }
 
   const checkSlot = (coord1, coord2, slot) => {
     let isSolo = false;
@@ -87,7 +70,7 @@ const Dashboard = () => {
           </View>
         </TouchableOpacity>
         {boxes.map(box => (
-          <Rectangle key={box.key} title={box.title} color={box.color} listSlot={listSlot} box={box} boxes={boxes} setBoxes={setBoxes}></Rectangle>
+          <Rectangle key={box.key} title={box.title} getADM={box.getADM} getFTI={box.getFTI} color={box.color} listSlot={listSlot} box={box} boxes={boxes} setBoxes={setBoxes}></Rectangle>
           ))}
         {listSlot.map(slot => (
             <View key={slot.name} style={[styles.slotDelimiter, {top: slot.top}]}></View>
@@ -151,15 +134,28 @@ const Dashboard = () => {
                       >
                         <Text style={styles.actionReactionButtonText} >Reaction</Text>
                       </TouchableOpacity>
-                      <TouchableOpacity class="rectangleButton"
-                      style={[styles.rectangleButton, { backgroundColor: menuButtons.find(button => button.name === selectedButton).color}]}
-                      onPress={() => {
-                        setMenuVisible(false);
-                        setBoxes(boxes => [...boxes, {key: boxes.length+1, title: defineBlocType("title"), id: defineBlocType("id"), color: menuButtons.find(button => button.name === selectedButton).color, x: 0, y: 0}])
-                      }}
-                      >
-                        <Text style={styles.actionReactionButtonText}>{defineBlocType("title")}</Text>
-                      </TouchableOpacity>
+                      {currentBlocType === "action_blocs" && menuButtons.find(button => button.name === selectedButton).action_blocs.map(item => (
+                        <TouchableOpacity key={item.slot}
+                        style={[styles.rectangleButton, { backgroundColor: menuButtons.find(button => button.name === selectedButton).color, top: 160 + item.slot * 70}]}
+                        onPress={() => {
+                          setMenuVisible(false);
+                          setBoxes(boxes => [...boxes, {key: boxes.length+1, title: item.title, id: item.id, getADM: item.getADM, getFTI: item.getFTI, color: menuButtons.find(button => button.name === selectedButton).color, x: 0, y: 0}])
+                        }}
+                        >
+                          <Text style={styles.actionReactionButtonText}>{item.title}</Text>
+                        </TouchableOpacity>
+                      ))}
+                      {currentBlocType === "reaction_blocs" && menuButtons.find(button => button.name === selectedButton).reaction_blocs.map(item => (
+                        <TouchableOpacity key={item.slot}
+                        style={[styles.rectangleButton, { backgroundColor: menuButtons.find(button => button.name === selectedButton).color, top: 160 + item.slot * 70}]}
+                        onPress={() => {
+                          setMenuVisible(false);
+                          setBoxes(boxes => [...boxes, {key: boxes.length+1, title: item.title, id: item.id, getADM: item.getADM, getFTI: item.getFTI, color: menuButtons.find(button => button.name === selectedButton).color, x: 0, y: 0}])
+                        }}
+                        >
+                          <Text style={styles.actionReactionButtonText}>{item.title}</Text>
+                        </TouchableOpacity>
+                      ))}
                     </>
                   )}
               </>
