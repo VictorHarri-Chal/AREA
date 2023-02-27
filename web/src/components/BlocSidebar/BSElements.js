@@ -165,7 +165,7 @@ export const BSBloc = styled.li`
     padding: 15px;
     border-radius: 10px;
     box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.3);
-    width: ${props => props.special === true ? '100px' : '200px'};
+    width: '200px';
     height: 100px;
     display: flex;
     align-items: center;
