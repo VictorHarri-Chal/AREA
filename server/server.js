@@ -4,6 +4,7 @@ const Area = require('./src/models/ar.model');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 const db = require('./src/models');
+const AccessTokens = db.accessTokens;
 const app = express();
 const port = 8080;
 const cors = require('cors');
@@ -59,18 +60,40 @@ const getLastBox = (data) => {
 
 // SI PLUSIEURS DU MEME UTILISATEURS
 
-const genSchema = (data, req) => {
+const genSchema = async (data, req) => {
     const firstBox = getFirstBox(data);
     const endBox = getLastBox(data);
     let token = req.headers["x-access-token"];
     const userID =  cookies.parseJwt(token) // here
+    var actionToken = '';
+    var reactionToken = '';
+
+    var tmpTokensList = await AccessTokens.findOne({ownerUserID: userID})
+
+    for (var i = 0; i < tmpTokensList.tokens.length; i = i + 1) {
+        if (tmpTokensList.tokens[i].service === getService(firstBox.key)) {
+            console.log('[A] - Service found: ' + getService(firstBox.key))
+            actionToken = tmpTokensList.tokens[i].token;
+            console.log('Action Token => ' + actionToken);
+        }
+        if (tmpTokensList.tokens[i].service === getService(endBox.key)) {
+            console.log('[REA] - Service found: ' + getService(endBox.key))
+            reactionToken = tmpTokensList.tokens[i].token;
+            console.log('Reaction Token => ' + reactionToken);
+        }
+    }
+
+    if (actionToken == '' || reactionToken == '') {
+        console.log('FF pas de AREA token')
+        return;
+    }
 
     const area = new Area({
         userId : userID,
         action: {
             service: getService(firstBox.key),
             trigger : getTrigger(firstBox.key),
-            token : 'ThisIsAToken',
+            token : actionToken,
             data : {
                 data : firstBox.chosenItem // change this to a generic way
             }
@@ -78,7 +101,7 @@ const genSchema = (data, req) => {
         reaction: {
             service: getService(endBox.key),
             trigger : getTrigger(endBox.key),
-            token : 'ThisIsAToken',
+            token : reactionToken,
             data : {
                 data : endBox.chosenItem
             }
