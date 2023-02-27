@@ -28,13 +28,30 @@ exports.youtubeAuth = (req, res) => {
 exports.youtubeCallback = (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
     const code = req.query.code;
-    oauth2Client.getToken(code, (err, tokens) => {
+    oauth2Client.getToken(code, async (err, tokens) => {
         if (err) {
             console.error(err);
             res.sendStatus(500);
             return;
         }
         console.log('access token:', tokens.access_token); // Add this line to print the access token
+        console.log('Youtube => ' + JSON.stringify(response));
+
+        var parsedUserID = cookies.parseJwt(req.cookies.jwtToken)
+        var newTokenYoutube = {service: 'youtube', value: tokens.access_token, refresh: tokens.refresh_token}
+        var tmpTokensList = await AccessTokens.findOne({ownerUserID: parsedUserID})
+
+        var isEmpty = true;
+        for (var i = 0; i < tmpTokensList.tokens.length; i = i + 1) {
+            if (tmpTokensList.tokens[i].service === 'youtube') {
+                isEmpty = false;
+            }
+        }
+        if (isEmpty) {
+            tmpTokensList.tokens.push(newTokenYoutube);
+            tmpTokensList.save();
+        }
+
         oauth2Client.setCredentials(tokens);
         res.statusCode = 302;
         res.setHeader("Location", "http://localhost:8081/dashboard");
