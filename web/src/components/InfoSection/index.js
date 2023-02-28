@@ -1,8 +1,9 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { InfoContainer, InfoWrapper, InfoRow, Column1, Column2, TextWrapper, TopLine, Heading, Subtitle, BtnWrap, ImgWrap, Img } from './InfoElements'
 import { Button } from '../ButtonElements'
+import { ArrowForward, ArrowRight } from '../HeroSection/HeroElements'
 
-const InfoSection = () => {
+const InfoSection = ({ lightBg, id, imgStart, topLine, headline, description, buttonLabel, img, alt, lightText, darkText }) => {
 
     const [hover, setHover] = useState(false)
 
@@ -10,25 +11,24 @@ const InfoSection = () => {
         setHover(!hover)
     }
 
-
     return (
         <div>
-            <InfoContainer>
+            <InfoContainer lightBg={lightBg} id={id}>
                 <InfoWrapper>
-                    <InfoRow>
+                    <InfoRow imgStart={imgStart}>
                         <Column1>
                             <TextWrapper>
-                                <TopLine>TopLine</TopLine>
-                                <Heading lightText={lightText}>Heading</Heading>
-                                <Subtitle darkText={darkText}>Subtitle</Subtitle>
+                                <TopLine>{topLine}</TopLine>
+                                <Heading lightText={lightText}>{headline}</Heading>
+                                <Subtitle darkText={darkText}>{description}</Subtitle>
                                 <BtnWrap>
-                                    <Button to='home' onMouseEnter={onHover} onMouseLeave={onHover} primary='true' dark='true'>Button</Button>
+                                    <Button to='home' onMouseEnter={onHover} onMouseLeave={onHover} primary='true' dark='true'> {buttonLabel} {hover ? <ArrowForward /> : <ArrowRight />}</Button>
                                 </BtnWrap>
                             </TextWrapper>
                         </Column1>
                         <Column2>
                             <ImgWrap>
-                                <Img />
+                                <Img src={img} alt={alt}/>
                             </ImgWrap>
                         </Column2>
                     </InfoRow>
