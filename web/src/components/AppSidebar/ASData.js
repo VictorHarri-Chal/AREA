@@ -34,13 +34,22 @@ export const ASData = [
                 getADM : true,
                 DM : []
             },
+            {
+                key : 'github_newIssue',
+                title: 'New commit [GNC_DM]',
+                placeHolder : 'Select a repository',
+                getADM : true,
+                DM : []
+            },
         ],
         reaction_blocs : [
             {
                 key : 'github_createIssue',
                 title: 'Create an issue',
-                getADM : false,
-            }
+                placeHolder : 'Select a repository',
+                getADM : true,
+                DM: []
+            },
         ]
     },
     {
