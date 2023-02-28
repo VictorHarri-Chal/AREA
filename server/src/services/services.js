@@ -1,5 +1,5 @@
 const githubTrigger = require('./actions/githubActions');
-const discordTrigger = require('./actions/discordActions');
+const discordTrigger = require('./actions/discord/discordActions');
 const spotifyTrigger = require('./actions/spotify/spotifyActions')
 const youtubeTrigger = require('./actions/youtube/youtubeActions')
 const twitchTrigger = require('./actions/twitch/twitchActions')

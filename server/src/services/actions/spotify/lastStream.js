@@ -19,7 +19,15 @@ async function lastStreamFunc(token) {
 
     spotifyApi.setAccessToken(token);
 
-    const currentTrack = await spotifyApi.getMyCurrentPlayingTrack();
+    const currentTrack = await spotifyApi.getMyCurrentPlayingTrack().catch(err => {
+        // console.log('Get Current Playing track error -> ' + err)
+    });
+
+    if (!currentTrack) {
+        console.log('zzz -> spotify last stream message erreur');
+        return;
+    }
+
 
     if (currentTrack.body.is_playing) {
         console.log(currentTrack.body.item.name + ' de ' + currentTrack.body.item.artists[0].name)
