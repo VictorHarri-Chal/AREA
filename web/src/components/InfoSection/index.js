@@ -22,7 +22,7 @@ const InfoSection = ({ lightBg, id, imgStart, topLine, headline, description, bu
                                 <Heading lightText={lightText}>{headline}</Heading>
                                 <Subtitle darkText={darkText}>{description}</Subtitle>
                                 <BtnWrap>
-                                    <Button to='home' onMouseEnter={onHover} onMouseLeave={onHover} primary='true' dark='true'> {buttonLabel} {hover ? <ArrowForward /> : <ArrowRight />}</Button>
+                                    <Button to='home' onMouseEnter={onHover} onMouseLeave={onHover} primary={primary ? 1 : 0} dark='true' smooth={true} duration={500} spy={true} exact='true' offset={-80}> {buttonLabel} {hover ? <ArrowForward /> : <ArrowRight />}</Button>
                                 </BtnWrap>
                             </TextWrapper>
                         </Column1>
