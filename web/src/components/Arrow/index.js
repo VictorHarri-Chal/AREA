@@ -10,9 +10,7 @@ const Arrow = ({ arrows, boxes, clientX, clientY, getBlocData }) => {
                     const toBox = boxes.find(box => box.id === arrow.to);
                     let data = getBlocData(fromBox.key);
                     let decal =  190;
-                    if (fromBox.key === 'blocs_and' || fromBox.key === 'blocs_or')
-                        decal = 90;
-                    else if (data.getADM)
+                    if (data.getADM)
                         decal = 390;
                     if (arrow.to === '0') {
                         return (

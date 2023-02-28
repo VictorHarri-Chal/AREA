@@ -18,7 +18,7 @@ const services = {
     spotify: {
         checkTrigger: async function(action) {
             console.log('[Spotify] - Action');
-            return await spotifyTrigger.checkSpotifyAction(action);
+            // return await spotifyTrigger.checkSpotifyAction(action);
 
         },
         startReaction: function(reaction) {
@@ -39,11 +39,11 @@ const services = {
     twitch: {
         checkTrigger: async function(action) {
             console.log('[Twitch] - Action');
-            return await twitchTrigger.checkTwitchAction(action);
+            // return await twitchTrigger.checkTwitchAction(action);
         },
         startReaction: async function(reaction) {
             console.log('[Twitch] - Reaction');
-            return await twitchTrigger.checkTwitchReaction(reaction);
+            // return await twitchTrigger.checkTwitchReaction(reaction);
         }
     },
     youtube: {

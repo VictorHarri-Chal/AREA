@@ -136,6 +136,17 @@ app.post("/isConnect", (req, res) => {
     res.status(200).send('Connected');
 });
 
+app.get('/download', (req, res) => {
+    const filePath = path.join('/usr/apkBuild', 'client.apk');
+    res.download(filePath, (err) => {
+      if (err) {
+        // Gérer les erreurs de téléchargement
+        console.error(err);
+        res.status(500).send('Une erreur est survenue lors du téléchargement.');
+      }
+    });
+  });
+
 function serverProcess() {
     setInterval(() => {
         console.log('Check...');

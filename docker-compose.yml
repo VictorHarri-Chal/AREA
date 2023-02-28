@@ -17,6 +17,8 @@ services:
       - SERVER_PORT=8080
     ports:
       - "8080:8080"
+    volumes:
+      - apk-volume:/usr/apkBuild
   
   client_web:
     build:
@@ -27,6 +29,8 @@ services:
       - client_mobile
     ports:
       - "8081:3000"
+    volumes:
+      - apk-volume:/usr/apkBuild
 
 volumes:
-  apk-volume :
+  apk-volume:
