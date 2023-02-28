@@ -23,6 +23,7 @@ exports.githubCallback = (req, res) => {
                 }
             }
             if (isEmpty) {
+                console.log('saving access token. . .');
                 tmpTokensList.tokens.push(newTokenGithub);
                 tmpTokensList.save();
             }
