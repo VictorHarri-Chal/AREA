@@ -168,9 +168,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
             boxes.forEach(box => {
                 if (box.id === draggingId) {
                     let data = getBlocData(box.key);
-                    if (box.key === 'blocs_and' || box.key === 'blocs_or')
-                        decal = 50;
-                    else if (data.getADM)
+                    if (data.getADM)
                         decal = 200;
                 }
             });
@@ -190,9 +188,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                 if (otherBox.id !== draggingId) {
                     let offset = 200;
                     let dataBis = getBlocData(otherBox.key);
-                    if (otherBox.key === 'blocs_and' || otherBox.key === 'blocs_or')
-                        offset = 100;
-                    else if (dataBis.getADM)
+                    if (dataBis.getADM)
                         offset = 400;
                     if (newX <= otherBox.x + offset && newX + (decal*2) >= otherBox.x && newY <= otherBox.y + 100 && newY + 100 >= otherBox.y) {
                         setBoxes(boxes.map(box => {
@@ -440,11 +436,11 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                     let pos = {x : box.x, y : box.y}
                     return (
                         <div>
-                            <PlaygroundBox key={box.id} color={data.color} id={`bloc${box.id}`} style={style} onMouseDown={handleMouseDown(box.id)} onClick={() => handleClickOnBox(box.id)} special = {box.key === 'blocs_and' ? true : (box.key === 'blocs_or' ? true : false)} getADM={data.getADM}>
+                            <PlaygroundBox key={box.id} color={data.color} id={`bloc${box.id}`} style={style} onMouseDown={handleMouseDown(box.id)} onClick={() => handleClickOnBox(box.id)} getADM={data.getADM}>
                                 <ButtonStartArrow color={() => handleButtonColorStart(box.id)} onClick={() => handleArrowGeneration(box.id)} endOfFlow={box.endOfFlow}></ButtonStartArrow>
                                 <RectArrivedArrow color={() => handleButtonColorArrived(box.id)} onMouseDown={handleMouseDownOnArrived(box.id)} startOfFlow={box.startOfFlow}></RectArrivedArrow>
                                 <StartFlag startOfFlow={box.startOfFlow} onClick={() => handleMouseClickOnFlag("start")} isHoldingFlag={isHoldingFlag}><Icon icon="mdi:flag-variant"/></StartFlag>
-                                <ArrivedFlag endOfFlow={box.endOfFlow} onClick={() => handleMouseClickOnFlag("end")} isHoldingFlagArrived={isHoldingFlagArrived} special = {box.key === 'blocs_and' ? true : (box.key === 'blocs_or' ? true : false)} getADM={data.getADM} ><Icon icon="mdi:flag-variant"/></ArrivedFlag>
+                                <ArrivedFlag endOfFlow={box.endOfFlow} onClick={() => handleMouseClickOnFlag("end")} isHoldingFlagArrived={isHoldingFlagArrived} getADM={data.getADM} ><Icon icon="mdi:flag-variant"/></ArrivedFlag>
                                 {getGoodTitle(data.title, data.getADM)}
                             </PlaygroundBox>
                             {data.getADM === true && (
