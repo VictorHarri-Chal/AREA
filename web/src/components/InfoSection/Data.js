@@ -34,9 +34,9 @@ export const homeObjTwo = {
 
 export const homeObjThree = {
     id: 'signup',
-    lightBg: false,
-    lightText: true,
-    lightTextDesc: true,
+    lightBg: true,
+    lightText: false,
+    lightTextDesc: false,
     topLine: 'TopLine',
     headline: 'Headline',
     description: 'Description',
@@ -44,7 +44,7 @@ export const homeObjThree = {
     imgStart: false,
     img: require('../../images/undraw_mobile_application_re_13u3.svg').default,
     alt: 'Paper',
-    dark: true,
+    dark: false,
     primary: true,
-    darkText: false
+    darkText: true
 }

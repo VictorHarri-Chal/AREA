@@ -3,7 +3,7 @@ import { InfoContainer, InfoWrapper, InfoRow, Column1, Column2, TextWrapper, Top
 import { Button } from '../ButtonElements'
 import { ArrowForward, ArrowRight } from '../HeroSection/HeroElements'
 
-const InfoSection = ({ lightBg, id, imgStart, topLine, headline, description, buttonLabel, img, alt, lightText, darkText }) => {
+const InfoSection = ({ lightBg, id, imgStart, topLine, headline, description, buttonLabel, img, alt, lightText, darkText, primary }) => {
 
     const [hover, setHover] = useState(false)
 

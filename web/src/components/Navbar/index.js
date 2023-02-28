@@ -61,7 +61,7 @@ const Navbar = ({toggleSideBar, isInDashboard}) => {
                                 <NavLinks to="services">Services</NavLinks>
                             </NavItem>
                             <NavItem>
-                                <NavLinks to="signup">Usage</NavLinks>
+                                <NavLinks to="signup">Sign Up</NavLinks>
                             </NavItem>
                         </NavMenu>
 
