@@ -1,6 +1,6 @@
 import React, {useRef, useEffect, useState} from 'react'
 import { FaBars } from 'react-icons/fa'
-import { Nav, NavbarContainer, NavLogo, MobileIcon, NavMenu, NavItem, NavLinks, NavBtn, NavBtnLink, ProfileLink } from './NavbarElements'
+import { Nav, NavbarContainer, NavLogo, MobileIcon, NavMenu, NavItem, NavLinks, NavBtn, NavBtnLink, ProfileLink, NavDashboard } from './NavbarElements'
 import ProfileDDM from '../ProfileDDM'
 import {animateScroll as scroll} from 'react-scroll'
 
@@ -49,19 +49,19 @@ const Navbar = ({toggleSideBar, isInDashboard}) => {
     if (isInDashboard) {
         return (
             <>
-                <Nav scrollNav={scrollNav} >
+                <NavDashboard>
                     <NavbarContainer>
                         <NavLogo to="/">{appName}</NavLogo>
                         <ProfileLink onClick={toggleProfile} ref={profileLinkRef}>{sessionStorage.initials}</ProfileLink>
                     </NavbarContainer>
-                </Nav>
+                </NavDashboard>
                 <ProfileDDM profileOpen={profileOpen} toggleProfile={toggleProfile} x={profileLinkPos.x} y={profileLinkPos.y}/>
             </>
         )
     } else {
         return (
             <>
-                <Nav>
+                <Nav scrollNav={scrollNav}>
                     <NavbarContainer>
                         <NavLogo to="/" onClick={toggleHome}>{appName}</NavLogo>
 
