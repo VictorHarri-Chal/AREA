@@ -10,6 +10,7 @@ const cors = require('cors');
 const trigger = require('./src/services/checkTriggers');
 const cookies = require('./src/utils/getCookie.js');
 const twitchTrigger = require('./src/services/actions/twitch/twitchActions');
+const githubTrigger = require('./src/services/actions/githubActions');
 
 
 app.use(cors());
@@ -126,12 +127,21 @@ app.post("/askDMData", async (req, res) => {
     let service = key.split('_')[0];
     let trigger = key.split('_')[1];
     let follows = [];
+    let repositories = [];
+
+    let token = req.headers["x-access-token"];
+    const userID =  cookies.parseJwt(token) // here
 
     if (service === 'twitch') {
         follows = await twitchTrigger.getTwitchData(trigger);
+        res.json({ follows })
     }
 
-    res.json({ follows })
+    if (service === 'github') {
+        repositories = await githubTrigger.getGithubData(trigger, userID);
+        res.json({ repositories })
+    }
+
 });
 
 

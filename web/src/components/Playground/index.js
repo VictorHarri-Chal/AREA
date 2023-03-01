@@ -64,11 +64,24 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                 },
                 body: JSON.stringify(sendData),
             });
-            if (response.ok) {
+            if (response.ok && (key === "twitch_isOnStream")) {
                 const data = await response.json();
                 const follows = data.follows;
                 return follows;
+            } else if (response.ok && (key === "github_newCommit")) {
+                const data = await response.json();
+                const repositories = data.repositories;
+                return repositories;
+            } else if (response.ok && (key === "github_newIssue")) {
+                const data = await response.json();
+                const repositories = data.repositories;
+                return repositories;
+            } else if (response.ok && (key === "github_createIssue")) {
+                const data = await response.json();
+                const repositories = data.repositories;
+                return repositories;
             }
+
         } catch (error) {
             console.error(error);
         }
