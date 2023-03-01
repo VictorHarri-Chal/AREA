@@ -66,8 +66,8 @@ export const Input = styled.input`
 
 export const Button = styled.button`
     border-radius: 20px;
-    border: 1px solid #00ADB5;
-    background-color: #00ADB5;
+    border: 1px solid #01bf71;
+    background-color: #01bf71;
     color: #ffffff;
     font-size: 12px;
     font-weight: bold;
@@ -123,7 +123,7 @@ export const OverlayContainer = styled.div`
 `;
 
 export const Overlay = styled.div`
-    background: #00ADB5;
+    background: #01bf71;
     color: #ffffff;
     position: relative;
     left: -100%;
