@@ -89,7 +89,7 @@ export const MobileIcon = styled.div`
         font-size: 45px;
         cursor: pointer;
         color: #FFF;
-        background: #00ADB5;
+        background: #CFDE21;
         border-radius: 20%;
         align-items: center;
         text-align: center;
