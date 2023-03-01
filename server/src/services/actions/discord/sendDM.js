@@ -1,19 +1,8 @@
-const Discord = require('discord.js');
-const discordClient = new Discord.Client();
 const dotenv = require('dotenv');
 dotenv.config();
 
-async function sendDM(reaction) {
+async function sendDM(reaction, discordClient) {
     let userID = null;
-
-    discordClient.on("ready", () => {
-        console.log(`Logged in as ${discordClient.user.tag}!`);
-    });
-
-    if (!discordClient.readyAt) {
-        console.log(`Launching bot... Token = ${process.env.TOKEN}`);
-        await discordClient.login(process.env.TOKEN);
-    }
 
     await fetch('https://discordapp.com/api/users/@me', {
         method: 'GET',
