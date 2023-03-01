@@ -1,12 +1,21 @@
-const Discord = require('discord.js');
-const discordClient = new Discord.Client();
+const { Client } = require('discord.js');
+const { GatewayIntents } = require('discord-api-types/v9');
+
+const discordClient = new Client({
+  intents: [
+    GatewayIntents.GUILDS,
+    GatewayIntents.GUILD_MESSAGES,
+    GatewayIntents.DIRECT_MESSAGES,
+  ],
+});
+
 const dotenv = require('dotenv');
 dotenv.config();
 
 const discordTrigger = {
     checkDiscordAction : async function checkDiscordAction(action) {
-        if (action.trigger === 'zzz') {
-            // return zzzFunc(token)
+        if (action.trigger === 'newReaction') {
+            // return newReaction(action, discordClient)
         }
     },
 
