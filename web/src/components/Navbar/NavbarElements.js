@@ -20,7 +20,7 @@ export const Nav = styled.nav`
 `;
 
 export const NavDashboard = styled.nav`
-    background: #000;
+    background: #222831;
     height: 80px;
     /* margin-top: -80px; */
     display: flex;
