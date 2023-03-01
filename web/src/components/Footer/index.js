@@ -11,19 +11,19 @@ const Footer = () => {
 
                             <FooterLinkItems>
                                 <FooterLinkTitle>About Us</FooterLinkTitle>
-                                <FooterLink to="/signin">How it works</FooterLink>
-                                <FooterLink to="/signin">Testimonials</FooterLink>
-                                <FooterLink to="/signin">Careers</FooterLink>
-                                <FooterLink to="/signin">Investors</FooterLink>
-                                <FooterLink to="/signin">Terms of Service</FooterLink>
+                                <FooterLink to="/signin">Ceci est</FooterLink>
+                                <FooterLink to="/signin">un easter geg</FooterLink>
+                                <FooterLink to="/signin">Si tu</FooterLink>
+                                <FooterLink to="/signin">lis ça</FooterLink>
+                                <FooterLink to="/signin">appelle</FooterLink>
                             </FooterLinkItems>
 
                             <FooterLinkItems>
                                 <FooterLinkTitle>Contact Us</FooterLinkTitle>
-                                <FooterLink to="/signin">Contact</FooterLink>
-                                <FooterLink to="/signin">Support</FooterLink>
-                                <FooterLink to="/signin">Epitech</FooterLink>
-                                <FooterLink to="/signin">Sponsorships</FooterLink>
+                                <FooterLink to="/signin">le 07 83 57 65 45</FooterLink>
+                                <FooterLink to="/signin">pour tenter</FooterLink>
+                                <FooterLink to="/signin">de gagner</FooterLink>
+                                <FooterLink to="/signin">plus de</FooterLink>
                             </FooterLinkItems>
 
                         </FooterLinksWrapper>
@@ -32,18 +32,18 @@ const Footer = () => {
 
                             <FooterLinkItems>
                                 <FooterLinkTitle>Videos</FooterLinkTitle>
-                                <FooterLink to="/signin">Questions</FooterLink>
-                                <FooterLink to="/signin">Ambassadors</FooterLink>
-                                <FooterLink to="/signin">Agency</FooterLink>
-                                <FooterLink to="/signin">Influencer</FooterLink>
+                                <FooterLink to="/signin">500 000 €</FooterLink>
+                                <FooterLink to="/signin">Je sais plus quoi</FooterLink>
+                                <FooterLink to="/signin">ecrire ...</FooterLink>
+                                <FooterLink to="/signin">Du coup je</FooterLink>
                             </FooterLinkItems>
 
                             <FooterLinkItems>
                                 <FooterLinkTitle>Social Media</FooterLinkTitle>
-                                <FooterLink to="/signin">Instagram</FooterLink>
-                                <FooterLink to="/signin">Facebook</FooterLink>
-                                <FooterLink to="/signin">Youtube</FooterLink>
-                                <FooterLink to="/signin">Twitter</FooterLink>
+                                <FooterLink to="/signin">vais laisser</FooterLink>
+                                <FooterLink to="/signin">Victor parler :</FooterLink>
+                                <FooterLink to="/signin">" Ouaf Ouaf "</FooterLink>
+                                <FooterLink to="/signin">Merci Victor</FooterLink>
                             </FooterLinkItems>
 
                         </FooterLinksWrapper>

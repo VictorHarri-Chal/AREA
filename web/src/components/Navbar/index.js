@@ -1,7 +1,8 @@
-import React, {useRef, useEffect} from 'react'
+import React, {useRef, useEffect, useState} from 'react'
 import { FaBars } from 'react-icons/fa'
 import { Nav, NavbarContainer, NavLogo, MobileIcon, NavMenu, NavItem, NavLinks, NavBtn, NavBtnLink, ProfileLink } from './NavbarElements'
 import ProfileDDM from '../ProfileDDM'
+import {animateScroll as scroll} from 'react-scroll'
 
 const Navbar = ({toggleSideBar, isInDashboard}) => {
 
@@ -10,6 +11,20 @@ const Navbar = ({toggleSideBar, isInDashboard}) => {
     const profileLinkRef = useRef(null)
     const profileLinkPos = profileLinkRef.current ? profileLinkRef.current.getBoundingClientRect() : {};
     const [position, setPosition] = React.useState({x: profileLinkPos.x, y: profileLinkPos.y})
+    const [scrollNav, setScrollNav] = useState(false)
+
+    const changeNav = () => {
+        if (window.scrollY >= 80) {
+            setScrollNav(true)
+        } else {
+            setScrollNav(false)
+        }
+    }
+
+    useEffect(() => {
+        window.addEventListener('scroll', changeNav)
+    }, [])
+
 
     useEffect(() => {
         const handleResize = () => {
@@ -27,10 +42,14 @@ const Navbar = ({toggleSideBar, isInDashboard}) => {
         setProfileOpen(!profileOpen)
     }
 
+    const toggleHome = () => {
+        scroll.scrollToTop()
+    }
+
     if (isInDashboard) {
         return (
             <>
-                <Nav>
+                <Nav scrollNav={scrollNav} >
                     <NavbarContainer>
                         <NavLogo to="/">{appName}</NavLogo>
                         <ProfileLink onClick={toggleProfile} ref={profileLinkRef}>{sessionStorage.initials}</ProfileLink>
@@ -44,7 +63,7 @@ const Navbar = ({toggleSideBar, isInDashboard}) => {
             <>
                 <Nav>
                     <NavbarContainer>
-                        <NavLogo to="/">{appName}</NavLogo>
+                        <NavLogo to="/" onClick={toggleHome}>{appName}</NavLogo>
 
                         <MobileIcon onClick={toggleSideBar}>
                             <FaBars />
@@ -52,16 +71,16 @@ const Navbar = ({toggleSideBar, isInDashboard}) => {
 
                         <NavMenu>
                             <NavItem>
-                                <NavLinks to="about">About</NavLinks>
+                                <NavLinks to="about" smooth={true} duration={500} spy={true} exact='true' offset={-80}>About</NavLinks>
                             </NavItem>
                             <NavItem>
-                                <NavLinks to="discover">Discover</NavLinks>
+                                <NavLinks to="discover" smooth={true} duration={500} spy={true} exact='true' offset={-80}>Discover</NavLinks>
                             </NavItem>
                             <NavItem>
-                                <NavLinks to="services">Services</NavLinks>
+                                <NavLinks to="services" smooth={true} duration={500} spy={true} exact='true' offset={-80}>Services</NavLinks>
                             </NavItem>
                             <NavItem>
-                                <NavLinks to="signup">Sign Up</NavLinks>
+                                <NavLinks to="signup" smooth={true} duration={500} spy={true} exact='true' offset={-80}>Sign Up</NavLinks>
                             </NavItem>
                         </NavMenu>
 
