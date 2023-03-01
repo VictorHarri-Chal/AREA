@@ -65,6 +65,8 @@ const genSchema = (data, req) => {
     let token = req.headers["x-access-token"];
     const userID =  cookies.parseJwt(token) // here
 
+    console.log(data)
+
     const area = new Area({
         userId : userID,
         action: {
@@ -72,7 +74,9 @@ const genSchema = (data, req) => {
             trigger : getTrigger(firstBox.key),
             token : 'ThisIsAToken',
             data : {
-                data : firstBox.chosenItem // change this to a generic way
+                data : firstBox.chosenItem, // change this to a generic way
+                x : firstBox.x,
+                y : firstBox.y
             }
         },
         reaction: {
@@ -80,7 +84,9 @@ const genSchema = (data, req) => {
             trigger : getTrigger(endBox.key),
             token : 'ThisIsAToken',
             data : {
-                data : endBox.chosenItem
+                data : endBox.chosenItem,
+                x : endBox.x,
+                y : endBox.y
             }
         }
     });
@@ -128,7 +134,7 @@ function serverProcess() {
     setInterval(() => {
         console.log('Check...');
         trigger.checkTriggers();
-    }, 5000);
+    }, 10000000);
 }
 
 
