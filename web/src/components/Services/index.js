@@ -12,18 +12,18 @@ const Services = () => {
                 <ServicesWrapper>
                     <ServicesCard>
                         <ServicesIcon src={Icon1} />
-                        <ServicesH2>Reduce Expenses</ServicesH2>
-                        <ServicesP>We help reduce your fees and increase your overall revenue.</ServicesP>
+                        <ServicesH2>Gain time</ServicesH2>
+                        <ServicesP>Floap automates tasks that would otherwise be manual and time-consuming, allowing users to save valuable time and focus on other aspects of their work or life.</ServicesP>
                     </ServicesCard>
                     <ServicesCard>
                         <ServicesIcon src={Icon2} />
-                        <ServicesH2>Virtual Offices</ServicesH2>
-                        <ServicesP>You can access our platform online anywhere in the world.</ServicesP>
+                        <ServicesH2>Management helper</ServicesH2>
+                        <ServicesP>Floap simplifies the process of managing multiple social media and streaming platforms, allowing users to create custom actions and reactions to manage their different accounts automatically.</ServicesP>
                     </ServicesCard>
                     <ServicesCard>
                         <ServicesIcon src={Icon3} />
-                        <ServicesH2>Premium Benefits</ServicesH2>
-                        <ServicesP>Unlock our special membership card that returns 5% cash back.</ServicesP>
+                        <ServicesH2>Infinite customisation</ServicesH2>
+                        <ServicesP>Floap allows users to create custom actions and reactions to meet their specific needs, offering a personalized experience with automations that perfectly match their preferences.</ServicesP>
                     </ServicesCard>
                 </ServicesWrapper>
             </ServicesContainer>
