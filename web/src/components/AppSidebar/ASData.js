@@ -36,7 +36,7 @@ export const ASData = [
             },
             {
                 key : 'github_newIssue',
-                title: 'New commit [GNC_DM]',
+                title: 'New issue [GNC_DM]',
                 placeHolder : 'Select a repository',
                 getADM : true,
                 DM : []
@@ -98,7 +98,12 @@ export const ASData = [
         icon : <Icon icon="mdi:youtube" />,
         login : false,
         color : "#fe0000",
-        action_blocs : [],
+        action_blocs : [
+            {
+                key : 'youtube_newLike',
+                title: 'New like from user',
+            },
+        ],
         reaction_blocs : []
     },
     {
