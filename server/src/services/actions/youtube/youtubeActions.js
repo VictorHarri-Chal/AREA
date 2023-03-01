@@ -70,9 +70,8 @@ async function checkNewVideo(channelName) {
 
 const youtubeTrigger = {
     checkYoutubeAction: async function checkYoutubeAction(action) {
-        const accessToken = 'ya29.a0AVvZVspsjjDNqG_UQ2r4N1ATl611xxUD19nr0RlvyLoQqHhe7SRUShofs0ifynKfr7mHE6C0iDwp1_SvjAYUHElkTwpRqs17zJufvyZ54fPRUy7a61yhEi0ilJjUqpMkfB4F4bEKut4pZrov25pXYs-0IQf2aCgYKAVoSARASFQGbdwaI0ooAg-fPSuWgGFrFTygg0w0163';
+        const accessToken = 'ya29.a0AVvZVspqpwYaQVoOSr6C6Y4vgcswcqiuNK1SaBTJpshhiHXXrRBD9Zl04FjBabNtTWnQIvHZ04EoA5zKCa968z_mRjxwI9JEEp9puIGXbl-tC4w7yjY98JUM58Vuafzmi8D-uoEz-X_jF_ChqtFU2QcSVFvhaCgYKAcQSARASFQGbdwaIObWi3iiOmohGuF7W-oAJBg0163';
         const trigger = action.trigger;
-
         switch (trigger) {
             case "newLike":
                 return await checkNewLike(accessToken);

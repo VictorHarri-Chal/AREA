@@ -127,7 +127,7 @@ const githubTrigger = {
     },
 
     checkGithubReaction: async function checkGithubReaction(reaction) {
-        const [ownerName, repoName] = reaction.data.split("/");
+        const [ownerName, repoName] = reaction.chosenItem.split("/");
 
         if (reaction.trigger !== "createIssue") {
             console.log(`Unsupported trigger type: ${trigger}`);
