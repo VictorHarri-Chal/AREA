@@ -1,11 +1,10 @@
-const { Client } = require('discord.js');
-const { GatewayIntents } = require('discord-api-types/v9');
+const { Client, GatewayIntentBits } = require('discord.js');
 
 const discordClient = new Client({
   intents: [
-    GatewayIntents.GUILDS,
-    GatewayIntents.GUILD_MESSAGES,
-    GatewayIntents.DIRECT_MESSAGES,
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.DirectMessages,
   ],
 });
 
@@ -34,7 +33,7 @@ const discordTrigger = {
         }
 
         if (reaction.trigger === 'createGuild') {
-            return createGuildFunc(reaction)
+            // return createGuildFunc(reaction)
         }
     }
 
