@@ -1,17 +1,50 @@
 const { Octokit } = require("@octokit/rest");
 
+const db = require("../../models");
+const AccessTokens = db.accessTokens;
+
 let lastETags = {};
 let isFirstCheck = true;
+let tooken = "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";
+
+async function getRepositories(token) {
+    const octokit = new Octokit({
+        auth: tooken,
+    });
+
+    try {
+        const response = await octokit.repos.listForAuthenticatedUser();
+        return response.data.map((repo) => `${repo.owner.login}/${repo.name}`);
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}
 
 const githubTrigger = {
+
+    getGithubData: async function getGithubData(action, userID) {
+
+        var accessTokensSchema = await AccessTokens.findOne({ownerUserID: userID});
+
+        if (action === 'newCommit' || action === 'newIssue' || action === 'createIssue') {
+            return getRepositories(accessTokensSchema)
+                .then((repositories) => {
+                    return repositories;
+                })
+        } else {
+            return Promise.resolve([]);
+        }
+    },
+
     checkGithubAction: async function checkGithubAction(action) {
-        const [ownerName, repoName] = action.data.split("/");
+        const [ownerName, repoName] = action.chosenItem.split("/");
         switch (action.trigger) {
-            case "push":
+            case "newCommit":
                 return await this.checkNewCommits(ownerName, repoName, action.token);
-            case "issue":
+            case "newIssue":
                 return await this.checkNewIssues(ownerName, repoName, action.token);
-            // case "pull_request":
+            // case "pullRequest":
             //     return await this.checkNewPullRequests(ownerName, repoName, action.token);
             default:
                 console.log(`Unsupported trigger type: ${action.trigger}`);
@@ -95,9 +128,9 @@ const githubTrigger = {
     },
 
     checkGithubReaction: async function checkGithubReaction(reaction) {
-        const [ownerName, repoName] = reaction.data.split("/");
+        const [ownerName, repoName] = reaction.chosenItem.split("/");
 
-        if (reaction.trigger !== "issue") {
+        if (reaction.trigger !== "createIssue") {
             console.log(`Unsupported trigger type: ${trigger}`);
             return false;
         }

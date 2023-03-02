@@ -11,6 +11,7 @@ const cors = require('cors');
 const trigger = require('./src/services/checkTriggers');
 const cookies = require('./src/utils/getCookie.js');
 const twitchTrigger = require('./src/services/actions/twitch/twitchActions');
+const githubTrigger = require('./src/services/actions/githubActions');
 
 
 app.use(cors());
@@ -88,6 +89,8 @@ const genSchema = async (data, req) => {
         return;
     }
 
+    console.log(data)
+
     const area = new Area({
         userId : userID,
         action: {
@@ -95,7 +98,9 @@ const genSchema = async (data, req) => {
             trigger : getTrigger(firstBox.key),
             token : actionToken,
             data : {
-                data : firstBox.chosenItem // change this to a generic way
+                data : firstBox.chosenItem, // change this to a generic way
+                x : firstBox.x,
+                y : firstBox.y
             }
         },
         reaction: {
@@ -103,7 +108,9 @@ const genSchema = async (data, req) => {
             trigger : getTrigger(endBox.key),
             token : reactionToken,
             data : {
-                data : endBox.chosenItem
+                data : endBox.chosenItem,
+                x : endBox.x,
+                y : endBox.y
             }
         }
     });
@@ -151,7 +158,7 @@ function serverProcess() {
     setInterval(() => {
         console.log('Check...');
         trigger.checkTriggers();
-    }, 5000);
+    }, 10000000);
 }
 
 
@@ -160,12 +167,21 @@ app.post("/askDMData", async (req, res) => {
     let service = key.split('_')[0];
     let trigger = key.split('_')[1];
     let follows = [];
+    let repositories = [];
+
+    let token = req.headers["x-access-token"];
+    const userID =  cookies.parseJwt(token) // here
 
     if (service === 'twitch') {
         follows = await twitchTrigger.getTwitchData(trigger);
+        res.json({ follows })
     }
 
-    res.json({ follows })
+    if (service === 'github') {
+        repositories = await githubTrigger.getGithubData(trigger, userID);
+        res.json({ repositories })
+    }
+
 });
 
 

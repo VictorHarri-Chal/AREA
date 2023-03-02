@@ -14,6 +14,7 @@ exports.githubCallback = (req, res) => {
         .then(async accessToken => {
             var parsedUserID = cookies.parseJwt(req.cookies.jwtToken)
             var newTokenGithub = {service: 'github', value: accessToken}
+            console.log(newTokenGithub);
             var tmpTokensList = await AccessTokens.findOne({ownerUserID: parsedUserID})
 
             var isEmpty = true;
