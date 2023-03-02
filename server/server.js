@@ -4,6 +4,7 @@ const Area = require('./src/models/ar.model');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 const db = require('./src/models');
+const AccessTokens = db.accessTokens;
 const app = express();
 const port = 8080;
 const cors = require('cors');
@@ -14,7 +15,6 @@ const githubTrigger = require('./src/services/actions/githubActions');
 
 
 app.use(cors());
-
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -23,8 +23,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 require('./src/routes/auth.routes.js')(app);
 require('./src/routes/user.routes.js')(app);
 require('./src/routes/services.routes.js')(app);
-
-var spotifyAccessToken = "";
 
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
@@ -60,20 +58,35 @@ const getLastBox = (data) => {
 
 // SI PLUSIEURS DU MEME UTILISATEURS
 
-const genSchema = (data, req) => {
+const genSchema = async (data, req) => {
     const firstBox = getFirstBox(data);
     const endBox = getLastBox(data);
     let token = req.headers["x-access-token"];
     const userID =  cookies.parseJwt(token) // here
+    var actionToken = '';
+    var reactionToken = '';
 
-    console.log(data)
+    var tmpTokensList = await AccessTokens.findOne({ownerUserID: userID})
+
+    for (var i = 0; i < tmpTokensList.tokens.length; i = i + 1) {
+        if (tmpTokensList.tokens[i].service === getService(firstBox.key)) {
+            actionToken = tmpTokensList.tokens[i].value;
+        }
+        if (tmpTokensList.tokens[i].service === getService(endBox.key)) {
+            reactionToken = tmpTokensList.tokens[i].value;
+        }
+    }
+
+    if (actionToken == '' || reactionToken == '') {
+        return;
+    }
 
     const area = new Area({
         userId : userID,
         action: {
             service: getService(firstBox.key),
             trigger : getTrigger(firstBox.key),
-            token : 'ThisIsAToken',
+            token : actionToken,
             data : {
                 data : firstBox.chosenItem, // change this to a generic way
                 x : firstBox.x,
@@ -83,7 +96,7 @@ const genSchema = (data, req) => {
         reaction: {
             service: getService(endBox.key),
             trigger : getTrigger(endBox.key),
-            token : 'ThisIsAToken',
+            token : reactionToken,
             data : {
                 data : endBox.chosenItem,
                 x : endBox.x,
@@ -116,7 +129,6 @@ async function saveToDatabase(newArea) {
 }
 
 app.post("/isConnect", (req, res) => {
-    // if (req.body.key === 'github')
     res.status(200).send('Connected');
 });
 
@@ -161,30 +173,6 @@ app.post("/askDMData", async (req, res) => {
 
 });
 
-
-// function initRoles() {
-//     Role.estimatedDocumentCount((err, count) => {
-//         if (!err && count === 0) {
-//             new Role({
-//                 name: 'user'
-//             }).save(err => {
-//                 if (err) {
-//                     console.log("error", err);
-//                 }
-//                 console.log("added 'user' to roles collection");
-//             });
-//             new Role({
-//                 name: 'admin'
-//             }).save(err => {
-//                 if (err) {
-//                     console.log("error", err);
-//                 }
-//                 console.log("added 'admin' to roles collection");
-//             });
-//         }
-//     });
-// }
-
 function initDatabase() {
     mongoose.set('strictQuery', false);
 
@@ -193,7 +181,6 @@ function initDatabase() {
         useUnifiedTopology: true
     }).then(() => {
         console.log("Successfully connect to MongoDB.");
-        // initRoles();
     });
     serverProcess();
 }

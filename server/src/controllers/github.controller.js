@@ -24,11 +24,11 @@ exports.githubCallback = (req, res) => {
                 }
             }
             if (isEmpty) {
+                console.log('saving access token. . .');
                 tmpTokensList.tokens.push(newTokenGithub);
                 tmpTokensList.save();
             }
-        })
-        .catch(error => {
+        }).catch(error => {
             console.error(error);
         });
     res.statusCode = 302;
@@ -53,6 +53,7 @@ const getGitHubAuthToken = (clientId, clientSecret, code) => {
             if (err) {
                 reject(err);
             } else {
+                console.log('Github Token -> ' + JSON.parse(body).access_token);
                 resolve(JSON.parse(body).access_token);
             }
         });

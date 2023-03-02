@@ -67,6 +67,7 @@ const githubTrigger = {
             lastETags["PushEvent"] = response.headers.etag;
             const event = response.data[0];
 
+            // console.log('test');
             if (isFirstCheck) {
                 isFirstCheck = false;
                 // console.log(`No new PushEvent events since last request.`);

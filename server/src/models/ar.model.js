@@ -9,6 +9,10 @@ const actionSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    token : {
+        type: String,
+        required: true
+    },
     data: {
         type: Object,
         required: true
@@ -25,6 +29,10 @@ const reactionSchema = new mongoose.Schema({
         required: true
     },
     trigger : {
+        type: String,
+        required: true
+    },
+    token : {
         type: String,
         required: true
     },
