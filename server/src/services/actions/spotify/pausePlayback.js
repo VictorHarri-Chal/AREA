@@ -11,10 +11,9 @@ async function pausePlaybackFunc(token) {
 
     spotifyApi.pause()
         .then(function (data) {
-            console.log('Playback paused!');
         }
         , function (err) {
-            console.log('Something went wrong!', err);
+            console.error('Something went wrong!', err);
         }
         );
 }

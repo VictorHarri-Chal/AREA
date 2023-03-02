@@ -24,16 +24,15 @@ async function checkNewLike(accessToken) {
             const videoTitle = response.data.items[0].snippet.title;
 
             if (videoId !== lastLikedVideoId) {
-                console.log(`User liked the video: ${videoTitle}`);
                 lastLikedVideoId = videoId;
                 return true;
             }
         }
         return false;
     } catch (error) {
-        console.log("Error: ", error);
+        console.error("Error: ", error);
         if (error.response && error.response.status === 403) {
-            console.log("API key does not have permission to access user's activity feed.");
+            console.error("API key does not have permission to access user's activity feed.");
         }
         return false;
     }
@@ -53,16 +52,15 @@ async function checkNewVideo(channelName) {
             const videoTitle = response.data.items[0].snippet.title;
 
             if (videoId !== lastPublishedVideoId) {
-                console.log(`New video published by ${channelName}: ${videoTitle}`);
                 lastPublishedVideoId = videoId;
                 return true;
             }
         }
         return false;
     } catch (error) {
-        console.log("Error: ", error);
+        console.error("Error: ", error);
         if (error.response && error.response.status === 403) {
-            console.log("API key does not have permission to access channel's videos.");
+            console.error("API key does not have permission to access channel's videos.");
         }
         return false;
     }
@@ -78,7 +76,7 @@ const youtubeTrigger = {
             case "newVideo":
                 return await checkNewVideo(action.channelName);
             default:
-                console.log(`Unsupported trigger type: ${action.trigger}`);
+                console.error(`Unsupported trigger type: ${action.trigger}`);
                 return false;
         }
     },

@@ -14,7 +14,6 @@ exports.githubCallback = (req, res) => {
         .then(async accessToken => {
             var parsedUserID = cookies.parseJwt(req.cookies.jwtToken)
             var newTokenGithub = {service: 'github', value: accessToken}
-            console.log(newTokenGithub);
             var tmpTokensList = await AccessTokens.findOne({ownerUserID: parsedUserID})
 
             var isEmpty = true;
@@ -24,7 +23,6 @@ exports.githubCallback = (req, res) => {
                 }
             }
             if (isEmpty) {
-                console.log('saving access token. . .');
                 tmpTokensList.tokens.push(newTokenGithub);
                 tmpTokensList.save();
             }
@@ -53,7 +51,6 @@ const getGitHubAuthToken = (clientId, clientSecret, code) => {
             if (err) {
                 reject(err);
             } else {
-                console.log('Github Token -> ' + JSON.parse(body).access_token);
                 resolve(JSON.parse(body).access_token);
             }
         });

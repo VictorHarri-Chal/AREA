@@ -20,11 +20,9 @@ async function lastStreamFunc(token) {
     spotifyApi.setAccessToken(token);
 
     const currentTrack = await spotifyApi.getMyCurrentPlayingTrack().catch(err => {
-        // console.log('Get Current Playing track error -> ' + err)
     });
 
     if (!currentTrack) {
-        console.log('zzz -> spotify last stream message erreur');
         return;
     }
 
@@ -35,7 +33,7 @@ async function lastStreamFunc(token) {
         if (await lastStream.findOne({id: currentTrack.body.item.id}) === null) {
 
             lastStream.deleteMany({}, function (err) {
-                if (err) console.log(err);
+                if (err) console.error(err);
             });
 
             const newStream = new lastStream({

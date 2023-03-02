@@ -31,10 +31,10 @@ const Login = () => {
                     setSignIn(true);
                     return response.json();
                 }
-                console.log('error on submit ' + response.statusText + '  code: ' + response);
+                console.error('error on submit ' + response.statusText + '  code: ' + response);
                 throw new Error('Something went wrong' + response.statusText);
             }).catch((error) => {
-                console.log(error);
+                console.error(error);
                 return;
             });
         } catch (error) {
@@ -93,21 +93,19 @@ const Login = () => {
                             if (responseGet.status === 200) {
                                 window.location.href = 'http://localhost:8081/dashboard';
                             } else {
-                                console.log('response: ' + responseGet)
-                                console.log('Code: ' + responseGet.status);
                             }
                         }).catch(e => {
-                            console.log(e);
+                            console.error(e);
                             return;
                         });
                         loadLoggedServices(user.userAccessTokens);
                     } else {
-                        console.log('error on submit ');
+                        console.error('error on submit ');
                         throw new Error('Something went wrong');
                     }
                 })
                 .catch((error) => {
-                    console.log(error);
+                    console.error(error);
                     return;
                 })
         } catch (error) {

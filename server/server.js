@@ -179,7 +179,6 @@ app.get('/download', (req, res) => {
 
 function serverProcess() {
     setInterval(() => {
-        console.log('Check...');
         trigger.checkTriggers();
     }, 5000);
 }

@@ -182,7 +182,6 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                     setArrows(arrows.filter(arrow => arrow.to !== "0"));
                     let blocFrom = boxes.find(box => box.id === from);
                     let blocTo = boxes.find(box => box.id === id);
-                    console.log("blocTo");
                     if (blocFrom.isAction && !blocTo.isAction) {
                         setArrows(arrows => [...arrows, { id: index, exists: true, from: from, to: id}]);
                         setBoxes(boxes.map(box => {
