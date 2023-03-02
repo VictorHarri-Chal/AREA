@@ -15,7 +15,6 @@ const githubTrigger = require('./src/services/actions/githubActions');
 
 
 app.use(cors());
-
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -24,8 +23,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 require('./src/routes/auth.routes.js')(app);
 require('./src/routes/user.routes.js')(app);
 require('./src/routes/services.routes.js')(app);
-
-var spotifyAccessToken = "";
 
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
@@ -73,23 +70,16 @@ const genSchema = async (data, req) => {
 
     for (var i = 0; i < tmpTokensList.tokens.length; i = i + 1) {
         if (tmpTokensList.tokens[i].service === getService(firstBox.key)) {
-            console.log('[A] - Service found: ' + getService(firstBox.key))
-            actionToken = tmpTokensList.tokens[i].token;
-            console.log('Action Token => ' + actionToken);
+            actionToken = tmpTokensList.tokens[i].value;
         }
         if (tmpTokensList.tokens[i].service === getService(endBox.key)) {
-            console.log('[REA] - Service found: ' + getService(endBox.key))
-            reactionToken = tmpTokensList.tokens[i].token;
-            console.log('Reaction Token => ' + reactionToken);
+            reactionToken = tmpTokensList.tokens[i].value;
         }
     }
 
     if (actionToken == '' || reactionToken == '') {
-        console.log('FF pas de AREA token')
         return;
     }
-
-    console.log(data)
 
     const area = new Area({
         userId : userID,
@@ -139,7 +129,6 @@ async function saveToDatabase(newArea) {
 }
 
 app.post("/isConnect", (req, res) => {
-    // if (req.body.key === 'github')
     res.status(200).send('Connected');
 });
 
@@ -184,30 +173,6 @@ app.post("/askDMData", async (req, res) => {
 
 });
 
-
-// function initRoles() {
-//     Role.estimatedDocumentCount((err, count) => {
-//         if (!err && count === 0) {
-//             new Role({
-//                 name: 'user'
-//             }).save(err => {
-//                 if (err) {
-//                     console.log("error", err);
-//                 }
-//                 console.log("added 'user' to roles collection");
-//             });
-//             new Role({
-//                 name: 'admin'
-//             }).save(err => {
-//                 if (err) {
-//                     console.log("error", err);
-//                 }
-//                 console.log("added 'admin' to roles collection");
-//             });
-//         }
-//     });
-// }
-
 function initDatabase() {
     mongoose.set('strictQuery', false);
 
@@ -216,7 +181,6 @@ function initDatabase() {
         useUnifiedTopology: true
     }).then(() => {
         console.log("Successfully connect to MongoDB.");
-        // initRoles();
     });
     serverProcess();
 }
