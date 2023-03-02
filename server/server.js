@@ -28,6 +28,26 @@ app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
 });
 
+app.post("/askBlocData", async (req, res) => {
+    let token = req.headers["x-access-token"];
+    const userID =  cookies.parseJwt(token)
+    let goodArea = {};
+
+    const areas = await Area.find();
+    for (const area of areas) {
+        console.log(area.userId, userID)
+        if (area.userId === userID) {
+            goodArea = area;
+        }
+    }
+
+    if (goodArea === {}) {
+        res.send("No area found");
+    }
+
+    res.json(goodArea);
+});
+
 app.post("/flow", (req, res) => {
     genSchema(req.body, req);
 });
@@ -62,7 +82,7 @@ const genSchema = async (data, req) => {
     const firstBox = getFirstBox(data);
     const endBox = getLastBox(data);
     let token = req.headers["x-access-token"];
-    const userID =  cookies.parseJwt(token) // here
+    const userID =  cookies.parseJwt(token)
     var actionToken = '';
     var reactionToken = '';
 
@@ -90,7 +110,14 @@ const genSchema = async (data, req) => {
             data : {
                 data : firstBox.chosenItem, // change this to a generic way
                 x : firstBox.x,
-                y : firstBox.y
+                y : firstBox.y,
+                key : firstBox.key,
+                linkTo : firstBox.linkTo,
+                linkFrom : firstBox.linkFrom,
+                startOfFlow : firstBox.startOfFlow,
+                endOfFlow : firstBox.endOfFlow,
+                chosenItem : firstBox.chosenItem,
+                id : firstBox.id,
             }
         },
         reaction: {
@@ -100,7 +127,14 @@ const genSchema = async (data, req) => {
             data : {
                 data : endBox.chosenItem,
                 x : endBox.x,
-                y : endBox.y
+                y : endBox.y,
+                key : endBox.key,
+                linkTo : endBox.linkTo,
+                linkFrom : endBox.linkFrom,
+                startOfFlow : endBox.startOfFlow,
+                endOfFlow : endBox.endOfFlow,
+                chosenItem : endBox.chosenItem,
+                id : endBox.id,
             }
         }
     });
@@ -115,7 +149,6 @@ async function saveToDatabase(newArea) {
         if (area.userId === newArea.userId) {
             Area.findByIdAndRemove(area._id, function (err) {
                 if (err) return next(err);
-                console.log('Deleted successfully!');
             });
         }
     }
@@ -147,7 +180,7 @@ function serverProcess() {
     setInterval(() => {
         console.log('Check...');
         trigger.checkTriggers();
-    }, 10000000);
+    }, 5000);
 }
 
 

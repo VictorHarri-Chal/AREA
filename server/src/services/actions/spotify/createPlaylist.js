@@ -9,7 +9,7 @@ async function createPlaylistFunc(token) {
 
     spotifyApi.setAccessToken(token);
 
-    spotifyApi.createPlaylist('test', { 'description': 'test', 'public': false })
+    spotifyApi.createPlaylist('Nouvelle playlist', { 'description': 'Nouvelle playlist', 'public': false })
         .then(function (data) {
         }
         , function (err) {
