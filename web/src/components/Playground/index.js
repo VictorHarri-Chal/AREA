@@ -22,6 +22,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
     const [blocSelected, setBlocSelected] = useState('');
     const [isHoldingFlag, setIsHoldingFlag] = useState(false);
     const [isHoldingFlagArrived, setIsHoldingFlagArrived] = useState(false);
+    const [initialized, setInitialized] = useState(false);
 
     useEffect(() => {
         if (!isContainerInitialised) {
@@ -42,11 +43,42 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
             setNewRectangle({ isNewRect: false, x: 0, y: 0, key: '' });
         }
 
+        if (initialized === false) {
+            askBlocData();
+            setInitialized(true);
+        }
+
         window.addEventListener("resize", handleResize);
         return () => {
             window.removeEventListener("resize", handleResize);
         };
     }, [newRectangle, setNewRectangle, containerPosition, isContainerInitialised]);
+
+    async function askBlocData() {
+        try {
+            const response = await fetch('http://localhost:8080/askBlocData', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': cookies.getCookie('jwtToken')
+                }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                let tmp = [];
+                console.log(data);
+
+                tmp.push({ id: data.action.data.id, x:  data.action.data.x, y:  data.action.data.y, key:  data.action.data.key, linkTo:  data.action.data.linkTo, linkFrom:  data.action.data.linkFrom, startOfFlow:  data.action.data.startOfFlow, endOfFlow:  data.action.data.endOfFlow, chosenItem :  data.action.data.chosenItem});
+                tmp.push({ id: data.reaction.data.id, x:  data.reaction.data.x, y:  data.reaction.data.y, key:  data.reaction.data.key, linkTo:  data.reaction.data.linkTo, linkFrom:  data.reaction.data.linkFrom, startOfFlow:  data.reaction.data.startOfFlow, endOfFlow:  data.reaction.data.endOfFlow, chosenItem :  data.reaction.data.chosenItem});
+
+                setArrows(arrows => [...arrows, { id: uuidv4(), exists: true, from: data.action.data.id, to: data.reaction.data.id}]);
+
+                setBoxes(tmp);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
 
     async function askDMData(key) {
