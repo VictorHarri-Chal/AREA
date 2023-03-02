@@ -48,19 +48,22 @@ const LoginScreen = ({ navigation }) => {
     sessionStorage.setItem("connectTogithub", false);
     sessionStorage.setItem("connectToyoutube", false);
     sessionStorage.setItem("connectTotwitch", false);
-      for (var i = 0; i < jsonAccessTokens.length; i = i + 1) {
+    for (var i = 0; i < jsonAccessTokens.length; i = i + 1) {
           console.log('b - service: ' + JSON.stringify(jsonAccessTokens[i].service));
             if (jsonAccessTokens[i].service === 'discord') {
               sessionStorage.setItem("connectTodiscord", true);
+            }
             if (jsonAccessTokens[i].service === 'spotify') {
               sessionStorage.setItem("connectTospotify", true);
+            }
             if (jsonAccessTokens[i].service === 'youtube') {
               sessionStorage.setItem("connectToyoutube", true);
+            }
             if (jsonAccessTokens[i].service === 'twitch') {
               sessionStorage.setItem("connectTotwitch", true);
-          }
-      }
-      sessionStorage.setItem("connectTogithub", false);
+            }
+          sessionStorage.setItem("connectTogithub", false);
+    }
   }
 
   const handleSubmitSignIn = async (event) => {

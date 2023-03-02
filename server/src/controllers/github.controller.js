@@ -10,7 +10,7 @@ exports.githubAuth = (req, res) => {
 exports.githubCallback = (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
     const code = req.query.code;
-    getGitHubAuthToken("498e03f921f50999dbb4", "ef1c8f0525c5239d4635e3e5023ad4b6eb6929ed", code)
+    getGitHubAuthToken("ffd70e614dd0cd62f19e", "1479e2c568727250cfda14af7f848cafce2728fd", code)
         .then(async accessToken => {
             var parsedUserID = cookies.parseJwt(req.cookies.jwtToken)
             var newTokenGithub = {service: 'github', value: accessToken}
@@ -27,8 +27,7 @@ exports.githubCallback = (req, res) => {
                 tmpTokensList.tokens.push(newTokenGithub);
                 tmpTokensList.save();
             }
-        })
-        .catch(error => {
+        }).catch(error => {
             console.error(error);
         });
     res.statusCode = 302;
@@ -53,6 +52,7 @@ const getGitHubAuthToken = (clientId, clientSecret, code) => {
             if (err) {
                 reject(err);
             } else {
+                console.log('Github Token -> ' + JSON.parse(body).access_token);
                 resolve(JSON.parse(body).access_token);
             }
         });
