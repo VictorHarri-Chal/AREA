@@ -38,9 +38,9 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
         if (newRectangle.isNewRect === true) {
             if (newRectangle.x > containerPosition.x && newRectangle.x < containerPosition.x + containerPosition.width && newRectangle.y > containerPosition.y && newRectangle.y < containerPosition.y + containerPosition.height) {
                 initDM(newRectangle.key);
-                setBoxes(boxes => [...boxes, { id: uuidv4(), x: newRectangle.x - 475, y: newRectangle.y - 110, key: newRectangle.key, linkTo: '0', linkFrom: '0', startOfFlow: (boxes.length === 0) ? true : false, endOfFlow: (boxes.length === 1) ? true : false, chosenItem : ''}]);
+                setBoxes(boxes => [...boxes, { id: uuidv4(), x: newRectangle.x - 475, y: newRectangle.y - 110, key: newRectangle.key, linkTo: '0', linkFrom: '0', startOfFlow: (boxes.length === 0) ? true : false, endOfFlow: (boxes.length === 1) ? true : false, chosenItem : '', isAction : newRectangle.isAction }]);
             }
-            setNewRectangle({ isNewRect: false, x: 0, y: 0, key: '' });
+            setNewRectangle({ isNewRect: false, x: 0, y: 0, key: '', isAction : true });
         }
 
         if (initialized === false) {
@@ -66,10 +66,9 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
             if (response.ok) {
                 const data = await response.json();
                 let tmp = [];
-                console.log(data);
 
-                tmp.push({ id: data.action.data.id, x:  data.action.data.x, y:  data.action.data.y, key:  data.action.data.key, linkTo:  data.action.data.linkTo, linkFrom:  data.action.data.linkFrom, startOfFlow:  data.action.data.startOfFlow, endOfFlow:  data.action.data.endOfFlow, chosenItem :  data.action.data.chosenItem});
-                tmp.push({ id: data.reaction.data.id, x:  data.reaction.data.x, y:  data.reaction.data.y, key:  data.reaction.data.key, linkTo:  data.reaction.data.linkTo, linkFrom:  data.reaction.data.linkFrom, startOfFlow:  data.reaction.data.startOfFlow, endOfFlow:  data.reaction.data.endOfFlow, chosenItem :  data.reaction.data.chosenItem});
+                tmp.push({ id: data.action.data.id, x:  data.action.data.x, y:  data.action.data.y, key:  data.action.data.key, linkTo:  data.action.data.linkTo, linkFrom:  data.action.data.linkFrom, startOfFlow:  data.action.data.startOfFlow, endOfFlow:  data.action.data.endOfFlow, chosenItem :  data.action.data.chosenItem, isAction :  data.action.data.isAction});
+                tmp.push({ id: data.reaction.data.id, x:  data.reaction.data.x, y:  data.reaction.data.y, key:  data.reaction.data.key, linkTo:  data.reaction.data.linkTo, linkFrom:  data.reaction.data.linkFrom, startOfFlow:  data.reaction.data.startOfFlow, endOfFlow:  data.reaction.data.endOfFlow, chosenItem :  data.reaction.data.chosenItem, isAction :  data.reaction.data.isAction});
 
                 setArrows(arrows => [...arrows, { id: uuidv4(), exists: true, from: data.action.data.id, to: data.reaction.data.id}]);
 
@@ -181,16 +180,33 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                     const index = arrow.id;
                     const from = arrow.from;
                     setArrows(arrows.filter(arrow => arrow.to !== "0"));
-                    setArrows(arrows => [...arrows, { id: index, exists: true, from: from, to: id}]);
-                    setBoxes(boxes.map(box => {
-                        if (box.id === id) {
-                            box.linkFrom = from;
-                        }
-                        if (box.id === from) {
-                            box.linkTo = id;
-                        }
-                        return box;
-                    }));
+                    let blocFrom = boxes.find(box => box.id === from);
+                    let blocTo = boxes.find(box => box.id === id);
+                    console.log("blocTo");
+                    if (blocFrom.isAction && !blocTo.isAction) {
+                        setArrows(arrows => [...arrows, { id: index, exists: true, from: from, to: id}]);
+                        setBoxes(boxes.map(box => {
+                            if (box.id === id) {
+                                box.linkFrom = from;
+                            }
+                            if (box.id === from) {
+                                box.linkTo = id;
+                            }
+                            return box;
+                        }));
+                    } else {
+                        let first = ''
+                        let second = ''
+                        if (blocFrom.isAction)
+                            first = 'action';
+                        else
+                            first = 'reaction';
+                        if (blocTo.isAction)
+                            second = 'action';
+                        else
+                            second = 'reaction';
+                        alert("You can't link a " + first + " bloc to a " + second + " bloc");
+                    }
                 }
             }
         });
@@ -416,7 +432,6 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
             }
         }
         if (blocRect.x + 200 > bin.x && blocRect.x < bin.x + 200 && blocRect.y + 100 > bin.y && blocRect.y < bin.y + 100) {
-            console.log(currBox.linkFrom)
             if (currBox.linkFrom !=='0' && currBox.linkFrom !== null) {
                 let tmpBox = boxes.find(box => box.id === currBox.linkFrom);
                 tmpBox.linkTo = '0';

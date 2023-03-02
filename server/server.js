@@ -35,7 +35,6 @@ app.post("/askBlocData", async (req, res) => {
 
     const areas = await Area.find();
     for (const area of areas) {
-        console.log(area.userId, userID)
         if (area.userId === userID) {
             goodArea = area;
         }
@@ -118,6 +117,7 @@ const genSchema = async (data, req) => {
                 endOfFlow : firstBox.endOfFlow,
                 chosenItem : firstBox.chosenItem,
                 id : firstBox.id,
+                isAction : true,
             }
         },
         reaction: {
@@ -135,6 +135,7 @@ const genSchema = async (data, req) => {
                 endOfFlow : endBox.endOfFlow,
                 chosenItem : endBox.chosenItem,
                 id : endBox.id,
+                isAction : false,
             }
         }
     });
