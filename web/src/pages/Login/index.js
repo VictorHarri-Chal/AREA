@@ -80,6 +80,9 @@ const Login = () => {
             }).then((response) => response.json())
                 .then((user) => {
                     if (user) {
+                        sessionStorage.setItem("username", user.username)
+                        sessionStorage.setItem("email", user.email)
+                        sessionStorage.setItem("initials", user.username.charAt(0).toUpperCase() + user.username.charAt(1).toUpperCase())
                         document.cookie = "jwtToken=" + user.jwtToken;
                         fetch('http://localhost:8080/dashboard', {
                             method: 'GET',
