@@ -98,7 +98,6 @@ const BlocSidebar = ({ appSelected, isOpen, newRectangle, setNewRectangle, ASDat
                                 onMouseDown={e => handleMouseDown(e, item)}
                                 onMouseMove={e => handleMouseMove(e)}
                                 onMouseUp={e => handleMouseUp(e)}
-                                special = {item.key === 'blocs_and' ? true : (item.key === 'blocs_or' ? true : false)}
                             >
                                 {getGoodTitle(item.title, item.getADM)}
                             </BSBloc>

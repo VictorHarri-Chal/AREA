@@ -384,8 +384,7 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
             }
         }
         if (blocRect.x + 200 > bin.x && blocRect.x < bin.x + 200 && blocRect.y + 100 > bin.y && blocRect.y < bin.y + 100) {
-            console.log('toDelete', currBox);
-
+            console.log(currBox.linkFrom)
             if (currBox.linkFrom !=='0' && currBox.linkFrom !== null) {
                 let tmpBox = boxes.find(box => box.id === currBox.linkFrom);
                 tmpBox.linkTo = '0';

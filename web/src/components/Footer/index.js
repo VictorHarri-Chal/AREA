@@ -11,39 +11,20 @@ const Footer = () => {
 
                             <FooterLinkItems>
                                 <FooterLinkTitle>About Us</FooterLinkTitle>
-                                <FooterLink to="/signin">Ceci est</FooterLink>
-                                <FooterLink to="/signin">un easter geg</FooterLink>
-                                <FooterLink to="/signin">Si tu</FooterLink>
-                                <FooterLink to="/signin">lis ça</FooterLink>
-                                <FooterLink to="/signin">appelle</FooterLink>
+                                <FooterLink to="/signin">Victor Harri-Chal</FooterLink>
+                                <FooterLink to="/signin">Titouan Deschannels</FooterLink>
+                                <FooterLink to="/signin">Baptiste Friboulet</FooterLink>
+                                <FooterLink to="/signin">Keon Savic</FooterLink>
+                                <FooterLink to="/signin">Ismael Brossaud</FooterLink>
                             </FooterLinkItems>
 
                             <FooterLinkItems>
                                 <FooterLinkTitle>Contact Us</FooterLinkTitle>
-                                <FooterLink to="/signin">le 07 83 57 65 45</FooterLink>
-                                <FooterLink to="/signin">pour tenter</FooterLink>
-                                <FooterLink to="/signin">de gagner</FooterLink>
-                                <FooterLink to="/signin">plus de</FooterLink>
-                            </FooterLinkItems>
-
-                        </FooterLinksWrapper>
-
-                        <FooterLinksWrapper>
-
-                            <FooterLinkItems>
-                                <FooterLinkTitle>Videos</FooterLinkTitle>
-                                <FooterLink to="/signin">500 000 €</FooterLink>
-                                <FooterLink to="/signin">Je sais plus quoi</FooterLink>
-                                <FooterLink to="/signin">ecrire ...</FooterLink>
-                                <FooterLink to="/signin">Du coup je</FooterLink>
-                            </FooterLinkItems>
-
-                            <FooterLinkItems>
-                                <FooterLinkTitle>Social Media</FooterLinkTitle>
-                                <FooterLink to="/signin">vais laisser</FooterLink>
-                                <FooterLink to="/signin">Victor parler :</FooterLink>
-                                <FooterLink to="/signin">" Ouaf Ouaf "</FooterLink>
-                                <FooterLink to="/signin">Merci Victor</FooterLink>
+                                <FooterLink to="/signin">victor.harri-chal@epitech.eu</FooterLink>
+                                <FooterLink to="/signin">titouan.deschannels@epitech.eu</FooterLink>
+                                <FooterLink to="/signin">baptiste.friboulet@epitech.eu</FooterLink>
+                                <FooterLink to="/signin">keon.savic@epitech.eu</FooterLink>
+                                <FooterLink to="/signin">ismael.brossaud@epitech.eu</FooterLink>
                             </FooterLinkItems>
 
                         </FooterLinksWrapper>

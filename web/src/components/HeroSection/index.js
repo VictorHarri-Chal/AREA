@@ -21,7 +21,7 @@ const HeroSection = () => {
             <HeroContent>
                 <HeroH1>The flow for your apps</HeroH1>
                 <HeroP>
-                    Je sais pas quoi mettre ici mais je vais trouver ou sinon je vais mettre un lorem ipsum ou Victor trouvera quelque chose
+                    Welcome to the new gen web application where you can create your own action-reaction flow from multiple famous website
                 </HeroP>
                 <HeroBtnWrapper>
                     <Button to='signup' onMouseEnter={onHover} onMouseLeave={onHover} primary='true' dark='true'>
