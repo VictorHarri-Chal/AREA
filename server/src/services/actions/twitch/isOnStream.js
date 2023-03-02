@@ -2,7 +2,6 @@ const axios = require('axios');
 
 async function isOnStream(token, twitchUsername) {
     const clientID = '24gzvb0o12bsdlj7qqe016eapnfisc';
-    let ret = false;
 
     try {
         const response = await axios.get(`https://api.twitch.tv/helix/streams?user_login=${twitchUsername}`, {
@@ -16,16 +15,15 @@ async function isOnStream(token, twitchUsername) {
 
         if (streams.length === 0) {
             console.log(`${twitchUsername} n'est pas en live.`);
-            ret = false;
+            return false;
         } else {
             console.log(`${twitchUsername} est en live avec ${streams[0].viewer_count} viewers.`);
-            ret = true;
+            return true;
         }
     } catch (error) {
         console.log(`Erreur : ${error}`);
     }
-
-    return ret;
+    return false;
 }
 
 module.exports = isOnStream;

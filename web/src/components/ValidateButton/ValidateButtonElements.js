@@ -12,7 +12,7 @@ export const ValidateButtonStyle = styled.button`
     justify-content: center;
     font-size: 60px;
     color : lightgrey;
-    bottom: 700px;
+    top: 135px;
     right: 50px;
     border: none;
 

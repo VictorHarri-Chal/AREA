@@ -8,6 +8,7 @@ function findFirstBox(data, sendData) {
         if (box.startOfFlow === true) {
             return true;
         }
+        return false;
     });
     sendData.push(firstBox);
     if (firstBox.linkTo !== '0') {
@@ -21,6 +22,7 @@ function findNextBox(data, firstBox, sendData) {
         if (box.id === firstBox.linkTo) {
             return true;
         }
+        return false;
     });
     sendData.push(nextBox);
     if (nextBox.linkTo !== '0') {
@@ -64,6 +66,7 @@ function verifNextBox(data, box) {
         if (newBox.id === box.linkTo) {
             return true;
         }
+        return false;
     });
 
     if (nextBox.startOfFlow === true)
@@ -79,6 +82,7 @@ function schemaIsCorrect(data) {
         if (box.startOfFlow === true) {
             return true;
         }
+        return false;
     });
 
     return verifNextBox(data, firstBox);
@@ -128,10 +132,10 @@ function ValidateButton({ data }) {
                 setIcon("mdi:close-thick");
             }
 
-        }, 1000);
+        }, [State.CAN, State.CANT, State.IS], 1000);
 
         return () => clearInterval(interval);
-    }, [data, state, oldBoxes]);
+    }, [data, state, oldBoxes, State.CAN, State.CANT, State.IS]);
 
     return (
         <ValidateButtonStyle onClick={handleClick} state={state}>

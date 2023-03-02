@@ -65,6 +65,8 @@ const genSchema = (data, req) => {
     let token = req.headers["x-access-token"];
     const userID =  cookies.parseJwt(token) // here
 
+    console.log(data)
+
     const area = new Area({
         userId : userID,
         action: {
@@ -72,7 +74,9 @@ const genSchema = (data, req) => {
             trigger : getTrigger(firstBox.key),
             token : 'ThisIsAToken',
             data : {
-                data : firstBox.chosenItem // change this to a generic way
+                data : firstBox.chosenItem, // change this to a generic way
+                x : firstBox.x,
+                y : firstBox.y
             }
         },
         reaction: {
@@ -80,7 +84,9 @@ const genSchema = (data, req) => {
             trigger : getTrigger(endBox.key),
             token : 'ThisIsAToken',
             data : {
-                data : endBox.chosenItem
+                data : endBox.chosenItem,
+                x : endBox.x,
+                y : endBox.y
             }
         }
     });
@@ -112,6 +118,17 @@ app.post("/isConnect", (req, res) => {
     // if (req.body.key === 'github')
     res.status(200).send('Connected');
 });
+
+app.get('/download', (req, res) => {
+    const filePath = path.join('/usr/apkBuild', 'client.apk');
+    res.download(filePath, (err) => {
+      if (err) {
+        // Gérer les erreurs de téléchargement
+        console.error(err);
+        res.status(500).send('Une erreur est survenue lors du téléchargement.');
+      }
+    });
+  });
 
 function serverProcess() {
     setInterval(() => {
