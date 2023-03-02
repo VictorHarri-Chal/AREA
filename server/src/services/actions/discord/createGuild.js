@@ -1,6 +1,3 @@
-const dotenv = require('dotenv');
-dotenv.config();
-
 async function createGuild(reaction, discordClient) {
 
     var newGuildName = reaction.data;

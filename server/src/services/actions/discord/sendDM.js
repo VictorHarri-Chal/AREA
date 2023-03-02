@@ -1,13 +1,10 @@
-const dotenv = require('dotenv');
-dotenv.config();
-
 async function sendDM(reaction, discordClient) {
     let userID = null;
 
     await fetch('https://discordapp.com/api/users/@me', {
         method: 'GET',
         headers: {
-            Authorization: 'Bot ' + process.env.TOKEN,
+            Authorization: 'Bearer ' + reaction.token,
         }
     }).then(response => response.json())
       .then(responseData => {
@@ -25,18 +22,20 @@ async function sendDM(reaction, discordClient) {
         method: 'POST',
         headers: {
             Authorization: 'Bot ' + process.env.TOKEN,
+            'Content-Type': 'application/json'
         },
-        body: new URLSearchParams(userIDPayload),
+        body: JSON.stringify(userIDPayload),
     }).then(response => response.json())
       .then(dmChannelResponse => {
-        console.log('DM CHANNEL -> ', dmChannelResponse);
-        const channel = discordClient.channels.cache.get(dmChannelResponse.id);
-        channel.send(`Hello <@${userID}>! Welcome to my DM channel!`);
+        discordClient.channels.fetch(dmChannelResponse.id)
+        .then(channel => {
+            channel.send(`Hello <@${userID}>! Welcome to my DM channel!`);
+        }).catch(err => {
+            console.log(`[CHANNEL FETCH ERROR] - ${err}`);
+        });
     }).catch(err => {
         console.log(`[DM CHANNEL] - ${err}`);
     });
-
-    console.log(`Your test token is <${process.env.TEST}>`);
 }
 
 module.exports = sendDM;

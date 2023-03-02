@@ -1,4 +1,6 @@
 const { Client, GatewayIntentBits } = require('discord.js');
+const sendDMFunc = require('./sendDM');
+const createGuildFunc = require('./createGuild');
 
 const discordClient = new Client({
   intents: [
@@ -7,9 +9,6 @@ const discordClient = new Client({
     GatewayIntentBits.DirectMessages,
   ],
 });
-
-const dotenv = require('dotenv');
-dotenv.config();
 
 const discordTrigger = {
     checkDiscordAction : async function checkDiscordAction(action) {
@@ -28,12 +27,12 @@ const discordTrigger = {
             await discordClient.login(process.env.TOKEN);
         }
 
-        if (reaction.trigger === 'sendDM') {
-            return sendDM(reaction, discordClient)
+        if (reaction.trigger === 'sendPrivateMessage') {
+            return sendDMFunc(reaction, discordClient)
         }
 
         if (reaction.trigger === 'createGuild') {
-            // return createGuildFunc(reaction)
+            return createGuildFunc(reaction)
         }
     }
 

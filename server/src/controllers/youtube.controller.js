@@ -1,5 +1,8 @@
 const { google } = require("googleapis");
 const { OAuth2 } = google.auth;
+const db = require('../models');
+const AccessTokens = db.accessTokens;
+const cookies = require('../utils/getCookie');
 
 const oauth2Client = new OAuth2(
     "987523785191-8shg0ut9g9olugvsu2bs3os9cqo4d8d1.apps.googleusercontent.com",
