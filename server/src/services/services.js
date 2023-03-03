@@ -24,10 +24,12 @@ const services = {
     },
     discord: {
         checkTrigger: async function(action) {
-            // return await discordTrigger.discordAction(action);
+            console.log('[Discord] - Action');
+            // return await discordTrigger.checkDiscordAction(action);
         },
         startReaction: async function(reaction) {
-            // return await discordTrigger.discordReaction(reaction);
+            console.log('[Discord] - Reaction');
+            // return await discordTrigger.checkDiscordReaction(reaction);
         }
     },
     twitch: {

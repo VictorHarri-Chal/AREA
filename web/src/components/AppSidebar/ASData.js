@@ -17,6 +17,10 @@ export const ASData = [
             {
                 key : 'discord_sendPrivateMessage',
                 title: 'Send a PM',
+            },
+            {
+                key : 'discord_createNewGuild',
+                title: 'Create a Guild',
             }
         ]
     },

@@ -15,11 +15,12 @@ services:
       context: ./server
     environment:
       - SERVER_PORT=8080
+      - TOKEN=MTA2MzA1NDI3Mzk0NjA1ODgzMw.GIQFni.gvk0iQnZ49jGAcOXwBz22h6kKpiv7Npczly8o4
     ports:
       - "8080:8080"
     volumes:
       - apk-volume:/usr/apkBuild
-  
+
   client_web:
     build:
       context: ./web

@@ -1,7 +1,7 @@
 const axios = require('axios');
-const cookies = require('../utils/getCookie');
 const db = require('../models');
 const AccessTokens = db.accessTokens;
+const cookies = require('../utils/getCookie');
 
 exports.twitchCallback = (req, res) => {
     const clientId = '24gzvb0o12bsdlj7qqe016eapnfisc';
