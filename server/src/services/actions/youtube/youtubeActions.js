@@ -1,5 +1,8 @@
 const { google } = require('googleapis');
 
+const db = require("../../../models");
+const AccessTokens = db.accessTokens;
+
 const youtube = google.youtube({
     version: 'v3',
     auth: 'AIzaSyBmfluQjyzUt-YO_6hixPN1rMs6SxEnONE'
@@ -67,9 +70,8 @@ async function checkNewVideo(channelName) {
 
 const youtubeTrigger = {
     checkYoutubeAction: async function checkYoutubeAction(action) {
-        const accessToken = 'ya29.a0AVvZVsoA_W-5cUjMNTUfAF_-L0Ty2GlEME209STPVkBQZc8f-ihi3uVzNml3hJuVbiFYWEq37Ev-msE97kVlyMQ2kyJ_jnbwDPUCBfYIcm5K83Qd6wdrTAuq2ivLjREArD_T60AQf9KUWY1_eA3Lg3oJtwomaCgYKAe0SARASFQGbdwaIDIybBV1Rqt3NWkFH80U1GA0163';
+        const accessToken = action.token;
         const trigger = action.trigger;
-
         switch (trigger) {
             case "newLike":
                 return await checkNewLike(accessToken);

@@ -4,16 +4,17 @@ const Area = require('./src/models/ar.model');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 const db = require('./src/models');
+const AccessTokens = db.accessTokens;
 const app = express();
 const port = 8080;
 const cors = require('cors');
 const trigger = require('./src/services/checkTriggers');
 const cookies = require('./src/utils/getCookie.js');
 const twitchTrigger = require('./src/services/actions/twitch/twitchActions');
+const githubTrigger = require('./src/services/actions/githubActions');
 
 
 app.use(cors());
-
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -23,10 +24,27 @@ require('./src/routes/auth.routes.js')(app);
 require('./src/routes/user.routes.js')(app);
 require('./src/routes/services.routes.js')(app);
 
-var spotifyAccessToken = "";
-
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
+});
+
+app.post("/askBlocData", async (req, res) => {
+    let token = req.headers["x-access-token"];
+    const userID =  cookies.parseJwt(token)
+    let goodArea = {};
+
+    const areas = await Area.find();
+    for (const area of areas) {
+        if (area.userId === userID) {
+            goodArea = area;
+        }
+    }
+
+    if (goodArea === {}) {
+        res.send("No area found");
+    }
+
+    res.json(goodArea);
 });
 
 app.post("/flow", (req, res) => {
@@ -59,28 +77,65 @@ const getLastBox = (data) => {
 
 // SI PLUSIEURS DU MEME UTILISATEURS
 
-const genSchema = (data, req) => {
+const genSchema = async (data, req) => {
     const firstBox = getFirstBox(data);
     const endBox = getLastBox(data);
     let token = req.headers["x-access-token"];
-    const userID =  cookies.parseJwt(token) // here
+    const userID =  cookies.parseJwt(token)
+    var actionToken = '';
+    var reactionToken = '';
+
+    var tmpTokensList = await AccessTokens.findOne({ownerUserID: userID})
+
+    for (var i = 0; i < tmpTokensList.tokens.length; i = i + 1) {
+        if (tmpTokensList.tokens[i].service === getService(firstBox.key)) {
+            actionToken = tmpTokensList.tokens[i].value;
+        }
+        if (tmpTokensList.tokens[i].service === getService(endBox.key)) {
+            reactionToken = tmpTokensList.tokens[i].value;
+        }
+    }
+
+    if (actionToken == '' || reactionToken == '') {
+        return;
+    }
 
     const area = new Area({
         userId : userID,
         action: {
             service: getService(firstBox.key),
             trigger : getTrigger(firstBox.key),
-            token : 'ThisIsAToken',
+            token : actionToken,
             data : {
-                data : firstBox.chosenItem // change this to a generic way
+                data : firstBox.chosenItem, // change this to a generic way
+                x : firstBox.x,
+                y : firstBox.y,
+                key : firstBox.key,
+                linkTo : firstBox.linkTo,
+                linkFrom : firstBox.linkFrom,
+                startOfFlow : firstBox.startOfFlow,
+                endOfFlow : firstBox.endOfFlow,
+                chosenItem : firstBox.chosenItem,
+                id : firstBox.id,
+                isAction : true,
             }
         },
         reaction: {
             service: getService(endBox.key),
             trigger : getTrigger(endBox.key),
-            token : 'ThisIsAToken',
+            token : reactionToken,
             data : {
-                data : endBox.chosenItem
+                data : endBox.chosenItem,
+                x : endBox.x,
+                y : endBox.y,
+                key : endBox.key,
+                linkTo : endBox.linkTo,
+                linkFrom : endBox.linkFrom,
+                startOfFlow : endBox.startOfFlow,
+                endOfFlow : endBox.endOfFlow,
+                chosenItem : endBox.chosenItem,
+                id : endBox.id,
+                isAction : false,
             }
         }
     });
@@ -95,7 +150,6 @@ async function saveToDatabase(newArea) {
         if (area.userId === newArea.userId) {
             Area.findByIdAndRemove(area._id, function (err) {
                 if (err) return next(err);
-                console.log('Deleted successfully!');
             });
         }
     }
@@ -109,7 +163,6 @@ async function saveToDatabase(newArea) {
 }
 
 app.post("/isConnect", (req, res) => {
-    // if (req.body.key === 'github')
     res.status(200).send('Connected');
 });
 
@@ -137,37 +190,22 @@ app.post("/askDMData", async (req, res) => {
     let service = key.split('_')[0];
     let trigger = key.split('_')[1];
     let follows = [];
+    let repositories = [];
+
+    let token = req.headers["x-access-token"];
+    const userID =  cookies.parseJwt(token) // here
 
     if (service === 'twitch') {
         follows = await twitchTrigger.getTwitchData(trigger);
+        res.json({ follows })
     }
 
-    res.json({ follows })
+    if (service === 'github') {
+        repositories = await githubTrigger.getGithubData(trigger, userID);
+        res.json({ repositories })
+    }
+
 });
-
-
-// function initRoles() {
-//     Role.estimatedDocumentCount((err, count) => {
-//         if (!err && count === 0) {
-//             new Role({
-//                 name: 'user'
-//             }).save(err => {
-//                 if (err) {
-//                     console.log("error", err);
-//                 }
-//                 console.log("added 'user' to roles collection");
-//             });
-//             new Role({
-//                 name: 'admin'
-//             }).save(err => {
-//                 if (err) {
-//                     console.log("error", err);
-//                 }
-//                 console.log("added 'admin' to roles collection");
-//             });
-//         }
-//     });
-// }
 
 function initDatabase() {
     mongoose.set('strictQuery', false);
@@ -177,7 +215,6 @@ function initDatabase() {
         useUnifiedTopology: true
     }).then(() => {
         console.log("Successfully connect to MongoDB.");
-        // initRoles();
     });
     serverProcess();
 }

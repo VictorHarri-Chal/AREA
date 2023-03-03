@@ -70,7 +70,7 @@ export const Separator = styled.div`
 
 export const Button = styled.div`
     border-radius: 50px;
-    background: #00ADB5;
+    background: #CFDE21;
     white-space: nowrap;
     padding: 10px 22px;
     color: #010606;

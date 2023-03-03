@@ -14,8 +14,23 @@ exports.twitchCallback = (req, res) => {
             grant_type: 'authorization_code',
             redirect_uri: redirectUri,
         },
-    }).then ((response) => {
-        console.log(response.data);
+    }).then(async (response) => {
+        var accessToken = response.data.access_token;
+        var refreshToken = response.data.refresh_token;
+        var parsedUserID = cookies.parseJwt(req.cookies.jwtToken)
+        var newTokenTwitch = {service: 'twitch', value: accessToken, refresh: refreshToken}
+        var tmpTokensList = await AccessTokens.findOne({ownerUserID: parsedUserID})
+
+        var isEmpty = true;
+        for (var i = 0; i < tmpTokensList.tokens.length; i = i + 1) {
+            if (tmpTokensList.tokens[i].service === 'twitch') {
+                isEmpty = false;
+            }
+        }
+        if (isEmpty) {
+            tmpTokensList.tokens.push(newTokenTwitch);
+            tmpTokensList.save();
+        }
     }).catch ((error) => {
         console.log(error);
     })
