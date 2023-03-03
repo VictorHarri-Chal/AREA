@@ -10,7 +10,8 @@ export const homeObjOne = {
     img: require('../../images/undraw_progressive_app_m-9-ms.svg').default,
     alt: 'Dev',
     dark: true,
-    darkText: false
+    darkText: false,
+    btn : false
 }
 
 export const homeObjTwo = {
@@ -30,5 +31,22 @@ export const homeObjTwo = {
     img: require('../../images/undraw_online_test_re_kyfx.svg').default,
     alt: 'Piggybank',
     dark: false,
-    darkText: true
+    darkText: true,
+    btn : false
+}
+
+export const homeObjThree = {
+    id: 'signup',
+    lightBg: true,
+    lightText: false,
+    lightTextDesc: false,
+    topLine: 'Android',
+    headline: 'Download the Android app',
+    description: 'Download the Android app to get started with Floap. The app is currently in beta and is NOT available on the Google Play Store.',
+    imgStart: false,
+    img: require('../../images/undraw_mobile_application_re_13u3.svg').default,
+    alt: 'Mobile',
+    dark: false,
+    darkText: true,
+    btn : true
 }
