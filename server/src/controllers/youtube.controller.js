@@ -34,7 +34,7 @@ exports.youtubeCallback = (req, res) => {
             res.sendStatus(500);
             return;
         }
-        console.log('access token:', tokens.access_token); // Add this line to print the access token
+        console.log('access token:', tokens.access_token);
         oauth2Client.setCredentials(tokens);
         res.statusCode = 302;
         res.setHeader("Location", "http://localhost:8081/dashboard");
