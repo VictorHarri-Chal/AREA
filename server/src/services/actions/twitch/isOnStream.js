@@ -14,14 +14,12 @@ async function isOnStream(token, twitchUsername) {
         const streams = response.data.data;
 
         if (streams.length === 0) {
-            console.log(`${twitchUsername} n'est pas en live.`);
             return false;
         } else {
-            console.log(`${twitchUsername} est en live avec ${streams[0].viewer_count} viewers.`);
             return true;
         }
     } catch (error) {
-        console.log(`Erreur : ${error}`);
+        console.error(`Erreur : ${error}`);
     }
     return false;
 }

@@ -36,7 +36,7 @@ async function newPlaylistFunc(token) {
     } else {
         if (playlists[0].id !== lastPlaylist.id) {
             newPlaylist.deleteMany({}, function (err) {
-                if (err) console.log(err);
+                if (err) console.error(err);
             });
             const newPlaylistToStore = new newPlaylist({
                 name: playlists[0].name,

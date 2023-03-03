@@ -13,7 +13,7 @@ async function createPlaylistFunc(token) {
         .then(function (data) {
         }
         , function (err) {
-            console.log('Something went wrong!', err);
+            console.error('Something went wrong!', err);
         });
 
 }

@@ -179,7 +179,6 @@ app.get('/download', (req, res) => {
 
 function serverProcess() {
     setInterval(() => {
-        console.log('Check...');
         trigger.checkTriggers();
     }, 5000);
 }
@@ -196,7 +195,7 @@ app.post("/askDMData", async (req, res) => {
     const userID =  cookies.parseJwt(token) // here
 
     if (service === 'twitch') {
-        follows = await twitchTrigger.getTwitchData(trigger);
+        follows = await twitchTrigger.getTwitchData(trigger, userID);
         res.json({ follows })
     }
 

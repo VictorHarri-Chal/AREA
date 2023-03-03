@@ -95,8 +95,9 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                 },
                 body: JSON.stringify(sendData),
             });
-            if (response.ok && (key === "twitch_isOnStream")) {
+            if (response.ok && (key === "twitch_onStream")) {
                 const data = await response.json();
+                console.log(data);
                 const follows = data.follows;
                 return follows;
             } else if (response.ok && (key === "github_newCommit")) {
@@ -182,7 +183,6 @@ const Playground = ({ newRectangle, setNewRectangle }) => {
                     setArrows(arrows.filter(arrow => arrow.to !== "0"));
                     let blocFrom = boxes.find(box => box.id === from);
                     let blocTo = boxes.find(box => box.id === id);
-                    console.log("blocTo");
                     if (blocFrom.isAction && !blocTo.isAction) {
                         setArrows(arrows => [...arrows, { id: index, exists: true, from: from, to: id}]);
                         setBoxes(boxes.map(box => {

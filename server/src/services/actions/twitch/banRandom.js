@@ -38,7 +38,7 @@ async function getChannelID(token) {
         channelId = channel.broadcaster_id;
     })
     .catch((error) => {
-        console.log(error);
+        console.error(error);
     });
 
     return channelId;
@@ -50,7 +50,7 @@ async function banRandom(token) {
 
 
     if (channelId === null) {
-        console.log('Impossible de récupérer l\'ID du canal');
+        console.error('Impossible de récupérer l\'ID du canal');
         return;
     }
 
@@ -77,10 +77,9 @@ async function banRandom(token) {
             }
         })
         ret = true;
-        console.log(`Utilisateur avec l'ID ${userId} banni avec succès sur le canal ${channelId}`);
     } catch (error) {
         ret = false;
-        console.log(error);
+        console.error(error);
     }
 
     return ret;

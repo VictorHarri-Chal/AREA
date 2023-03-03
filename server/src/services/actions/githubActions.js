@@ -47,7 +47,6 @@ const githubTrigger = {
             // case "pullRequest":
             //     return await this.checkNewPullRequests(ownerName, repoName, action.token);
             default:
-                console.log(`Unsupported trigger type: ${action.trigger}`);
                 return false;
         }
     },
@@ -67,22 +66,17 @@ const githubTrigger = {
             lastETags["PushEvent"] = response.headers.etag;
             const event = response.data[0];
 
-            // console.log('test');
             if (isFirstCheck) {
                 isFirstCheck = false;
-                // console.log(`No new PushEvent events since last request.`);
                 return false;
             }
             if (event) {
-                console.log(`Last push event detected: ${event.payload.commits[0].message}`);
                 return true;
             } else {
-                // console.log(`No new PushEvent events since last request.`);
                 return false;
             }
         } catch (error) {
             if (error.status === 304) {
-                // console.log(`No new PushEvent events since last request.`);
                 return false;
             } else {
                 throw error;
@@ -107,19 +101,15 @@ const githubTrigger = {
 
             if (isFirstCheck) {
                 isFirstCheck = false;
-                // console.log(`No new IssuesEvent events since last request.`);
                 return false;
             }
             if (issue) {
-                console.log(`Last issue detected: ${issue.title}`);
                 return true;
             } else {
-                // console.log(`No new IssuesEvent events since last request.`);
                 return false;
             }
         } catch (error) {
             if (error.status === 304) {
-                // console.log(`No new IssuesEvent events since last request.`);
                 return false;
             } else {
                 throw error;
@@ -131,7 +121,6 @@ const githubTrigger = {
         const [ownerName, repoName] = reaction.chosenItem.split("/");
 
         if (reaction.trigger !== "createIssue") {
-            console.log(`Unsupported trigger type: ${trigger}`);
             return false;
         }
 
@@ -147,7 +136,6 @@ const githubTrigger = {
             });
 
 
-            console.log(`Created new issue: ${issue.data.html_url}`);
             return true;
         } catch (error) {
             console.error(`Error creating issue: ${error}`);
