@@ -8,7 +8,6 @@ const oauth2Client = new OAuth2(
 );
 
 exports.youtubeAuth = (req, res) => {
-    console.log('auth here');
     const scopes = [
         "https://www.googleapis.com/auth/youtube.force-ssl",
         "https://www.googleapis.com/auth/youtubepartner",
@@ -34,7 +33,6 @@ exports.youtubeCallback = (req, res) => {
             res.sendStatus(500);
             return;
         }
-        console.log('access token:', tokens.access_token); // Add this line to print the access token
 
         var parsedUserID = cookies.parseJwt(req.cookies.jwtToken)
         var newTokenYoutube = {service: 'youtube', value: tokens.access_token, refresh: tokens.refresh_token}
