@@ -1,6 +1,11 @@
 const axios = require("axios");
 const crypto = require("crypto");
 
+const db = require('../models');
+const AccessTokens = db.accessTokens;
+const cookies = require('../utils/getCookie');
+
+
 const CLIENT_ID = "ZkgzdG5oQzBKeHVHbkNKLUdwb1g6MTpjaQ";
 const CLIENT_SECRET = "LRiI204WEhe7Aywe7HvUQKGg5Dn02JpSfXwFSGIQIPF_bYpOD3";
 const REDIRECT_URI = "http://localhost:8080/twittercallback";
@@ -39,6 +44,21 @@ exports.twitterCallback = async (req, res) => {
             'Authorization': `Basic ${Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64')}`
         }
     });
+
+    var parsedUserID = cookies.parseJwt(req.cookies.jwtToken)
+    var newTokenTwitter = {service: 'twitter', value: response.data.access_token, refresh: ""}
+    var tmpTokensList = await AccessTokens.findOne({ownerUserID: parsedUserID})
+
+    var isEmpty = true;
+    for (var i = 0; i < tmpTokensList.tokens.length; i = i + 1) {
+        if (tmpTokensList.tokens[i].service === 'twitter') {
+            isEmpty = false;
+        }
+    }
+    if (isEmpty) {
+        tmpTokensList.tokens.push(newTokenTwitter);
+        tmpTokensList.save();
+    }
 
     const accessToken = response.data.access_token;
     console.log(accessToken);
