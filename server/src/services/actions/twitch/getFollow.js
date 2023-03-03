@@ -40,7 +40,6 @@ async function getFollow(token) {
     } catch (error) {
         console.error(error);
     }
-
     return follows;
 }
 

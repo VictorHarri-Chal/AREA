@@ -27,7 +27,6 @@ const Login = () => {
                 body: JSON.stringify({ usernameSignUp, emailSignUp, passwordSignUp, passwordConfirmSignUp }),
             }).then((response) => {
                 if (response.ok) {
-                    alert('User created successfully!');
                     setSignIn(true);
                     return response.json();
                 }
