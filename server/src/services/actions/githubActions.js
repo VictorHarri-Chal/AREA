@@ -5,11 +5,10 @@ const AccessTokens = db.accessTokens;
 
 let lastETags = {};
 let isFirstCheck = true;
-let tooken = "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";
 
 async function getRepositories(token) {
     const octokit = new Octokit({
-        auth: tooken,
+        auth: token,
     });
 
     try {
@@ -25,10 +24,16 @@ const githubTrigger = {
 
     getGithubData: async function getGithubData(action, userID) {
 
-        var accessTokensSchema = await AccessTokens.findOne({ownerUserID: userID});
+        let token = ''
+        var tmpTokensList = await AccessTokens.findOne({ownerUserID: userID})
+        for (var i = 0; i < tmpTokensList.tokens.length; i = i + 1) {
+            if (tmpTokensList.tokens[i].service === 'github') {
+                token = tmpTokensList.tokens[i].value;
+            }
+        }
 
         if (action === 'newCommit' || action === 'newIssue' || action === 'createIssue') {
-            return getRepositories(accessTokensSchema)
+            return getRepositories(token)
                 .then((repositories) => {
                     return repositories;
                 })
