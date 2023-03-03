@@ -17,6 +17,10 @@ export const ASData = [
             {
                 key : 'discord_sendPrivateMessage',
                 title: 'Send a PM',
+            },
+            {
+                key : 'discord_createNewGuild',
+                title: 'Create a Guild',
             }
         ]
     },
@@ -34,13 +38,22 @@ export const ASData = [
                 getADM : true,
                 DM : []
             },
+            {
+                key : 'github_newIssue',
+                title: 'New issue [GNC_DM]',
+                placeHolder : 'Select a repository',
+                getADM : true,
+                DM : []
+            },
         ],
         reaction_blocs : [
             {
                 key : 'github_createIssue',
                 title: 'Create an issue',
-                getADM : false,
-            }
+                placeHolder : 'Select a repository',
+                getADM : true,
+                DM: []
+            },
         ]
     },
     {
@@ -89,7 +102,12 @@ export const ASData = [
         icon : <Icon icon="mdi:youtube" />,
         login : false,
         color : "#fe0000",
-        action_blocs : [],
+        action_blocs : [
+            {
+                key : 'youtube_newLike',
+                title: 'New like from user',
+            },
+        ],
         reaction_blocs : []
     },
     {

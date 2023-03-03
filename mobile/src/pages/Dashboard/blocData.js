@@ -21,6 +21,13 @@ export const menuButtons = [
             getADM: true,
             getFTI: false,
             slot: 0,
+        },
+        {
+            id : 'discord_createNewGuild',
+            title: 'Create a Guild',
+            getADM: true,
+            getFTI: false,
+            slot: 0,
         }
       ]
     },

@@ -34,7 +34,7 @@ const BlocSidebar = ({ appSelected, isOpen, newRectangle, setNewRectangle, ASDat
 
     const handleMouseUp = (e) => {
         if (isDragging && rectanglePosition.x !== 25 && rectanglePosition.y !== 350) {
-            setNewRectangle({isNewRect : true, x : rectanglePosition.x + 180, y : rectanglePosition.y + 20, key : blocSelected.key})
+            setNewRectangle({isNewRect : true, x : rectanglePosition.x + 180, y : rectanglePosition.y + 20, key : blocSelected.key, isAction : actionRea})
         }
         setIsDragging(false)
         setRectanglePosition({ x: 25, y: 350 });
@@ -98,7 +98,6 @@ const BlocSidebar = ({ appSelected, isOpen, newRectangle, setNewRectangle, ASDat
                                 onMouseDown={e => handleMouseDown(e, item)}
                                 onMouseMove={e => handleMouseMove(e)}
                                 onMouseUp={e => handleMouseUp(e)}
-                                special = {item.key === 'blocs_and' ? true : (item.key === 'blocs_or' ? true : false)}
                             >
                                 {getGoodTitle(item.title, item.getADM)}
                             </BSBloc>

@@ -36,8 +36,6 @@ async function genFlow(data) {
     sendData = findFirstBox(data, sendData);
 
 
-    console.log(sendData)
-
     try {
         const response = await fetch('http://localhost:8080/flow', {
             method: 'POST',

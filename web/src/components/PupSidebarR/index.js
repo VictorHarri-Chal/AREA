@@ -14,7 +14,7 @@ function PupSidebarR( {isOpen, toggleSideBar}) {
                     <SidebarLink to="about" onClick={toggleSideBar}>About</SidebarLink>
                     <SidebarLink to="discover" onClick={toggleSideBar}>Discover</SidebarLink>
                     <SidebarLink to="services" onClick={toggleSideBar}>Services</SidebarLink>
-                    <SidebarLink to="signup" onClick={toggleSideBar}>Sign Up</SidebarLink>
+                    <SidebarLink to="signup" onClick={toggleSideBar}>Mobile</SidebarLink>
                 </SidebarMenu>
                 <SideBtnWrap>
                     <SidebarRoute to="/signin">Sign In</SidebarRoute>

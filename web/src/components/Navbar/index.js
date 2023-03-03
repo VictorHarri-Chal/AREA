@@ -80,7 +80,7 @@ const Navbar = ({toggleSideBar, isInDashboard}) => {
                                 <NavLinks to="services" smooth={true} duration={500} spy={true} exact='true' offset={-80}>Services</NavLinks>
                             </NavItem>
                             <NavItem>
-                                <NavLinks to="signup" smooth={true} duration={500} spy={true} exact='true' offset={-80}>Sign Up</NavLinks>
+                                <NavLinks to="signup" smooth={true} duration={500} spy={true} exact='true' offset={-80}>Mobile</NavLinks>
                             </NavItem>
                         </NavMenu>
 

@@ -7,24 +7,22 @@ const utils = {
         User.create({
             username: username,
             email: email
-        }).then(()=> console.log(`User ${username} added successfully`))
+        }).then()
         .catch((error)=>console.log(error));
     },
     deleteUsers: function deleteUsers() {
         User.deleteMany({}, (error) => {
             if (error) {
-                console.log(error);
+                console.error(error);
             } else {
-                console.log('All users have been deleted.');
             }
         });
     },
     displayUsers: function displayUsers() {
         User.find({}, (error, users) => {
             if (error) {
-                console.log(error);
+                console.error(error);
             } else {
-                console.log(users);
             }
         });
     }

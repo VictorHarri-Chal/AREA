@@ -3,16 +3,15 @@ export const homeObjOne = {
     lightBg: false,
     lightText: true,
     lightTextDesc: true,
-    topLine: 'TopLine',
-    headline: 'Headline',
-    description: 'Description',
-    buttonLabel: 'Get Started',
+    topLine: 'About',
+    headline: 'A team with heart.',
+    description: 'The Floap team is a team of developers passionate about technology and innovation. Floap is an application that reflects all the creativity of our team.',
     imgStart: false,
     img: require('../../images/undraw_progressive_app_m-9-ms.svg').default,
     alt: 'Dev',
     dark: true,
-    primary: true,
-    darkText: false
+    darkText: false,
+    btn : false
 }
 
 export const homeObjTwo = {
@@ -20,16 +19,20 @@ export const homeObjTwo = {
     lightBg: true,
     lightText: false,
     lightTextDesc: false,
-    topLine: 'TopLine',
-    headline: 'Headline',
-    description: 'Description',
-    buttonLabel: 'Get Started',
+    topLine: 'Discover',
+    headline: 'An application without limits',
+    description: 'We are proud to introduce Floap, an innovative web application that allows you to create actions and reactions \
+    between various APIs such as Discord, GitHub, Twitter, Twitch, Spotify, and YouTube. With Floap, you can automate your daily tasks, \
+    integrate your different social media and streaming platforms into a single application, and save valuable time to focus on the things \
+    that really matter. Whether you are a streamer, a developer, or a regular social media user, Floap is the perfect tool to help you \
+    maximize your productivity and simplify your life. Discover all the features of Floap on this page and start creating your own actions \
+    and reactions now!',
     imgStart: true,
     img: require('../../images/undraw_online_test_re_kyfx.svg').default,
     alt: 'Piggybank',
     dark: false,
-    primary: false,
-    darkText: true
+    darkText: true,
+    btn : false
 }
 
 export const homeObjThree = {
@@ -37,14 +40,13 @@ export const homeObjThree = {
     lightBg: true,
     lightText: false,
     lightTextDesc: false,
-    topLine: 'TopLine',
-    headline: 'Headline',
-    description: 'Description',
-    buttonLabel: 'Get Started',
+    topLine: 'Android',
+    headline: 'Download the Android app',
+    description: 'Download the Android app to get started with Floap. The app is currently in beta and is NOT available on the Google Play Store.',
     imgStart: false,
     img: require('../../images/undraw_mobile_application_re_13u3.svg').default,
-    alt: 'Paper',
+    alt: 'Mobile',
     dark: false,
-    primary: true,
-    darkText: true
+    darkText: true,
+    btn : true
 }

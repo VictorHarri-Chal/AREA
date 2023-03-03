@@ -19,7 +19,5 @@ exports.parseJwt = (token) => {
     const decodedPayload = atob(payload);
     const parsedPayload = JSON.parse(decodedPayload);
 
-    // console.log('My userID is: ' + parsedPayload.userID);
-
     return parsedPayload.userID
 }

@@ -1,20 +1,57 @@
 const { Octokit } = require("@octokit/rest");
 
+const db = require("../../models");
+const AccessTokens = db.accessTokens;
+
 let lastETags = {};
 let isFirstCheck = true;
 
+async function getRepositories(token) {
+    const octokit = new Octokit({
+        auth: token,
+    });
+
+    try {
+        const response = await octokit.repos.listForAuthenticatedUser();
+        return response.data.map((repo) => `${repo.owner.login}/${repo.name}`);
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}
+
 const githubTrigger = {
+
+    getGithubData: async function getGithubData(action, userID) {
+
+        let token = ''
+        var tmpTokensList = await AccessTokens.findOne({ownerUserID: userID})
+        for (var i = 0; i < tmpTokensList.tokens.length; i = i + 1) {
+            if (tmpTokensList.tokens[i].service === 'github') {
+                token = tmpTokensList.tokens[i].value;
+            }
+        }
+
+        if (action === 'newCommit' || action === 'newIssue' || action === 'createIssue') {
+            return getRepositories(token)
+                .then((repositories) => {
+                    return repositories;
+                })
+        } else {
+            return Promise.resolve([]);
+        }
+    },
+
     checkGithubAction: async function checkGithubAction(action) {
-        const [ownerName, repoName] = action.data.split("/");
+        const [ownerName, repoName] = action.chosenItem.split("/");
         switch (action.trigger) {
-            case "push":
+            case "newCommit":
                 return await this.checkNewCommits(ownerName, repoName, action.token);
-            case "issue":
+            case "newIssue":
                 return await this.checkNewIssues(ownerName, repoName, action.token);
-            // case "pull_request":
+            // case "pullRequest":
             //     return await this.checkNewPullRequests(ownerName, repoName, action.token);
             default:
-                console.log(`Unsupported trigger type: ${action.trigger}`);
                 return false;
         }
     },
@@ -36,19 +73,15 @@ const githubTrigger = {
 
             if (isFirstCheck) {
                 isFirstCheck = false;
-                // console.log(`No new PushEvent events since last request.`);
                 return false;
             }
             if (event) {
-                console.log(`Last push event detected: ${event.payload.commits[0].message}`);
                 return true;
             } else {
-                // console.log(`No new PushEvent events since last request.`);
                 return false;
             }
         } catch (error) {
             if (error.status === 304) {
-                // console.log(`No new PushEvent events since last request.`);
                 return false;
             } else {
                 throw error;
@@ -73,19 +106,15 @@ const githubTrigger = {
 
             if (isFirstCheck) {
                 isFirstCheck = false;
-                // console.log(`No new IssuesEvent events since last request.`);
                 return false;
             }
             if (issue) {
-                console.log(`Last issue detected: ${issue.title}`);
                 return true;
             } else {
-                // console.log(`No new IssuesEvent events since last request.`);
                 return false;
             }
         } catch (error) {
             if (error.status === 304) {
-                // console.log(`No new IssuesEvent events since last request.`);
                 return false;
             } else {
                 throw error;
@@ -94,10 +123,9 @@ const githubTrigger = {
     },
 
     checkGithubReaction: async function checkGithubReaction(reaction) {
-        const [ownerName, repoName] = reaction.data.split("/");
+        const [ownerName, repoName] = reaction.chosenItem.split("/");
 
-        if (reaction.trigger !== "issue") {
-            console.log(`Unsupported trigger type: ${trigger}`);
+        if (reaction.trigger !== "createIssue") {
             return false;
         }
 
@@ -113,7 +141,6 @@ const githubTrigger = {
             });
 
 
-            console.log(`Created new issue: ${issue.data.html_url}`);
             return true;
         } catch (error) {
             console.error(`Error creating issue: ${error}`);

@@ -19,7 +19,13 @@ async function lastStreamFunc(token) {
 
     spotifyApi.setAccessToken(token);
 
-    const currentTrack = await spotifyApi.getMyCurrentPlayingTrack();
+    const currentTrack = await spotifyApi.getMyCurrentPlayingTrack().catch(err => {
+    });
+
+    if (!currentTrack) {
+        return;
+    }
+
 
     if (currentTrack.body.is_playing) {
         console.log(currentTrack.body.item.name + ' de ' + currentTrack.body.item.artists[0].name)
@@ -27,7 +33,7 @@ async function lastStreamFunc(token) {
         if (await lastStream.findOne({id: currentTrack.body.item.id}) === null) {
 
             lastStream.deleteMany({}, function (err) {
-                if (err) console.log(err);
+                if (err) console.error(err);
             });
 
             const newStream = new lastStream({
