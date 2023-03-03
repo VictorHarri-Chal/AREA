@@ -21,6 +21,11 @@ const ProfileDDM = ( {profileOpen, toggleProfile, x, y} ) => {
         }
     }, [username, email, initials]);
 
+    const logOut = () => {
+        window.location.href = `http://localhost:8081/login`;
+        sessionStorage.clear();
+    }
+
     if (!profileOpen) return null;
     return (
         <ProfileDDMContainer x={x} y={y}>
@@ -28,7 +33,7 @@ const ProfileDDM = ( {profileOpen, toggleProfile, x, y} ) => {
             <ProfileName x={x} y={y}>{username}</ProfileName>
             <ProfileEmail x={x} y={y}>{email}</ProfileEmail>
             <Separator />
-            <Button>Log Out</Button>
+            <Button onClick={logOut} >Log Out</Button>
         </ProfileDDMContainer>
     );
 };

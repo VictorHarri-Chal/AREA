@@ -24,11 +24,9 @@ const services = {
     },
     discord: {
         checkTrigger: async function(action) {
-            console.log('[Discord] - Action');
             // return await discordTrigger.checkDiscordAction(action);
         },
         startReaction: async function(reaction) {
-            console.log('[Discord] - Reaction');
             // return await discordTrigger.checkDiscordReaction(reaction);
         }
     },
