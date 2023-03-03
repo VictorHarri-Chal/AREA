@@ -29,7 +29,7 @@ const Dashboard = () => {
           setFinalSchema([]);
           return false;
         } else {
-          setFinalSchema(finalSchema => [...finalSchema, {id: box.id, slot: slot}])
+          setFinalSchema(finalSchema => [...finalSchema, {key: box.id, slot: slot}])
           isSolo = true;
         }
       }
@@ -44,7 +44,29 @@ const Dashboard = () => {
     checkSlot(210, 320, 3);
     checkSlot(320, 430, 4);
     checkSlot(430, 540, 5);
-  //  checkSlot(540, 650, 6);
+    genFlow();
+  }
+
+  async function genFlow() {
+    let sendData = finalSchema;
+
+    console.log(sendData)
+
+    try {
+        const response = await fetch('http://localhost:8080/flow', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-access-token': cookies.getCookie('jwtToken')
+            },
+            body: JSON.stringify(sendData),
+        });
+        if (!response.ok) {
+            throw new Error('Failed');
+        }
+    } catch (error) {
+        console.error(error);
+    }
   }
 
   return (
