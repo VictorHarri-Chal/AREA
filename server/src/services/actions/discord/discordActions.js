@@ -25,15 +25,16 @@ const discordTrigger = {
         if (!discordClient.readyAt) {
             console.log(`Launching bot... Token = ${process.env.TOKEN}`);
             await discordClient.login(process.env.TOKEN);
+        } else {
+            if (reaction.trigger === 'sendPrivateMessage') {
+                return sendDMFunc(reaction, discordClient)
+            }
+
+            if (reaction.trigger === 'createNewGuild') {
+                return createGuildFunc(reaction)
+            }
         }
 
-        if (reaction.trigger === 'sendPrivateMessage') {
-            return sendDMFunc(reaction, discordClient)
-        }
-
-        if (reaction.trigger === 'createGuild') {
-            return createGuildFunc(reaction)
-        }
     }
 
 }
