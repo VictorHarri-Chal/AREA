@@ -2,5 +2,16 @@
   "dependencies": {
     "animejs": "^3.2.1",
     "react-spring": "^9.6.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.21.0",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-react": "^7.18.6",
+    "babel-loader": "^9.1.2",
+    "react-styleguidist": "^13.1.1"
+  },
+  "scripts": {
+    "styleguide": "styleguidist server",
+    "styleguide:build": "styleguidist build"
   }
 }
