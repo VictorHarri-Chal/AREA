@@ -45,6 +45,11 @@ const Dashboard = () => {
                     item.login = true
                 }
             }
+            if (sessionStorage.connectTotwitter === 'true') {
+                if (item.key === 'twitter') {
+                    item.login = true
+                }
+            }
             return null;
         })
     }

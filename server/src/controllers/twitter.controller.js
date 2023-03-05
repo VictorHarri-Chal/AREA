@@ -61,6 +61,5 @@ exports.twitterCallback = async (req, res) => {
     }
 
     const accessToken = response.data.access_token;
-    console.log(accessToken);
     res.redirect(`http://localhost:8081/dashboard`);
 };

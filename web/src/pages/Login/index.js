@@ -47,6 +47,7 @@ const Login = () => {
         sessionStorage.setItem("connectTospotify", false);
         sessionStorage.setItem("connectToyoutube", false);
         sessionStorage.setItem("connectTotwitch", false);
+        sessionStorage.setItem("connectTotwitter", false);
         for (var i = 0; i < jsonAccessTokens.length; i = i + 1) {
             if (jsonAccessTokens[i].service === 'github') {
                 sessionStorage.setItem("connectTogithub", true);
