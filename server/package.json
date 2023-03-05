@@ -16,6 +16,7 @@
     "body-parser": "^1.20.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "discord-api-types": "^0.37.35",
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
@@ -26,8 +27,11 @@
     "mathjs": "^11.5.1",
     "mongoose": "^6.8.3",
     "open": "^8.4.2",
+    "qs": "^6.11.0",
     "query-string": "^8.1.0",
     "request": "^2.88.2",
-    "spotify-web-api-node": "^5.0.2"
+    "spotify-web-api-node": "^5.0.2",
+    "twit": "^2.2.11",
+    "twitter-api-client": "^1.6.1"
   }
 }

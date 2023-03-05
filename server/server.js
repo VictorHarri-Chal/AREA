@@ -11,7 +11,7 @@ const cors = require('cors');
 const trigger = require('./src/services/checkTriggers');
 const cookies = require('./src/utils/getCookie.js');
 const twitchTrigger = require('./src/services/actions/twitch/twitchActions');
-const githubTrigger = require('./src/services/actions/githubActions');
+const githubTrigger = require('./src/services/actions/github/githubActions');
 
 
 app.use(cors());
@@ -180,7 +180,7 @@ app.get('/download', (req, res) => {
 function serverProcess() {
     setInterval(() => {
         trigger.checkTriggers();
-    }, 5000);
+    }, 10000);
 }
 
 
