@@ -4,8 +4,17 @@
 A web project with some API interactions
 
 # :rocket:  What is AREA ?
+The AREA project consists in the creation of a IFTTT and/or Zapier like.
 
-# Preview
+The Area is divided into 3 main parts:
+- A android mobile application.
+- A Web application.
+- A server
+
+# Technologies
+- Server -> NodeJs Express and MongoDb for the database.
+- Web -> React.
+- Mobile -> React Native.
 
 # :page_with_curl:  Documentation
 
