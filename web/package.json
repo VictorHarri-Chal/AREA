@@ -45,6 +45,7 @@
     ]
   },
   "devDependencies": {
-    "@iconify/react": "^4.0.1"
+    "@iconify/react": "^4.0.1",
+    "react-styleguidist": "^13.1.1"
   }
 }
