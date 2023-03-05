@@ -8,8 +8,7 @@ const twitterTrigger = require('./actions/twitter/twitterActions');
 const services = {
     github: {
         checkTrigger: async function(action) {
-            console.log("GITHUB ACTION");
-            return await githubTrigger.checkGithubAction(action);
+            // return await githubTrigger.checkGithubAction(action);
         },
         startReaction: async function(reaction) {
             // return await githubTrigger.checkGithubReaction(reaction);
@@ -42,7 +41,6 @@ const services = {
     },
     youtube: {
         checkTrigger: async function(action) {
-            console.log("YOUTUBE ACTION");
             // return await youtubeTrigger.checkYoutubeAction(action);
         },
         startReaction: async function(reaction) {
@@ -54,8 +52,7 @@ const services = {
             // return await twitterTrigger.checkTwitterAction(action);
         },
         startReaction: async function(reaction) {
-            console.log("TWITTER REACTION");
-            return await twitterTrigger.checkTwitterReaction(reaction);
+            // return await twitterTrigger.checkTwitterReaction(reaction);
         }
     }
 };

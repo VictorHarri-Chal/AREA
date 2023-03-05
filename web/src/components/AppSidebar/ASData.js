@@ -63,7 +63,12 @@ export const ASData = [
         login : false,
         color : "#00acee",
         action_blocs : [],
-        reaction_blocs : []
+        reaction_blocs : [
+            {
+                key : 'twitter_followRandomUser',
+                title: 'Follow random user',
+            },
+        ]
     },
     {
         key : 'spotify',
@@ -106,6 +111,10 @@ export const ASData = [
             {
                 key : 'youtube_newLike',
                 title: 'New like from user',
+            },
+            {
+                key : 'youtube_newVideo',
+                title: 'New video from user',
             },
         ],
         reaction_blocs : []

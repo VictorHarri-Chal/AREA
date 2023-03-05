@@ -4,25 +4,25 @@ const Twitter = require('twitter-api-client');
 
 // Function to follow a random user
 async function followRandomUser(reaction) {
-    const twitterClient = new Twitter.TwitterClient({
-        apiKey: 'N8hr5udpp5kKD4P6p4menRdc7',
-        apiSecret: 'VHNHxjDjVkDf0XfGirloJay8Vba9Zd1OoTzJj4JcHf8l4laVCO',
-        accessToken: reaction.token,
-    });
-    try {
-        // Get a list of random users
-        const response = await twitterClient.accountsAndUsers.usersSearch({ q: 'random', count: 10 });
+    // const twitterClient = new Twitter.TwitterClient({
+    //     apiKey: 'N8hr5udpp5kKD4P6p4menRdc7',
+    //     apiSecret: 'VHNHxjDjVkDf0XfGirloJay8Vba9Zd1OoTzJj4JcHf8l4laVCO',
+    //     accessToken: reaction.token,
+    // });
+    // try {
+    //     // Get a list of random users
+    //     const response = await twitterClient.accountsAndUsers.usersSearch({ q: 'random', count: 10 });
 
-        // Select a random user from the list
-        const randomUser = response.users[Math.floor(Math.random() * response.users.length)];
+    //     // Select a random user from the list
+    //     const randomUser = response.users[Math.floor(Math.random() * response.users.length)];
 
-        // Follow the selected user
-        const followResponse = await twitterClient.accountsAndUsers.follow({ user_id: randomUser.id_str });
+    //     // Follow the selected user
+    //     const followResponse = await twitterClient.accountsAndUsers.follow({ user_id: randomUser.id_str });
 
-        console.log(`Followed user @${randomUser.screen_name}`);
-    } catch (error) {
-        console.error('Error:', error);
-    }
+    //     console.log(`Followed user @${randomUser.screen_name}`);
+    // } catch (error) {
+    //     console.error('Error:', error);
+    // }
 }
 
 // Export the Twitter trigger object

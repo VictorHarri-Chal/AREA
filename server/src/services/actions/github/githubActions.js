@@ -1,6 +1,6 @@
 const { Octokit } = require("@octokit/rest");
 
-const db = require("../../models");
+const db = require("../../../models");
 const AccessTokens = db.accessTokens;
 
 let lastETags = {};
@@ -43,7 +43,7 @@ const githubTrigger = {
     },
 
     checkGithubAction: async function checkGithubAction(action) {
-        const [ownerName, repoName] = action.chosenItem.split("/");
+        const [ownerName, repoName] = action.data.chosenItem.split("/");
         switch (action.trigger) {
             case "newCommit":
                 return await this.checkNewCommits(ownerName, repoName, action.token);
@@ -123,7 +123,7 @@ const githubTrigger = {
     },
 
     checkGithubReaction: async function checkGithubReaction(reaction) {
-        const [ownerName, repoName] = reaction.chosenItem.split("/");
+        const [ownerName, repoName] = reaction.data.chosenItem.split("/");
 
         if (reaction.trigger !== "createIssue") {
             return false;
