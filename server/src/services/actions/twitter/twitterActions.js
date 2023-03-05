@@ -1,13 +1,12 @@
 const Twitter = require('twitter-api-client');
 
-// VHNHxjDjVkDf0XfGirloJay8Vba9Zd1OoTzJj4JcHf8l4laVCO
-
 // Initialize the client with your API key and secret
 
 // Function to follow a random user
 async function followRandomUser(reaction) {
     const twitterClient = new Twitter.TwitterClient({
         apiKey: 'N8hr5udpp5kKD4P6p4menRdc7',
+        apiSecret: 'VHNHxjDjVkDf0XfGirloJay8Vba9Zd1OoTzJj4JcHf8l4laVCO',
         accessToken: reaction.token,
     });
     try {
