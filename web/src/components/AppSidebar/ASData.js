@@ -8,10 +8,6 @@ export const ASData = [
         login : false,
         color : "#7289da",
         action_blocs : [
-            {
-                key : 'discord_receivePrivateMessage',
-                title: 'Get a PM',
-            }
         ],
         reaction_blocs : [
             {
