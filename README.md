@@ -1,7 +1,7 @@
 [![Build](https://img.shields.io/github/workflow/status/JohanCDev/Bomberman/Build)](https://github.com/VictorHarri-Chal/AREA/actions/workflows/build.yml)
 
 # AREA
-A web project with some API interactions
+A comprehensive automation platform similar to IFTTT and Zapier, divided into 3 main parts: an Android mobile application, a web application, and a server. Built with Node.js Express and MongoDB for the backend, React for the web frontend, and React Native for mobile development.
 
 # :rocket:  What is AREA ?
 The AREA project consists in the creation of a IFTTT and/or Zapier like.
